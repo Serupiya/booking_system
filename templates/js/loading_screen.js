@@ -29,7 +29,8 @@ function get_config(retry, status_div){
         url: "/views/config/get_config.php",
         success: function (data) {
             if (data["error"] !== undefined) {
-                show_error_dialog(data["error"]);
+                status_div.append($("<span style='color: indianred'>" + project_arr["error"] + "</span>"));
+                load_fail();
             } else {
                 for (var key in data){
                     config[key] = data[key];
