@@ -339,6 +339,10 @@ function add_exec_station_to_list(exec_station){
 }
 
 function config_to_visuals(){
+    $("#ate_operators_config_list").empty();
+    $("#teams_config_list").empty();
+    $("#build_stations_config_list").empty();
+    $("#exec_machines_config_list").empty();
     build_machines = [];
     exec_machines = [];
     ate_operators = [];
