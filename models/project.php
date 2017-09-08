@@ -19,7 +19,7 @@ class ProjectModel extends BaseModel{
 
         $this->escape_array($project);
 
-        $query = sprintf("DELETE FROM booking_system.projects WHERE name = '%s'", $project["name"]);
+        $query = sprintf("DELETE FROM projects WHERE name = '%s'", $project["name"]);
         $this->db->query($query);
         if ($this->assert_error("Failed to delete project")) return;
         else $this->result = Array("success" => true);
@@ -31,7 +31,7 @@ class ProjectModel extends BaseModel{
 
         $this->escape_array($project);
 
-        $query = sprintf("UPDATE booking_system.projects SET start_date = '%s', end_date = '%s', ate_operator = '%s', team = '%s',
+        $query = sprintf("UPDATE projects SET start_date = '%s', end_date = '%s', ate_operator = '%s', team = '%s',
                           sw_versions = '%s', additional_info = '%s', framework = '%s', setup_milestone = '%s' WHERE name = '%s';",
                             $project["start_date"],
                             $project["end_date"],
@@ -44,21 +44,21 @@ class ProjectModel extends BaseModel{
                             $project["name"]);
         $this->db->query($query);
 
-        $query = sprintf("DELETE FROM booking_system.derivatives WHERE project_name = '%s'",
+        $query = sprintf("DELETE FROM derivatives WHERE project_name = '%s'",
                            $project["name"]);
         $this->db->query($query);
         if ($this->assert_error("Failed to delete old derivatives")) return;
 
         if (!$this->add_derivatives($project)) return;
 
-        $query = sprintf("DELETE FROM booking_system.links WHERE project_name = '%s'",
+        $query = sprintf("DELETE FROM links WHERE project_name = '%s'",
                            $project["name"]);
         $this->db->query($query);
         if ($this->assert_error("Failed to delete old links")) return;
 
         if (!$this->add_links($project)) return;
 
-        $query = sprintf("DELETE FROM booking_system.quality_pack_stations WHERE project_name = '%s'",
+        $query = sprintf("DELETE FROM quality_pack_stations WHERE project_name = '%s'",
                           $project["name"]);
         $this->db->query($query);
         if ($this->assert_error("Failed to delete old quality pack stations")) return;
@@ -74,7 +74,7 @@ class ProjectModel extends BaseModel{
         if ($this->error) return;
 
         $this->escape_array($project);
-        $query = sprintf("INSERT INTO booking_system.projects (name, start_date, end_date, ate_operator, team,
+        $query = sprintf("INSERT INTO projects (name, start_date, end_date, ate_operator, team,
                           sw_versions, additional_info, framework, setup_milestone) VALUES ('%s', '%s', '%s', '%s', '%s',
                           '%s', '%s', '%s', '%s');",
                             $project["name"],
@@ -102,27 +102,27 @@ class ProjectModel extends BaseModel{
 
         $this->result = Array();
 
-        $query_result = $this->db->query("SELECT * FROM booking_system.projects;");
+        $query_result = $this->db->query("SELECT * FROM projects;");
         if ($this->assert_error("Failed to fetch projects")) return;
 
         while($project = $query_result->fetch_assoc()){
 
             $project["derivatives"] = Array();
 
-            $derivatives_query_result =  $this->db->query(sprintf("SELECT * FROM booking_system.derivatives WHERE project_name = '%s'",
+            $derivatives_query_result =  $this->db->query(sprintf("SELECT * FROM derivatives WHERE project_name = '%s'",
                                                                     $project["name"]));
             if ($this->assert_error("Failed to fetch derivatives")) return;
 
             if ($derivatives_query_result){
                 while ($derivative_row = $derivatives_query_result->fetch_assoc()){
-                    $progress_query_result = $this->db->query("SELECT * FROM booking_system.preparation_progress WHERE id_derivative = " . $derivative_row["id"]);
+                    $progress_query_result = $this->db->query("SELECT * FROM preparation_progress WHERE id_derivative = " . $derivative_row["id"]);
                     $progress = $progress_query_result->fetch_assoc();
                     $derivative_row["progress"] = $progress;
 
                     array_push($project["derivatives"], $derivative_row);
                 }
             }
-            $quality_packs_query_result =  $this->db->query(sprintf("SELECT name FROM booking_system.quality_pack_stations WHERE project_name = '%s'",
+            $quality_packs_query_result =  $this->db->query(sprintf("SELECT name FROM quality_pack_stations WHERE project_name = '%s'",
                                                                         $project["name"]));
             if ($this->assert_error("Failed to fetch quality pack")) return;
 
@@ -133,7 +133,7 @@ class ProjectModel extends BaseModel{
                 }
             }
 
-            $links_query_result = $this->db->query(sprintf("SELECT * FROM booking_system.links WHERE project_name = '%s'",
+            $links_query_result = $this->db->query(sprintf("SELECT * FROM links WHERE project_name = '%s'",
                                                              $project["name"]));
             if ($this->assert_error("Failed to fetch hyperlinks")) return;
 
@@ -152,7 +152,7 @@ class ProjectModel extends BaseModel{
 
         if (array_key_exists("derivatives", $project)) {
             foreach ($project["derivatives"] as &$derivative) {
-                $query = sprintf("INSERT INTO booking_system.derivatives (exec_station, build_station, link, project_name, name)
+                $query = sprintf("INSERT INTO derivatives (exec_station, build_station, link, project_name, name)
                                   VALUES ('%s', '%s', '%s', '%s', '%s');",
                                     $derivative["exec_station"],
                                     $derivative["build_station"],
@@ -164,7 +164,7 @@ class ProjectModel extends BaseModel{
                 if ($this->assert_error("Failed to add derivative")) return false;
 
                 $progress = $derivative["progress"];
-                $query = sprintf("INSERT INTO booking_system.preparation_progress (id_derivative, wiring_designed,
+                $query = sprintf("INSERT INTO preparation_progress (id_derivative, wiring_designed,
                           wiring_implemented, af_created, sw_installed, licenses, af_configured, af_config_reviewed,
                           source_code_loaded, exec_success, wiring_pass) VALUES (%d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d)",
                     $this->db->insert_id, $progress['wiring_designed'], $progress['wiring_implemented'],
@@ -179,7 +179,7 @@ class ProjectModel extends BaseModel{
     private function add_links($project){
         if (array_key_exists("links", $project)) {
             foreach ($project["links"] as $link) {
-                $query = sprintf("INSERT INTO booking_system.links (link, description, project_name) VALUES ('%s', '%s', '%s')",
+                $query = sprintf("INSERT INTO links (link, description, project_name) VALUES ('%s', '%s', '%s')",
                                    $link["link"],
                                    $link["description"],
                                    $project["name"]);
@@ -192,7 +192,7 @@ class ProjectModel extends BaseModel{
     private function add_quality_packs($project){
         if (array_key_exists("quality_pack_stations", $project)) {
             foreach ($project["quality_pack_stations"] as $quality_pack_station) {
-                $query = sprintf("INSERT INTO booking_system.quality_pack_stations (name, project_name) VALUES ('%s', '%s')",
+                $query = sprintf("INSERT INTO quality_pack_stations (name, project_name) VALUES ('%s', '%s')",
                                    $quality_pack_station,
                                    $project["name"]);
                 $this->db->query($query);

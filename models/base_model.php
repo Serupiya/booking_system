@@ -14,6 +14,7 @@ class BaseModel{
     {
         include_once "db.php";
         $this->db = get_db_connection();
+        $this->db->select_db(get_schema_name());
         if ($this->db->connect_error) {
             $this->return_error("Failed to connect to the database; error: " . $this->db->connect_error);
         }

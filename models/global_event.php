@@ -18,7 +18,7 @@ class GlobalEventModel extends BaseModel
         if ($this->error) return;
 
         $this->escape_array($event);
-        $query = sprintf("INSERT INTO booking_system.global_events (name, start, end) VALUES ('%s', '%s', '%s');",
+        $query = sprintf("INSERT INTO global_events (name, start, end) VALUES ('%s', '%s', '%s');",
                             $event["name"],
                             $event["start"],
                             $event["end"]);
@@ -31,7 +31,7 @@ class GlobalEventModel extends BaseModel
         if ($this->error) return;
 
         $this->escape_array($event);
-        $query = sprintf("DELETE FROM booking_system.global_events WHERE id = %d", $event["id"]);
+        $query = sprintf("DELETE FROM global_events WHERE id = %d", $event["id"]);
         $this->db->query($query);
         if ($this->assert_error("Failed to add global event")) return;
         $this->result = $event;
@@ -41,7 +41,7 @@ class GlobalEventModel extends BaseModel
 
         $this->result = Array();
 
-        $query_result = $this->db->query("SELECT * FROM booking_system.global_events;");
+        $query_result = $this->db->query("SELECT * FROM global_events;");
         if ($this->assert_error("Failed to fetch global events")) return;
 
         while($event = $query_result->fetch_assoc()) {

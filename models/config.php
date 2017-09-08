@@ -23,28 +23,28 @@ class ConfigModel extends BaseModel
             "teams" => Array(),
             "ate_operators" => Array());
 
-        $query_result = $this->db->query("SELECT * FROM booking_system.exec_stations;");
+        $query_result = $this->db->query("SELECT * FROM exec_stations;");
         if ($this->assert_error("Failed to fetch config/exec_stations")) return;
 
         while($result = $query_result->fetch_assoc()) {
             array_push($this->result["exec_stations"], $result);
         }
 
-        $query_result = $this->db->query("SELECT * FROM booking_system.build_stations;");
+        $query_result = $this->db->query("SELECT * FROM build_stations;");
         if ($this->assert_error("Failed to fetch config/build_stations")) return;
 
         while($result = $query_result->fetch_assoc()) {
             array_push($this->result["build_stations"], $result);
         }
 
-        $query_result = $this->db->query("SELECT * FROM booking_system.teams;");
+        $query_result = $this->db->query("SELECT * FROM teams;");
         if ($this->assert_error("Failed to fetch config/teams")) return;
 
         while($result = $query_result->fetch_assoc()) {
             array_push($this->result["teams"], $result);
         }
 
-        $query_result = $this->db->query("SELECT * FROM booking_system.ate_operators;");
+        $query_result = $this->db->query("SELECT * FROM ate_operators;");
         if ($this->assert_error("Failed to fetch config/ate_operators")) return;
 
         while($result = $query_result->fetch_assoc()) {
@@ -63,7 +63,7 @@ class BuildStationsModel extends BaseModel
         if ($this->error) return;
 
         $this->escape_array($build_station);
-        $query = sprintf("INSERT INTO booking_system.build_stations (name, link) VALUES ('%s', '%s');",
+        $query = sprintf("INSERT INTO build_stations (name, link) VALUES ('%s', '%s');",
             $build_station["name"],
             $build_station["link"]);
         $this->db->query($query);
@@ -75,7 +75,7 @@ class BuildStationsModel extends BaseModel
         if ($this->error) return;
 
         $this->escape_array($build_station);
-        $query = sprintf("DELETE FROM booking_system.build_stations WHERE id = %d", $build_station["id"]);
+        $query = sprintf("DELETE FROM build_stations WHERE id = %d", $build_station["id"]);
         $this->db->query($query);
         if ($this->assert_error("Failed to delete build station")) return;
         $this->result = $build_station;
@@ -92,7 +92,7 @@ class ExecMachinesModel extends BaseModel
         if ($this->error) return;
 
         $this->escape_array($exec_machine);
-        $query = sprintf("INSERT INTO booking_system.exec_stations (name, location, framework) VALUES ('%s', '%s', '%s');",
+        $query = sprintf("INSERT INTO exec_stations (name, location, framework) VALUES ('%s', '%s', '%s');",
             $exec_machine["name"],
             $exec_machine["location"],
             $exec_machine["framework"]);
@@ -105,7 +105,7 @@ class ExecMachinesModel extends BaseModel
         if ($this->error) return;
 
         $this->escape_array($exec_machine);
-        $query = sprintf("DELETE FROM booking_system.exec_stations WHERE id = %d", $exec_machine["id"]);
+        $query = sprintf("DELETE FROM exec_stations WHERE id = %d", $exec_machine["id"]);
         $this->db->query($query);
         if ($this->assert_error("Failed to delete execution machine")) return;
         $this->result = $exec_machine;
@@ -121,7 +121,7 @@ class TeamsModel extends BaseModel
         if ($this->error) return;
 
         $this->escape_array($team);
-        $query = sprintf("INSERT INTO booking_system.teams (name) VALUES ('%s');",
+        $query = sprintf("INSERT INTO teams (name) VALUES ('%s');",
             $team["name"]);
         $this->db->query($query);
         if ($this->assert_error("Failed to add team")) return;
@@ -132,7 +132,7 @@ class TeamsModel extends BaseModel
         if ($this->error) return;
 
         $this->escape_array($team);
-        $query = sprintf("DELETE FROM booking_system.teams WHERE id = %d", $team["id"]);
+        $query = sprintf("DELETE FROM teams WHERE id = %d", $team["id"]);
         $this->db->query($query);
         if ($this->assert_error("Failed to delete team")) return;
         $this->result = $team;
@@ -148,7 +148,7 @@ class OperatorModel extends BaseModel
         if ($this->error) return;
 
         $this->escape_array($operator);
-        $query = sprintf("INSERT INTO booking_system.ate_operators (name) VALUES ('%s');",
+        $query = sprintf("INSERT INTO ate_operators (name) VALUES ('%s');",
             $operator["name"]);
         $this->db->query($query);
         if ($this->assert_error("Failed to add team")) return;
@@ -159,7 +159,7 @@ class OperatorModel extends BaseModel
         if ($this->error) return;
 
         $this->escape_array($operator);
-        $query = sprintf("DELETE FROM booking_system.ate_operators WHERE id = %d", $operator["id"]);
+        $query = sprintf("DELETE FROM ate_operators WHERE id = %d", $operator["id"]);
         $this->db->query($query);
         if ($this->assert_error("Failed to delete team")) return;
         $this->result = $operator;
