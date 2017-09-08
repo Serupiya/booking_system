@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="templates/css/jquery-ui.min.css">
+    <link rel="stylesheet" href="templates/css/styles.css">
+    <script src="templates/js/libs/jquery-3.1.0.min.js"></script>
+    <script src="templates/js/libs/jquery-ui.min.js"></script>
+    <script src="templates/js/libs/jquery.cookie.js"></script>
+    <script src="templates/js/loading_screen.js"></script>
+    <script src="templates/js/dates.js"></script>
+    <script src="templates/js/dialog.js"></script>
+    <script src="templates/js/config.js"></script>
+    <script src="templates/js/main.js"></script>
+</head>
+<body>
+
+    <div id="loading_screen">
+        <div id="loading_filler"></div>
+        <div id="loading_img_div">
+            <img id="loading_img" src="templates/css/images/loading.gif">
+        </div>
+        <div id="loading_comments">
+
+        </div>
+    </div>
+
+    <div id="load_overlay" style="display:none">
+        <div id="load_overlay_filler"></div>
+        <img id="load_overlay_img" src="templates/css/images/loading.gif">
+    </div>
+
+    <div id="load_prep_container" style="display:none">
+        <div id="contents">
+            <div id="main">
+                <div id="column_chooser_div">
+                    <select id="column_chooser">
+                        <option value="Build Machines">Build Machines</option>
+                        <option value="Execution Machines">Execution Machines</option>
+                        <option value="ATE operators">ATE operators</option>
+                        <option value="Projects">Projects</option>
+                    </select>
+                </div>
+                <div id="filler"></div>
+                <div id="date_header">
+                    <div id="mover_left">
+                        <span class="mover_description"><</span>
+                    </div>
+                    <div id="date_header_contents"></div>
+                    <div id="mover_right">
+                        <span class="mover_description">></span>
+                    </div>
+                </div>
+                <div id="row_descriptor">
+
+                </div>
+                <div id="filler2"></div>
+
+                <div id="overview">
+
+                </div>
+            </div>
+        </div>
+
+            <div id="ate_milestone_dialog" title="Progress steps">
+                <label for='wiring_designed'>Wiring design created</label>
+                <input class="checkbox" type='checkbox' name='wiring_designed' id='wiring_designed'>
+                <label for='wiring_implemented'>Wiring implementation finished</label>
+                <input class="checkbox" type='checkbox' name='wiring_implemented' id='wiring_implemented'>
+                <label for='af_created'>AF created</label>
+                <input class="checkbox" type='checkbox' name='af_created' id='af_created'>
+                <label for='sw_installed'>All compilers and other needed SW installed</label>
+                <input class="checkbox" type='checkbox' name='sw_installed' id='sw_installed'>
+                <label for='licenses'>All licenses obtained and availability checked till the release date</label>
+                <input class="checkbox" type='checkbox' name='licenses' id='licenses'>
+                <label for='af_configured'>AF configured by ATE operator</label>
+                <input class="checkbox" type='checkbox' name='af_configured' id='af_configured'>
+                <label for='af_config_reviewed'>AF configuration reviewed by senior ATE operator</label>
+                <input class="checkbox" type='checkbox' name='af_config_reviewed' id='af_config_reviewed'>
+                <label for='source_code_loaded'>Source code repositories loaded successfully</label>
+                <input class="checkbox" type='checkbox' name='source_code_loaded' id='source_code_loaded'>
+                <label for='exec_success'>The first test executed succeesfully</label>
+                <input class="checkbox" type='checkbox' name='exec_success' id='exec_success'>
+                <label for='wiring_pass'>All wiring tests passed</label>
+                <input class="checkbox" type='checkbox' name='wiring_pass' id='wiring_pass'>
+            </div>
+
+
+            <div id="delete_confirmation_dialog" title="Confirm deletion">
+                <p style="text-align: center">Are you sure you want to delete <span style="font-weight:bold" id="deleted_project_name"></span>?</p>
+            </div>
+
+            <div id="error_msg_dialog" title="An error has occured">
+                <p id="error_msg_dialog_text"></p>
+            </div>
+
+            <div id="validation_error_msg" title="Form validation error"> </div>
+
+            <div id="change_link_dialog" title="Change link">
+                <div style="width:95%">
+                    <label for="new_link">New link</label>
+                    <input type="text" name="new_link" id="new_link" class="text ui-widget-content ui-corner-all">
+                </div>
+            </div>
+
+            <div id="reserve_dialog" title="Create new project">
+                <div id="reserve_project_switch_tabs">
+                    <ul>
+                        <li>
+                            <a href="#reserve_create_new_project">New project</a>
+                        </li>
+                        <li>
+                            <a href="#reserve_create_new_project">Edit existing project</a>
+                        </li>
+                    </ul>
+
+                    <div id="reserve_create_new_project">
+
+                        <div style="overflow: auto">
+
+                            <div style="width:95%; margin-bottom: 12px" id="reserve_edit_div">
+                                <label for="reserve_new_project_name">Edit project</label>
+                                <select id="reserve_edit_project_name"></select>
+                            </div>
+
+                            <div id="reserve_create_div">
+                                <label for="reserve_new_project_name">Project Name</label>
+                                <input type="text" name="new_project_name" id="reserve_new_project_name" class="text ui-widget-content ui-corner-all">
+                            </div>
+                            <div style="overflow: auto">
+                                <div style="width:calc(30% - 0.8em);float:left">
+                                    <label for="start_date">Start date</label>
+                                    <input type="text" style="width: 100%" name="leader" id="start_date" readonly='true' class="text ui-widget-content ui-corner-all">
+                                </div>
+                                <div style="width:calc(3% + 0.8em);float:left;height: 1px"></div>
+                                <div style="width:calc(30% - 0.8em);float:left">
+                                    <label for="end_date">End date</label>
+                                    <input type="text" style="width: 100%" name="leader" id="end_date" readonly='true' class="text ui-widget-content ui-corner-all">
+                                </div>
+                                <div style="width:calc(3% + 0.8em);float:left;height: 1px"></div>
+                                <div style="width:calc(30% - 0.8em);float:left">
+                                    <label for="setup_milestone">ATE setup ready milestone</label>
+                                    <input type="text" style="width: 100%" name="leader" id="setup_milestone" readonly='true' class="text ui-widget-content ui-corner-all">
+                                </div>
+                            </div>
+                            <div style="overflow: auto">
+                                <div style="width:45%;float:left;padding-bottom:12px">
+                                    <label for="reserve_leader">Project Leader</label>
+                                    <select style="float:left" id="reserve_leader"></select>
+                                </div>
+                                <div style="width:5%;float:left;height: 1px;padding-bottom:12px"></div>
+                                <div style="width:45%;float:left">
+                                    <label for="reserve_leader">Team</label>
+                                    <select style="float:left" id="reserve_team"></select>
+                                </div>
+                            </div>
+                            <div style="overflow: auto">
+                                <div style="width:95%;float:left;padding-bottom:12px">
+                                    <label for="framework">Framework</label>
+                                    <select style="float:left" id="framework"></select>
+                                </div>
+                            </div>
+                            <div style="overflow: auto">
+                                <label for="reserve_derivative">Derivative</label>
+                                <div style="width:70%;float:left">
+
+                                    <input type="text" style="width: 100%" name="reserve_derivative" id="reserve_derivative" class="text ui-widget-content ui-corner-all">
+                                </div>
+                                <div style="width:calc(5% + 16px);;float:left;height: 1px"></div>
+                                <div style="width:20%;float:left">
+                                    <button style="width:100%;float:left" id="reserve_add_derivative_btn" class="ui-button ui-corner-all ui-widget">Add</button>
+                                </div>
+
+                            </div>
+                            <div style="width:95%;display: flex">
+                                <label style="float:left; width:30%">
+                                    Name
+                                </label>
+                                <label style="float:left; width:29%">
+                                    Build Station
+                                </label>
+                                <label style="float:left; width:30%">
+                                    Execution Station
+                                </label>
+                            </div>
+                            <div id="reserve_derivative_div" style="overflow: auto">
+
+
+                            </div>
+                            <hr>
+
+                            <div style="overflow: auto">
+                                <div style="width:95%;float:left;padding-bottom:12px">
+                                    <label for="framework">Quality pack</label>
+                                    <button class="ui-button ui-corner-all ui-widget" id="add_quality_pack">Add Station</button>
+                                    <div class="quality_pack_stations"></div>
+                                </div>
+                            </div>
+
+                            <div style="overflow: auto">
+                                <label style="clear:both" for="sw_versions">Software Versions</label>
+                                <textarea style="width:95%; height: 250px;" type="text" name="sw_versions" id="sw_versions" class="text ui-widget-content ui-corner-all"></textarea>
+                            </div>
+
+                            <div>
+                                <label for="hw_versions">Hardware Versions</label>
+                                <textarea style="width:95%; height: 250px;" type="text" name="hw_versions" id="hw_versions" class="text ui-widget-content ui-corner-all"></textarea>
+                            </div>
+                            <div style="overflow: auto">
+                               <label for="additional_info">Additional Information</label>
+                               <textarea style="width:95%; height: 250px;" type="text" name="info" id="additional_info" class="text ui-widget-content ui-corner-all"></textarea>
+                           </div>
+                            <div style="overflow: auto;position:relative">
+                                <label >Hyperlinks</label>
+                                <div id="links">
+
+                                </div>
+                                <div id="bs_links">
+
+                                </div>
+                                <hr>
+                                <div>
+                                    <div style="width:35%;float:left">
+                                        <label for="link_input">Link</label>
+                                    </div>
+                                    <div style="width:5%;height:1px;float:left"></div>
+                                    <div style="width:35%;float:left">
+                                        <label for="link_description">Description</label>
+                                    </div>
+                                </div>
+                                <div style="width:35%;float:left">
+
+                                    <input type="text" style="width: 100%" name="link_input" id="link_input" class="text ui-widget-content ui-corner-all">
+                                </div>
+                                <div style="width:5%;height:1px;float:left"></div>
+                                <div style="width:35%;float:left">
+                                    <input type="text" style="width: 100%" name="link_description" id="link_description" class="text ui-widget-content ui-corner-all">
+                                </div>
+                                <div style="width:5%;height:1px;float:left"></div>
+                                <div style="width:20%;float:left">
+                                    <button class="ui-button ui-corner-all ui-widget" id="add_link">Add link</button>
+                                </div>
+
+                            </div>
+                        </div>
+                     </div>
+
+                <!-- Allow form submission with keyboard without duplicating the dialog button -->
+                <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+
+            </div>
+        </div>
+        <div id="global_reserve_dialog" title="Create global event">
+            <div id="global_event_switch_tabs">
+                <ul>
+                    <li>
+                        <a href="#create_global_event_tab">New event</a>
+                    </li>
+                    <li>
+                        <a href="#view_global_events_tab">View events</a>
+                    </li>
+                </ul>
+                <div id="create_global_event_tab">
+                    <label for="event_name">Event Name</label>
+                    <input type="text" name="event_name" id="event_name" class="text ui-widget-content ui-corner-all">
+                    <div style="overflow: auto">
+                        <div style="width:45%;float:left">
+                            <label for="start_date">Start date</label>
+                            <input type="text" style="width: 100%" name="leader" id="event_start_date" readonly='true' class="text ui-widget-content ui-corner-all">
+                        </div>
+                        <div style="width:5%;float:left;height: 1px"></div>
+                        <div style="width:45%;float:left">
+                            <label for="end_date">End date</label>
+                            <input type="text" style="width: 100%" name="leader" id="event_end_date" readonly='true' class="text ui-widget-content ui-corner-all">
+                        </div>
+                    </div>
+                </div>
+                <div id="view_global_events_tab">
+
+                </div>
+            </div>
+        </div>
+
+        <div id="config_dialog">
+            <div id="config_tab_switch">
+                <ul>
+                    <li>
+                        <a href="#exec_machines_config">Execution machines</a>
+                    </li>
+                    <li>
+                        <a href="#build_stations_config">Build stations</a>
+                    </li>
+                    <li>
+                        <a href="#teams_config">Teams</a>
+                    </li>
+                    <li>
+                        <a href="#ate_operators_config">ATE operators</a>
+                    </li>
+                </ul>
+                <div id="exec_machines_config">
+                    <div id="add_exec_machine_container">
+                        <div class="three_fields">
+                            <label for="exec_machine_config_add_name">Name</label>
+                            <input id="exec_machine_config_add_name" class="text ui-widget-content ui-corner-all">
+                        </div>
+                        <div class="three_fields">
+                            <label for="exec_machine_config_add_framework">Framework</label>
+                            <input id="exec_machine_config_add_framework" class="text ui-widget-content ui-corner-all">
+                        </div>
+                        <div class="three_fields">
+                            <label for="exec_machine_config_add_location">Location</label>
+                            <input id="exec_machine_config_add_location" class="text ui-widget-content ui-corner-all">
+                        </div>
+                        <div style="float:left;">
+                            <button style="top:1.2em" class="ui-button ui-corner-all ui-widget" id="add_exec_machine_config">Add</button>
+                        </div>
+                        <br>
+                        <hr style="clear:both">
+                        <div id="exec_machines_config_list"></div>
+                    </div>
+                </div>
+                <div id="build_stations_config">
+                    <div class="two_fields">
+                        <label for="build_station_config_add_name">Name</label>
+                        <input id="build_station_config_add_name" class="text ui-widget-content ui-corner-all">
+                    </div>
+                    <div class="two_fields">
+                        <label for="build_station_config_add_link">Link</label>
+                        <input id="build_station_config_add_link" class="text ui-widget-content ui-corner-all">
+                    </div>
+                    <div style="float:left;">
+                        <button style="top:1.2em"  class="ui-button ui-corner-all ui-widget" id="add_build_station_config">Add</button>
+                    </div>
+                    <br>
+                    <hr style="clear:both">
+                    <div id="build_stations_config_list"></div>
+                </div>
+                <div id="teams_config">
+                    <div class="one_field">
+                        <label for="team_config_add_name">Name</label>
+                        <input id="team_config_add_name" class="text ui-widget-content ui-corner-all">
+                    </div>
+                    <div style="float:left;">
+                        <button style="top:1.2em" class="ui-button ui-corner-all ui-widget" id="add_team_config">Add</button>
+                    </div>
+                    <br>
+                    <hr style="clear:both">
+                    <div id="teams_config_list"></div>
+                </div>
+                <div id="ate_operators_config">
+                    <div class="one_field">
+                        <label for="ate_operator_add_name">Name</label>
+                        <input id="ate_operator_add_name" class="text ui-widget-content ui-corner-all">
+                    </div>
+                    <div style="float:left;">
+                        <button style="top:1.2em" class="ui-button ui-corner-all ui-widget" id="add_ate_operator_config">Add</button>
+                    </div>
+                    <br>
+                    <hr style="clear:both">
+                    <div id="ate_operators_config_list"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="footer">
+            <button id="add_project" class="ui-button ui-corner-all ui-widget">Project</button>
+            <button id="add_global_event" class="ui-button ui-corner-all ui-widget">Global events</button>
+            <button id="open_config" class="ui-button ui-corner-all ui-widget">Configuration</button>
+            <div style="width:20%; float:right;margin-right: 5%;">
+                <select id="view_style">
+                    <option value="daily">Daily View</option>
+                    <option value="weekly">Weekly View</select>
+                </select>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

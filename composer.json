@@ -1,0 +1,10 @@
+{
+    "name": "michal/www",
+    "authors": [
+        {
+            "name": "Michal Stusek",
+            "email": "stusekmichal@gmail.com"
+        }
+    ],
+    "require": {}
+}
