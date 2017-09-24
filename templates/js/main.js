@@ -490,12 +490,12 @@ function generate_cells(){
 
                 if (!color_coding || chosen_row_type == "Project"){
                     if (i%2){
-                        img.addClass("odd");
+                        cell.addClass("odd");
                     } else{
-                        img.addClass("even");
+                        cell.addClass("even");
                     }
                 }
-                else color_code(img, val);
+                else color_code(img, row);
 
                if (project_index === 0 && i !== 0){
                    var separator = $("<div class='separator'></div>")
