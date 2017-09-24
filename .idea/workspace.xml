@@ -4,7 +4,6 @@
     <list default="true" id="8c49445f-3a83-43a2-b0ca-7f38989278e0" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/db.php" afterPath="$PROJECT_DIR$/models/db.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/project.php" afterPath="$PROJECT_DIR$/models/project.php" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -170,7 +169,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="project.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="project.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/project.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="534">
@@ -239,11 +238,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="db.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="db.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/models/db.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="35" column="34" selection-start-line="35" selection-start-column="34" selection-end-line="35" selection-end-column="34" />
+            <state relative-caret-position="306">
+              <caret line="23" column="2" selection-start-line="23" selection-start-column="2" selection-end-line="23" selection-end-column="2" />
               <folding />
             </state>
           </provider>
@@ -351,8 +350,8 @@
         <option value="$PROJECT_DIR$/templates/bs.html" />
         <option value="$PROJECT_DIR$/templates/css/styles.css" />
         <option value="$PROJECT_DIR$/templates/js/main.js" />
-        <option value="$PROJECT_DIR$/models/db.php" />
         <option value="$PROJECT_DIR$/models/project.php" />
+        <option value="$PROJECT_DIR$/models/db.php" />
       </list>
     </option>
   </component>
@@ -685,12 +684,12 @@
       <workItem from="1504775561699" duration="34850000" />
       <workItem from="1504870077892" duration="740000" />
       <workItem from="1505398779758" duration="2617000" />
-      <workItem from="1505980566653" duration="88626000" />
+      <workItem from="1505980566653" duration="88657000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="330195000" />
+    <option name="totallyTimeSpent" value="330226000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="5" width="1921" height="1047" extended-state="0" />
@@ -1153,14 +1152,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/db.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="35" column="34" selection-start-line="35" selection-start-column="34" selection-end-line="35" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/bs.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -1289,6 +1280,14 @@
             <marker date="1506274696090" expanded="true" signature="16997:17074" ph="INSERT INTO links... " />
             <marker date="1506274696090" expanded="true" signature="17599:17727" ph="INSERT INTO project_events... " />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/db.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="23" column="2" selection-start-line="23" selection-start-column="2" selection-end-line="23" selection-end-column="2" />
+          <folding />
         </state>
       </provider>
     </entry>
