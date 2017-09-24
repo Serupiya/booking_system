@@ -220,7 +220,7 @@ function redo_columns(arr){
         var centered_descriptor = $("<div class='centered'>" + val + "</div>");
         var img = $("<div class='row_descriptor_img'></div>");
         if (color_coding) color_code(img, val);
-        if (i%2){
+        else if (i%2){
             img.addClass("odd");
         }
         row_descriptor_div.append(centered_descriptor);
@@ -482,13 +482,16 @@ function generate_cells(){
                         start_editing_project(project_on_date);
                    });
                }
-               if (i%2){
-                   cell.addClass("odd");
-               } else{
-                   cell.addClass("even");
-               }
+
                if (color_coding) {
                    color_code(cell, row);
+               }
+               else{
+                   if (i%2){
+                       cell.addClass("odd");
+                   } else{
+                       cell.addClass("even");
+                   }
                }
 
                if (project_index === 0 && i !== 0){
