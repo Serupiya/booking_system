@@ -219,7 +219,7 @@ function redo_columns(arr){
         }
         var centered_descriptor = $("<div class='centered'>" + val + "</div>");
         var img = $("<div class='row_descriptor_img'></div>");
-        if (!color_coding || chosen_row_type == "Project"){
+        if (!color_coding || chosen_row_type == "Projects"){
             if (i%2){
                 img.addClass("odd");
             } else{
@@ -488,7 +488,7 @@ function generate_cells(){
                    });
                }
 
-                if (!color_coding || chosen_row_type == "Project"){
+                if (!color_coding || chosen_row_type == "Projects"){
                     if (i%2){
                         cell.addClass("odd");
                     } else{
