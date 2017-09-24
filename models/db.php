@@ -8,7 +8,6 @@
 
 //localhost
 
-/*
 function get_db_connection(){
     $server_name = "localhost";
     $username = "root";
@@ -22,11 +21,11 @@ function get_db_connection(){
 function get_schema_name(){
     return "booking_system";
 }
-*/
 
 
 
 
+/*
 //heroku
 function get_db_connection(){
     $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
@@ -45,3 +44,4 @@ function get_schema_name(){
     return "heroku_426923c18edf463";
 
 }
+*/

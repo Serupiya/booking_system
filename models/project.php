@@ -32,7 +32,7 @@ class ProjectModel extends BaseModel{
         $this->escape_array($project);
 
         $query = sprintf("UPDATE projects SET start_date = STR_TO_DATE('%s', '%%m/%%d/%%Y'), end_date = STR_TO_DATE('%s', '%%m/%%d/%%Y'), ate_operator = '%s', team = '%s',
-                          sw_versions = '%s', additional_info = '%s', framework = '%s' WHERE name = '%s';",
+                          sw_versions = '%s', additional_info = '%s', framework = '%s', hw_versions = '%s' WHERE name = '%s';",
                             $project["start_date"],
                             $project["end_date"],
                             $project["ate_operator"],
@@ -40,6 +40,7 @@ class ProjectModel extends BaseModel{
                             $project["sw_versions"],
                             $project["additional_info"],
                             $project["framework"],
+                            $project["hw_versions"],
                             $project["name"]);
         $this->db->query($query);
 
@@ -77,14 +78,15 @@ class ProjectModel extends BaseModel{
         $this->escape_array($project);
         $project["color"] = $this->determine_project_color($project);
         $query = sprintf("INSERT INTO projects (name, start_date, end_date, ate_operator, team,
-                          sw_versions, additional_info, framework, color) VALUES ('%s', STR_TO_DATE('%s', '%%m/%%d/%%Y'), STR_TO_DATE('%s', '%%m/%%d/%%Y'), '%s', '%s',
-                          '%s', '%s', '%s', ,'%s');",
+                          sw_versions, hw_versions, additional_info, framework, color) VALUES ('%s', STR_TO_DATE('%s', '%%m/%%d/%%Y'), STR_TO_DATE('%s', '%%m/%%d/%%Y'), '%s', '%s',
+                          '%s', '%s', '%s', '%s', '%s');",
                             $project["name"],
                             $project["start_date"],
                             $project["end_date"],
                             $project["ate_operator"],
                             $project["team"],
                             $project["sw_versions"],
+                            $project["hw_versions"],
                             $project["additional_info"],
                             $project["framework"],
                             $project["color"]);
@@ -201,7 +203,7 @@ class ProjectModel extends BaseModel{
 
         $query_result = $this->db->query("SELECT name, DATE_FORMAT(start_date, '%m/%d/%Y') 'start_date', 
                           DATE_FORMAT(end_date, '%m/%d/%Y') 'end_date', ate_operator, team,
-                          sw_versions, additional_info, framework, color FROM projects;");
+                          sw_versions, additional_info, framework, color, hw_versions FROM projects;");
         if ($this->assert_error("Failed to fetch projects")) return;
 
         while($project = $query_result->fetch_assoc()){
