@@ -178,6 +178,9 @@ class ProjectModel extends BaseModel{
             '#0073cf', '#ff7f50', '#893f45', '#446ccf', '#8b008b', '#738678', '#00bfff', '#ffc0cb', '#c90016',
             '#9400d3', '#00ffef');
 
+        if ($query_result->num_rows == 0){
+            return $colors[0];
+        }
 
         while($color_array = $query_result->fetch_assoc()) {
             //echo $color_array["color"] . ";";
