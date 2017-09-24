@@ -75,7 +75,7 @@ function init_add_ate_operator_button(){
 }
 
 function add_ate_operator_to_list(operator){
-    var container = $("<div style='width: calc(100% - 13px)'></div>");
+    var container = $("<div style='width: calc(100% - 13px);float: left;clear: both;'></div>");
     var delete_button = $("<button class='config_delete_btn ui-button ui-corner-all ui-widget'>X</button>");
     container.append(delete_button);
     var name = $("<input disabled class='text ui-widget-content ui-corner-all'>");
@@ -162,7 +162,7 @@ function init_add_teams_button(){
             $.ajax({
                 type: "POST",
                 url: "/views/config/add_team.php",
-                data: {"name": $("#team_config_add_name").val()},
+                data: {"name": $("#team_config_add_name").val(), "color": $("#team_config_add_color").val()},
                 success: function (data) {
                     console.log(data);
                     if (data["error"] !== undefined) {
@@ -188,7 +188,7 @@ function init_add_teams_button(){
 
 
 function add_team_to_list(team){
-    var container = $("<div style='width: calc(100% - 13px)'></div>");
+    var container = $("<div style='width: calc(100% - 13px);float: left;clear: both;'></div>");
     var delete_button = $("<button class='config_delete_btn ui-button ui-corner-all ui-widget'>X</button>");
     container.append(delete_button);
     var name = $("<input disabled class='text ui-widget-content ui-corner-all'>");
@@ -302,7 +302,7 @@ function init_add_build_station_button(){
 
 
 function add_build_station_to_list(build_station){
-    var container = $("<div style='width: calc(100% - 13px)'></div>");
+    var container = $("<div style='width: calc(100% - 13px);float: left;clear: both;'></div>");
     var delete_button = $("<button class='config_delete_btn ui-button ui-corner-all ui-widget'>X</button>");
     container.append(delete_button);
     var name = $("<input disabled class='text ui-widget-content ui-corner-all'>");
@@ -421,7 +421,7 @@ function init_add_exec_station_button(){
 
 
 function add_exec_station_to_list(exec_station){
-    var container = $("<div style='width: calc(100% - 13px)'></div>");
+    var container = $("<div style='width: calc(100% - 13px);float: left;clear: both;'></div>");
     var delete_button = $("<button class='config_delete_btn ui-button ui-corner-all ui-widget'>X</button>");
     container.append(delete_button);
     var name = $("<input disabled class='text ui-widget-content ui-corner-all'>");

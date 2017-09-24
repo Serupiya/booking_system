@@ -73,7 +73,6 @@ class BuildStationsModel extends BaseModel
         $this->result = $build_station;
     }
     public function delete($build_station){
-        var_dump($build_station);
         if ($this->error) return;
 
         $this->escape_array($build_station);
@@ -155,8 +154,9 @@ class TeamsModel extends BaseModel
         if ($this->error) return;
 
         $this->escape_array($team);
-        $query = sprintf("INSERT INTO teams (name) VALUES ('%s');",
-            $team["name"]);
+        $query = sprintf("INSERT INTO teams (name, color) VALUES ('%s', '%s');",
+            $team["name"],
+            $team["color"]);
         $this->db->query($query);
         if ($this->assert_error("Failed to add team")) return;
         $team["id"] = $this->db->insert_id;
