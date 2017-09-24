@@ -12,99 +12,123 @@ var checkbox_names = [
 ];
 
 function load_reserve_dialog(){
+    if (0.95*$(window).width() > 1000){
+        $(".fullscreen_col").addClass("active");
+    }
     reserve_dialog = $( "#reserve_dialog" ).dialog({
         autoOpen: false,
-        height: 600,
-        width: 750,
+        height: 0.95*$(window).height() * (window.devicePixelRatio>1?1/window.devicePixelRatio:window.devicePixelRatio),
+        width: 0.95*$(window).width() * (window.devicePixelRatio>1?1/window.devicePixelRatio:window.devicePixelRatio),
         minWidth: 700,
         modal: true,
+        resize: function(event, ui){
+            if (ui["size"]["width"] >=1000){
+                $(".fullscreen_col").addClass("active");
+            } else if (ui["size"]["width"] < 1000){
+                $(".fullscreen_col").removeClass("active");
+            }
+        },
         buttons: {
-            "Save": function(){
+            "Save": {
+                class: 'project_save_button',
+                text: 'Save',
+                click: function () {
 
-                var validated = validate_form();
-                if (validated){
-                    var active = main_tabs.tabs("option", "active");
-                    var project = {};
-                    if (active === 0){
-                        project["name"] = project_name_input.val();
-                    } else{
-                        project["name"] = project_edit_name_select.val();
-                    }
-
-                    project["start_date"] = start_date_input.val();
-                    project["end_date"] = end_date_input.val();
-                    project["ate_operator"] = project_leader_select.val();
-                    project["team"] = team_select.val();
-                    project["derivatives"] = [];
-                    $(".derivative").each(function(){
-                        var derivative_info = {};
-                        derivative_info["name"] = $(this).find(".derivative_name").val();
-                        derivative_info["exec_station"] = $(this).find(".exec_station").val();
-                        derivative_info["build_station"] = $(this).find(".build_station").val();
-                        derivative_info["link"] = $(this).find(".link_span").text();
-                        derivative_info["progress"] = {};
-                        $(this).find(".progress_checkboxes").children().each(function(i, checkbox){
-                            derivative_info["progress"][$(checkbox).attr("name")] = Number($(checkbox).prop("checked"));
-                        });
-                        project["derivatives"].push(derivative_info);
-                    });
-                    project["quality_pack_stations"] = [];
-                    $(".quality_pack_select").each(function(){
-                        project["quality_pack_stations"].push($(this).val());
-                    });
-                    project["framework"] = project_framework.val();
-                    project["sw_versions"] = sw_versions.val();
-                    project["hw_versions"] = hw_versions.val();
-                    project["additional_info"] = additional_info.val();
-                    project["setup_milestone"] = $("#setup_milestone").val();
-
-
-                    project["links"] = [];
-                    $("#links").find("a.link").each(function(){
-                        project["links"].push({"link": $(this).attr("href"), "description": $(this).text()});
-                    });
-
-                    console.log(project);
-                    block_screen_with_load();
-                    $.ajax({
-                        type: "POST",
-                        url: active === 0?"/views/add_project.php":"/views/modify_project.php",
-                        data: project,
-                        success: function(data){
-                            console.log(data);
-                            if (data["error"] !== undefined){
-                                show_error_dialog(data["error"]);
-                            } else{
-                                if (active == 0){
-                                    projects.push(data);
-                                } else{
-                                    $.each(projects, function(i, p) {
-                                        if (project["name"] === p["name"]) {
-                                            projects[i] = project;
-                                        }
-                                    });
+                    var validated = validate_form();
+                    if (validated) {
+                        var active = main_tabs.tabs("option", "active");
+                        var project = {};
+                        if (active === 0) {
+                            project["name"] = project_name_input.val();
+                        } else {
+                            project["name"] = project_edit_name_select.val();
+                            $.each(projects, function () {
+                                if (this["name"] == project["name"]) {
+                                    project["color"] = this["color"]
                                 }
-                                try{
-                                    create_table(chosen_row_type);
-                                }
-                                catch(err){
-                                    show_error_dialog("Cannot recreate booking system structure after data was received.");
-                                    console.error(err);
-                                    console.error(data);
-                                }
-                                reserve_dialog.dialog("close");
-                            }
-                            unblock_screen_with_load();
-                        },
-                        error: function (request, status, error) {
-                            show_error_dialog("Server either didn't respond or didn't send a JSON response (" + error + ")");
-                            console.error(request, status, error);
-                            unblock_screen_with_load();
+                            });
                         }
-                    });
 
-                   //console.log(JSON.stringify(project));
+                        project["start_date"] = start_date_input.val();
+                        project["end_date"] = end_date_input.val();
+                        project["ate_operator"] = project_leader_select.val();
+                        project["team"] = team_select.val();
+                        project["derivatives"] = [];
+                        $(".derivative").each(function () {
+                            var derivative_info = {};
+                            derivative_info["name"] = $(this).find(".derivative_name").val();
+                            derivative_info["exec_station"] = $(this).find(".exec_station").val();
+                            derivative_info["build_station"] = $(this).find(".build_station").val();
+                            derivative_info["link"] = $(this).find(".link_span").text();
+                            derivative_info["progress"] = {};
+                            $(this).find(".progress_checkboxes").children().each(function (i, checkbox) {
+                                derivative_info["progress"][$(checkbox).attr("name")] = Number($(checkbox).prop("checked"));
+                            });
+                            project["derivatives"].push(derivative_info);
+                        });
 
+                        project["events"] = [];
+                        $(".event_row").each(function () {
+                            var event_info = {};
+                            event_info["symbol"] = $(this).find(".event_symbol").val();
+                            event_info["description"] = $(this).find(".event_description").val();
+                            event_info["date"] = $(this).find(".event_date").val();
+                            project["events"].push(event_info);
+                        });
+
+                        project["framework"] = project_framework.val();
+                        project["sw_versions"] = sw_versions.val();
+                        project["hw_versions"] = hw_versions.val();
+                        project["additional_info"] = additional_info.val();
+
+
+                        project["links"] = [];
+                        $("#links").find("a.link").each(function () {
+                            project["links"].push({"link": $(this).attr("href"), "description": $(this).text()});
+                        });
+
+                        console.log(project);
+                        block_screen_with_load();
+                        $.ajax({
+                            type: "POST",
+                            url: active === 0 ? "/views/add_project.php" : "/views/modify_project.php",
+                            data: project,
+                            success: function (data) {
+                                console.log(data);
+                                if (data["error"] !== undefined) {
+                                    show_error_dialog(data["error"]);
+                                } else {
+                                    if (active == 0) {
+                                        projects.push(data);
+                                    } else {
+                                        $.each(projects, function (i, p) {
+                                            if (project["name"] === p["name"]) {
+                                                projects[i] = project;
+                                            }
+                                        });
+                                    }
+                                    try {
+                                        create_table(chosen_row_type);
+                                    }
+                                    catch (err) {
+                                        show_error_dialog("Cannot recreate booking system structure after data was received.");
+                                        console.error(err);
+                                        console.error(data);
+                                    }
+                                    reserve_dialog.dialog("close");
+                                }
+                                unblock_screen_with_load();
+                            },
+                            error: function (request, status, error) {
+                                show_error_dialog("Server either didn't respond or didn't send a JSON response (" + error + ")");
+                                console.error(request, status, error);
+                                unblock_screen_with_load();
+                            }
+                        });
+
+                        //console.log(JSON.stringify(project));
+
+                    }
                 }
             },
             "Delete":{
@@ -163,20 +187,12 @@ function load_reserve_dialog(){
     activate_derivative_add_button();
 
     $("#add_link").click(function(){
-        var link = $("#link_input")
-        var description = $("#link_description")
+        $("#link_container").show();
+        var link = $("#link_input");
+        var description = $("#link_description");
         var links_div = $("#links");
         if (link.val() !== "" && description.val() !== ""){
-            var container_div = $("<div></div>");
-            var link_div = $("<div style='float:left;'><a href='" + linkify(link.val()) + "' target=_blank'>" + description.val() + "</a></div>");
-            container_div.append(link_div);
-            var delete_link = $("<a style='margin-left:5px; color:red; float:left; display:inline-block'>X</a>");
-            container_div.append(delete_link);
-            container_div.append("<br>");
-            delete_link.click(function(){
-                container_div.remove();
-            });
-            links_div.append(container_div);
+            add_link(link.val(), description.val());
             link.val("");
             description.val("");
         }
@@ -297,7 +313,6 @@ function load_reserve_dialog(){
     project_name_select.selectmenu();
     project_leader_select.selectmenu();
     team_select.selectmenu();
-    $("#setup_milestone").datepicker()
     start_date_input.datepicker({
         "onSelect": function(){
             var active_tab = main_tabs.tabs("option", "active");
@@ -321,47 +336,6 @@ function load_reserve_dialog(){
         }
     });
 
-    $("#add_quality_pack").click(function(){
-        var qp_container = $(".quality_pack_stations");
-        var select_container = $("<div style='width: 80%;float:left'></div>");
-        var delete_button = $("<button class='ui-button ui-corner-all ui-widget' style=\"color:red;width:15%;float:left;margin-left: 22px;padding:6px 0 6px 0;\">X</button>");
-        var new_station_select = $("<select class='quality_pack_select'></select>");
-        var active_tab = main_tabs.tabs("option", "active");
-        var viable_machines;
-        if (check_start_end_time(start_date_input.val(), end_date_input.val())) {
-            if (active_tab === 1) {
-                viable_machines = get_possible_reservation_slots(formated_to_date_array(start_date_input.val()),
-                    formated_to_date_array(end_date_input.val()), project_edit_name_select.val());
-            } else {
-                viable_machines = get_possible_reservation_slots(formated_to_date_array(start_date_input.val()),
-                    formated_to_date_array(end_date_input.val()));
-            }
-
-            $.each(viable_machines["used_build_machines"], function (i, machine) {
-                new_station_select.append("<option value='" + machine + "'>" + machine + " (USED)</option>");
-            });
-            $.each(viable_machines["build_machines"], function (i, machine) {
-                new_station_select.append("<option value='" + machine + "'>" + machine + "</option>");
-            });
-
-        } else{
-            new_station_select.append("<option value='TBD'>Set a correct date first</option>");
-            new_station_select.append("<option value='TBD'>Set a correct date first</option>");
-        }
-        select_container.append(new_station_select);
-        qp_container.append(select_container);
-        qp_container.append(delete_button);
-        new_station_select.selectmenu();
-        new_station_select.val("TBD");
-        new_station_select.selectmenu("refresh");
-        delete_button.click(function () {
-            delete_button.remove();
-            select_container.remove();
-        })
-
-
-    });
-
     main_tabs.tabs({
         activate: function(event ,ui){
             var active = main_tabs.tabs("option", "active");
@@ -375,7 +349,9 @@ function load_reserve_dialog(){
                 choose_project_to_edit();
                 $("#reserve_edit_div").show();
                 $("#reserve_create_div").hide();
-                $(".project_delete_button").show();
+                if (!$(".project_delete_button").hasClass("unauthorized")){
+                    $(".project_delete_button").show();
+                }
             }
         }
     });
@@ -388,6 +364,8 @@ function load_reserve_dialog(){
         main_tabs.tabs( "option", "active", 0 );
     })
 
+
+    init_project_events();
 }
 
 
@@ -430,6 +408,7 @@ function validate_form(){
 function activate_derivative_add_button(){
 
     $("#reserve_add_derivative_btn").click(function(){
+        $("#derivative_labels").css("display", "flex");
         var derivative = reserve_derivative.val();
         if (derivative !== ""){
             //var link = $("<a href='#" + "derivative_tab-" + derivative + "'></a>");
@@ -438,10 +417,10 @@ function activate_derivative_add_button(){
 
             var container_for_name_and_buttons = $("<div class='derivative_name_container'></div>");
             var deriv_name = $("<input style='width:60%; float:left' class='derivative_name text ui-widget-content ui-corner-all' class='text ui-widget-content ui-corner-all'>");
-            var delete_button = $("<button class='ui-button ui-corner-all ui-widget' style='color:red;width:15%;float:left;margin-right: 5px'>X</button>");
-            var go_to_button = $("<button class='ui-button ui-corner-all ui-widget' style='width:5%;float:left; height: 100%'>></button>");
+            var delete_button = $("<button class='ui-button ui-corner-all ui-widget' style='    color: red;width: 15%; height: 35px; padding: 0; float: left; margin-right: 5px; display: inline-block;'>X</button>");
+            var go_to_button = $("<button class='ui-button ui-corner-all ui-widget' style='padding: 0;width: 100%;float: left; height: 100%;'>></button>");
 
-            var gotobtn_div = $("<div style='display:inline-block; height: 53px'></div>");
+            var gotobtn_div = $("<div style='display:inline-block; height:53px; float:right; width:5%;'></div>");
             var link_span = $("<span class='link_span' style='display:none'></span>");
             container_for_name_and_buttons.append(delete_button);
             container_for_name_and_buttons.append(deriv_name);
@@ -513,19 +492,18 @@ function activate_derivative_add_button(){
             $.each(exec_machines, function(i, machine){
                 exec_station.append("<option value='" + machine + "'>" + machine + "</option>");
             });*/
-            var bs_container = $("<div style='width:45%;float:left'></div>");
+            var bs_container = $("<div style='width: calc(48% - 17px); float: left;margin-right: calc(2% + 17px);'></div>");
             bs_container.append(build_station);
-            var ex_container = $("<div style='width:45%;float:left;'></div>");
+            var ex_container = $("<div style='width:calc(48% - 17px);float:left;margin-right: calc(2% + 17px);'></div>");
             ex_container.append(exec_station);
 
 
             var ex_and_bs_container = $("<div></div>");
             ex_and_bs_container.append(bs_container);
-            ex_and_bs_container.append($("<div style='width:8%;display:inline-block;height: 1px;float:left'></div>"));
             ex_and_bs_container.append(ex_container);
 
 
-            var progress_container = $("<div class='progress_container' style='width:calc(100% + 8px); float:left'></div>");
+            var progress_container = $("<div class='progress_container' style='width:calc(100% - 8px); float:left'></div>");
             var progress_visual = $("<div class='progressbar' style='float:left;width:100%'></div>") ;
             var progress_visual_label = $("<div class='progress-label'>0</div>");
             //var progress_date_limit = $("<input style='width:45%;float:left' type='text' readonly='true' class='text ui-widget-content ui-corner-all'>");
@@ -564,7 +542,7 @@ function activate_derivative_add_button(){
 
 
 
-            container_div.append($("<div style='width:4%;display:inline-block;height: 1px;float:left'></div>"));
+            //container_div.append($("<div style='width:4%;display:inline-block;height: 1px;float:left'></div>"));
             gotobtn_div.append(go_to_button);
             container_div.append(gotobtn_div);
             container_div.append(link_span);
@@ -599,11 +577,15 @@ function choose_project_to_edit(){
             }
         });
 
+        /*
         project_leader_select.find("option[value='" + project["ate_operator"] + "']").attr("selected", true);
-        project_leader_select.selectmenu("refresh");
+        project_leader_select.selectmenu("refresh");*/
 
+        select_or_add_removed(project_leader_select, project["ate_operator"]);
+        select_or_add_removed(team_select, project["team"]);
+        /*
         team_select.find("option[value='" + project["team"] + "']").attr("selected", true);
-        team_select.selectmenu("refresh");
+        team_select.selectmenu("refresh");*/
 
         start_date_input.val("");
         end_date_input.val("");
@@ -613,7 +595,6 @@ function choose_project_to_edit(){
         project_framework.find("option[value='" + project["framework"] + "']").attr("selected", true);
         project_framework.selectmenu("refresh");
 
-        $("#setup_milestone").val(project["setup_milestone"]);
         start_date_input.val(project["start_date"]);
         end_date_input.val(project["end_date"]);
 
@@ -629,10 +610,14 @@ function choose_project_to_edit(){
             var build_station = tab.find(".build_station");
             var exec_station = tab.find(".exec_station");
             tab.find(".link_span").text(derivative["link"]);
+
+            select_or_add_removed(build_station, derivative["build_station"]);
+            select_or_add_removed(exec_station, derivative["exec_station"]);
+            /*
             build_station.val(derivative["build_station"]);
             build_station.selectmenu("refresh");
             exec_station.val(derivative["exec_station"]);
-            exec_station.selectmenu("refresh");
+            exec_station.selectmenu("refresh");*/
             var progress = 0;
             tab.find(".progress_checkboxes").children().each(function(i, checkbox){
                 var checked = Number(derivative["progress"][$(checkbox).attr("name")]);
@@ -641,26 +626,36 @@ function choose_project_to_edit(){
             });
             tab.find(".progressbar").progressbar("value", progress);
         });
-        $.each(project["quality_pack_stations"], function(i, station){
-            $("#add_quality_pack").click();
-            $(".quality_pack_select").last().val(station);
-            $(".quality_pack_select").last().selectmenu("refresh");
 
-        });
         $.each(project["links"], function(i, link){
-            var container_div = $("<div></div>");
-            var link_div = $("<div class='link' style='float:left;'><a class='link' href='" + link["link"] + "' target=_blank'>" + link["description"] + "</a></div>");
-            container_div.append(link_div);
-            var delete_link = $("<a style='margin-left:5px; color:red; float:left; display:inline-block'>X</a>");
-            container_div.append(delete_link);
-            container_div.append("<br>");
-            delete_link.click(function(){
-                container_div.remove();
-            });
-            $("#links").append(container_div);
+            add_link(link["link"], link["description"]);
+        });
+
+        $.each(project["events"], function(i, event){
+            spawn_project_event_row();
+            var row = $(".event_row").last();
+            row.find(".event_symbol").val(event["symbol"]);
+            row.find(".event_description").val(event["description"]);
+            row.find(".event_date").val(event["date"]);
         });
     }
 
+}
+
+function select_or_add_removed(select, val) {
+    var found = false;
+    select.find("option").each(function (x, opt) {
+        if ($(opt).val() == val) {
+            found = true;
+            select.val(val);
+            return false;
+        }
+    });
+    if  (!found){
+        select.append("<option value='" + val + "'>" + val + "(REMOVED)" + "</option>>");
+        select.val(val);
+    }
+    select.selectmenu("refresh");
 }
 
 function clear_fields(){
@@ -668,14 +663,17 @@ function clear_fields(){
     end_date_input.val("");
     $(".derivative").remove();
     reserve_derivative_div.empty();
-    $(".quality_pack_stations").empty();
+
     sw_versions.val("");
     hw_versions.val("");
     additional_info.val("");
     $("#links").empty();
     $("#link_description").val("");
     $("#link_input").val("");
-    $("#bs_links").empty();
+    $("#event_container").empty();
+    $("#derivative_labels").hide();
+    $("#event_container_labels").hide();
+    $("#link_container").hide();
 }
 
 
@@ -693,18 +691,6 @@ function on_date_change(start_date_input, end_date_input, own_project){
                     formated_to_date_array(end_date_input.val()));
             }
 
-            $(".quality_pack_select").each(function(i, build_station){
-                build_station = $(build_station);
-                build_station.empty();
-                $.each(viable_machines["used_build_machines"], function(i, machine){
-                    build_station.append("<option value='" + machine + "'>" + machine + " (USED)</option>");
-                });
-                $.each(viable_machines["build_machines"], function(i, machine){
-                    build_station.append("<option value='" + machine + "'>" + machine + "</option>");
-                });
-                build_station.val("TBD");
-                build_station.selectmenu("refresh");
-            });
 
 
             $(".build_station").each(function(i, build_station){
@@ -743,13 +729,6 @@ function on_date_change(start_date_input, end_date_input, own_project){
 
         } else{
 
-            $(".quality_pack_select").each(function(i, build_station){
-                build_station = $(build_station);
-                build_station.empty();
-                build_station.append("<option value='TBD'>Set a correct date first</option>");
-                build_station.val("TBD");
-                build_station.selectmenu("refresh");
-            });
 
             $(".build_station").each(function(i, build_station){
                 build_station = $(build_station);
@@ -930,9 +909,75 @@ function reload_view_global_events(){
     })
 }
 
+function init_project_events(){
+    $("#event_select").selectmenu();
+    $("#event_select_add").click(function(){
+        spawn_project_event_row();
+    })
+}
+
+function spawn_project_event_row(){
+    $("#event_container_labels").show();
+    var container = $("#event_container");
+    var delete_button = $("<button class='small_cancel_btn ui-button ui-corner-all ui-widget'>X</button>");
+    var symbol = $("<input maxlength='1' class='event_symbol text ui-widget-content ui-corner-all'>");
+    var description = $("<input class='event_description text ui-widget-content ui-corner-all'>");
+    var date = $("<input readonly='true' class='event_date text ui-widget-content ui-corner-all'>");
+    var event_row = $("<div class='event_row'></div>");
+    event_row.append(delete_button);
+    event_row.append(symbol);
+    event_row.append(description);
+    event_row.append(date);
+    date.datepicker();
+
+    var selected_event = $("#event_select").val();
+
+    if (selected_event !== "custom"){
+        if (selected_event == "silicon"){
+            symbol.val("S");
+            description.val("Silicon availability")
+        } else if (selected_event == "commitment"){
+            symbol.val("C");
+            description.val("Customer commitment")
+        } else if (selected_event == "setup_ready"){
+            symbol.val("R");
+            description.val("ATE setup ready milestone");
+        }
+        symbol.attr("disabled", true);
+
+    }
+    symbol.change(function(){
+        if (symbol.val() == "R" || symbol.val() == "C" ||symbol.val() == "S"){
+            show_error_dialog("Symbols R, C, S are reserved for pre-defined events.");
+            symbol.val("");
+        }
+    });
+    delete_button.click(function(){
+       event_row.remove();
+    });
+    container.append(event_row);
+}
+
+function add_link(link, description){
+    $("#link_container").show();
+    var links_div = $("#links");
+    var container_div = $("<div class='link_div ui-corner-all'></div>");
+    var link_div = $("<div style='float:left;'><a class='link' href='" + linkify(link) + "' target=_blank'>" + description + "</a></div>");
+    container_div.append(link_div);
+    var delete_link = $("<a  style='margin-left:5px; color:red; float:left; display:inline-block'>X</a>");
+    container_div.append(delete_link);
+    container_div.append("<br>");
+    delete_link.click(function(){
+        container_div.remove();
+    });
+    links_div.append(container_div);
+
+}
+
 function linkify(link_str){
     if (!/^(?:f|ht)tps?\:\/\//.test(link_str)) {
         link_str = "http://" + link_str;
     }
     return link_str;
 }
+

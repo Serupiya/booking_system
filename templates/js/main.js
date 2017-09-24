@@ -155,6 +155,7 @@ var first_date;
 var last_date;
 
 var column_count = 54;
+var column_width = 30;
 
 function load_column_chooser(){
     var column_select = $("#column_chooser");
@@ -188,6 +189,9 @@ function create_table(rows){
             });
             redo_columns(project_names);
             break;
+        case "Teams":
+            redo_columns(teams);
+            break;
         case "ATE operators":
             redo_columns(ate_operators);
             break;
@@ -204,11 +208,24 @@ function add_build_machine_links(){
 }
 
 function redo_columns(arr){
+    var color_coding = $.cookie("color_coding") === "true";
     var rows = $("#row_descriptor");
     rows.empty();
     chosen_rows = arr;
     $.each(arr, function(i, val){
-        rows.append("<div class=row_desc>" + val + "</div>");
+        var row_descriptor_div = $("<div class=row_desc></div>");
+        if (i !== 0){
+            row_descriptor_div.css("margin-top", "3px");
+        }
+        var centered_descriptor = $("<div class='centered'>" + val + "</div>");
+        var img = $("<div class='row_descriptor_img'></div>");
+        if (color_coding) color_code(img, val);
+        if (i%2){
+            img.addClass("odd");
+        }
+        row_descriptor_div.append(centered_descriptor);
+        row_descriptor_div.append(img);
+        rows.append(row_descriptor_div);
     });
     generate_cells();
     generate_weekend();
@@ -222,9 +239,17 @@ function generate_weekend(){
                 struct["column"].children().addClass("weekend");
                 struct["column"].children().each(function () {
                     if ($(this).attr("title") === undefined) {
-                        $(this).attr("title", "weekend");
+                        $(this).attr("title", "<div class='tooltip_events'><div>Events:</div><div style='margin-left:20px'>Weekend</div></div>");
                     } else {
-                        $(this).attr("title", $(this).attr("title") + "(weekend)");
+                        var tooltip = $("<div></div>");
+                        tooltip.append($($(this).attr("title")).clone());
+                        var events = tooltip.find(".tooltip_events");
+                        if (events.length){
+                            events.append("<div style='margin-left:20px'>Weekend</div>");
+                        } else{
+                            tooltip.append("<div class='tooltip_events'><div>Events:</div><div style='margin-left:20px'>Weekend</div></div>");
+                        }
+                        $(this).attr("title", tooltip.html());
                     }
                 })
             }
@@ -241,12 +266,20 @@ function generate_global_events(){
                     (struct["end_date"] !== undefined && dates_overlap(struct["date"], struct["end_date"], start, end))){
                     struct["column"].children().addClass("event");
                     struct["column"].children().each(function(){
-                        if ($(this).attr("title") === undefined){
-                            $(this).attr("title", event["name"]);
-                        } else{
-                            $(this).attr("title", $(this).attr("title") + "(" + event["name"] + ")");
+                        var event_string = event["name"] + " (" + event["start"] +  " - " + event["end"] + ")";
+                        if ($(this).attr("title") === undefined) {
+                            $(this).attr("title", "<div class='tooltip_events'><div>Events:</div><div style='margin-left:20px'>" + event_string + "</div></div>");
+                        } else {
+                            var tooltip = $("<div></div>");
+                            tooltip.append($($(this).attr("title")).clone());
+                            var events = tooltip.find(".tooltip_events");
+                            if (events.length){
+                                events.append("<div style='margin-left:20px'>" + event_string + "</div>");
+                            } else{
+                                tooltip.append("<div class='tooltip_events'><div>Events:</div><div style='margin-left:20px'>" + event_string + "</div></div>");
+                            }
+                            $(this).attr("title", tooltip.html());
                         }
-
                     });
                 }
 
@@ -369,6 +402,7 @@ function load_page_structure(){
 }
 
 function generate_cells(){
+    var color_coding = $.cookie("color_coding") === "true";
     var overview = $("#overview");
     overview.empty();
     $.each(page_structure, function(i, struct){
@@ -379,6 +413,7 @@ function generate_cells(){
 
     $.each(chosen_rows, function(i, row){
         var row_projects = get_projects_for_chosen_row(row);
+        var row_events = get_events_for_chosen_row(row);
         var projects_with_dates = [];
         $.each(row_projects, function(k, project){
             var start = formated_to_date_array(project["start_date"]);
@@ -389,15 +424,15 @@ function generate_cells(){
         var filtered_projects = filter_projects_to_shown_date(projects_with_dates);
         var sorted_projects = sort_projects_for_no_overlap(filtered_projects);
         var desc_row =  $($(".row_desc")[i]);
-        desc_row.css("height", 2*sorted_projects.length + "vw");
+        desc_row.css("height", (30*sorted_projects.length + (i===0?1:2)) + "px");
 
         var projects_with_nums = [];
-        $.each(sorted_projects, function(j, row){
+        $.each(sorted_projects, function(project_index, project_row){
             var project_num = 0;
 
             $.each(page_structure, function(k, struct){
                 var project_on_date = null;
-               $.each(row, function(l, project){
+               $.each(project_row, function(l, project){
                    if (struct["end_date"] === undefined){
                        var was_found;
                        if (date_in_dates(struct["date"], project["start"], project["end"])){
@@ -429,15 +464,81 @@ function generate_cells(){
                     }
                 }
                if (project_on_date){
-                    cell.addClass("reserved");
-                    cell.attr("title", project_on_date["name"]);
-                    cell.addClass(projects_with_nums.indexOf(project_on_date)%2?"even_project":"odd_project");
-                    project_num++;
-                    cell.click(function(){
-                         start_editing_project(project_on_date);
-                    });
+                   cell.addClass("reserved");
+                   var tooltip = $("<div></div>");
+                   tooltip.append("<div>Project: " + project_on_date["name"] + "</div>");
+                   tooltip.append("<div>ATE Operator: " + project_on_date["ate_operator"] + "</div>");
+                   if (project_on_date["derivatives"] !== undefined && project_on_date["derivatives"].length){
+                       tooltip.append("<div>Derivatives:</div>");
+                       $.each(project_on_date["derivatives"], function(){
+                           tooltip.append("<div style='margin-left:25px'>" + this["name"] + " - " + this["build_station"] + "</div>");
+                       });
+                   }
+                   cell.attr("title", tooltip.html());
+                   cell.css("background-color", project_on_date["color"]);
+                   //cell.addClass(projects_with_nums.indexOf(project_on_date)%2?"even_project":"odd_project");
+                   project_num++;
+                   cell.click(function(){
+                        start_editing_project(project_on_date);
+                   });
                }
-               cell.addClass(page_structure[k]["column"].children().length%2?"even_row":"odd_row");
+               if (i%2){
+                   cell.addClass("odd");
+               } else{
+                   cell.addClass("even");
+               }
+               if (color_coding) {
+                   color_code(cell, row);
+               }
+
+               if (project_index === 0 && i !== 0){
+                   var separator = $("<div class='separator'></div>")
+                   cell.append(separator);
+                   cell.css("height", "35px")
+                   //cell.addClass("separator");
+               }
+
+                if (row_events.length){
+                    $.each(row_events, function(){
+                        var used_dates = this["date"];
+                        var form_date = formated_to_date_array(this["date"]);
+                        if (struct["end_date"] !== undefined && date_in_dates(form_date, struct["date"], struct["end_date"]) || check_same_date(form_date, struct["date"])){
+                            if (used_dates.indexOf(this["date"]) !== -1){
+                                cell.find(".project_event_marker").find("symbol_text").text(cell.find(".project_event_marker").find("symbol_text").text() + this["symbol"] );
+                            }
+                            if (project_index === 0 & i!== 0){
+                                cell.append("<div class='project_event_marker' style='height:calc(100% - 5px);color: " + this["color"] +  "; background-color: " + this["project_color"] + "'><div>" + this["symbol"] + "</div></div>");
+                            } else {
+                                cell.append("<div class='project_event_marker' style='color: " + this["color"] +  "; background-color: " + this["project_color"] + "'><div class='symbol_text'>" + this["symbol"] + "</div></div>");
+                            }
+
+                            var text;
+                            if (!project_on_date){
+                                text = this["project_name"] + " - " + this["description"] + " (" +  this["date"] + ")";
+                            } else{
+                                text = this["description"] + " (" +  this["date"] + ")";
+                            }
+
+                            if (cell.attr("title") === undefined) {
+                                cell.attr("title", "<div class='tooltip_events'><div>Events:</div><div style='margin-left:20px;font-weight: bold'>" + text + "</div></div>");
+                            } else {
+                                var tooltip = $("<div></div>");
+                                tooltip.append($(cell.attr("title")).clone());
+                                var events = tooltip.find(".tooltip_events");
+
+
+                                if (events.length){
+                                    events.append("<div style='margin-left:20px;font-weight: bold'>" + text + "</div>");
+                                } else{
+                                    tooltip.append("<div class='tooltip_events'><div>Events:</div><div style='margin-left:20px;font-weight: bold'>"+ text + "</div></div>");
+                                }
+                                cell.attr("title", tooltip.html());
+                            }
+
+                        }
+                    })
+                }
+               //cell.addClass(page_structure[k]["column"].children().length%2?"even_row":"odd_row");
 
                struct["column"].append(cell);
 
@@ -457,11 +558,20 @@ function generate_cells(){
     } );
 }
 
+function getContrastYIQ(hexcolor){
+    var r = parseInt(hexcolor.substr(1,2),16);
+    var g = parseInt(hexcolor.substr(3,2),16);
+    var b = parseInt(hexcolor.substr(5,2),16);
+    var yiq = ((r*299)+(g*587)+(b*114))/1000;
+    return (yiq >= 128) ? 'black' : 'white';
+}
+
+
 function start_editing_project(project){
     reserve_dialog.dialog("open");
     $("#reserve_edit_div").show();
     $("#reserve_project_switch_tabs").tabs( "option", "active", 1 );
-    roject_edit_name_select = $("#reserve_edit_project_name");
+    project_edit_name_select = $("#reserve_edit_project_name");
     project_edit_name_select.find("option[value='" + project["name"] + "']").attr("selected", true);
     project_edit_name_select.selectmenu("refresh");
     choose_project_to_edit();
@@ -478,11 +588,6 @@ function get_projects_for_chosen_row(row){
                         appliable_projects.push(project);
                     }
                 });
-                $.each(project["quality_pack_stations"], function(i, station){
-                    if (station === row){
-                        appliable_projects.push(project);
-                    }
-                });
                 break;
             case "Execution Machines":
                 $.each(project["derivatives"], function(i, derivative){
@@ -496,6 +601,11 @@ function get_projects_for_chosen_row(row){
                     appliable_projects.push(project);
                 }
                 break;
+            case "Teams":
+                if (project["team"] === row){
+                    appliable_projects.push(project);
+                }
+                break;
             case "Projects":
                 if (project["name"] === row){
                     appliable_projects.push(project);
@@ -505,10 +615,29 @@ function get_projects_for_chosen_row(row){
     return appliable_projects;
 }
 
+function get_events_for_chosen_row(row){
+    var events = [];
+    if (chosen_row_type == "Projects"){
+        $.each(projects, function(k, project){
+            if (project["name"] === row){
+                events = project["events"];
+                var color = getContrastYIQ(project["color"]);
+                $.each(events, function(){
+                   this["color"] = color;
+                   this["project_color"] = project["color"];
+                });
+                return false;
+            }
+        });
+    }
+    return events;
+}
+
 function filter_projects_to_shown_date(project_list){
     var new_project_list = [];
     $.each(project_list, function(i, p){
-        if (dates_overlap(p["start"], p["end"], first_date, last_date)){
+        var end_d = page_structure[0]["end_date"] === undefined?page_structure[page_structure.length-1]["date"]:page_structure[page_structure.length-1]["end_date"];
+        if (dates_overlap(p["start"], p["end"], page_structure[0]["date"], end_d)){
             new_project_list.push(p);
         }
     });
@@ -583,6 +712,28 @@ function load_view_style(){
     }
 }
 
+function get_col_num(){
+    var total_width = ($(window).width() - 16) * window.devicePixelRatio;
+    var main_width = total_width*0.85;
+    return Math.floor(main_width/30);
+}
+
+function window_resize(){
+    //$("#main").width($(window).width() * 0.95);
+    var total_width = ($(window).width() - 16) * window.devicePixelRatio;
+    $("#filler").width(total_width*0.08);
+    $("#zoombreak_disabler").width(total_width);
+    $("#row_descriptor").width(total_width/10);
+    var main_width = total_width*0.9;
+    $("#overview").width(main_width);
+    $("#full_header").width(total_width);
+    var col_num = get_col_num();
+    if (column_count != col_num){
+        column_count = col_num;
+        load_page_structure();
+    }
+}
+
 $(document).ready(function(){
     project_edit_name_select = $("#reserve_edit_project_name");
     project_name_select = $("#reserve_project_name");
@@ -602,5 +753,7 @@ $(document).ready(function(){
     project_framework = $("#framework");
     date_header = $("#date_header_contents");
     view_style = $("#view_style");
+    column_count = get_col_num();
+    $(window).resize(window_resize);
     load();
 });

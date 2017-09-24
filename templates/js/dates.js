@@ -123,6 +123,10 @@ function is_weekend(year, month, day){
 }
 
 
+function date_array_to_formatted(arr){
+    return arr[1] + "/" + arr[0] + "/" + arr[2];
+}
+
 function formated_to_date_array(formatted){
     var arr = formatted.split("/");
     var tmp = arr[0];
@@ -185,6 +189,15 @@ function sort_projects_for_no_overlap(projects_with_dates){
        }
     });
     return rows;
+}
+
+function check_same_date(date1, date2){
+    for (var i=0; i<3; i++){
+        if (date1[i] !== date2[i]){
+            return false;
+        }
+    }
+    return true;
 }
 
 function check_start_end_time(start_time, end_time){

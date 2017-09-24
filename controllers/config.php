@@ -34,6 +34,10 @@ class Team{
         $this->team_model->delete($team);
         return $this->team_model->result;
     }
+    public function modify($team){
+        $this->team_model->modify($team);
+        return $this->team_model->result;
+    }
 }
 
 class Operator{
@@ -47,6 +51,10 @@ class Operator{
     }
     public function delete($operator){
         $this->operator_model->delete($operator);
+        return $this->operator_model->result;
+    }
+    public function modify($operator){
+        $this->operator_model->modify($operator);
         return $this->operator_model->result;
     }
 }
@@ -64,6 +72,10 @@ class ExecutionMachine{
         $this->exec_station_model->delete($machine);
         return $this->exec_station_model->result;
     }
+    public function modify($machine){
+        $this->exec_station_model->modify($machine);
+        return $this->exec_station_model->result;
+    }
 }
 
 class BuildStation{
@@ -77,6 +89,10 @@ class BuildStation{
     }
     public function delete($machine){
         $this->build_station_model->delete($machine);
+        return $this->build_station_model->result;
+    }
+    public function modify($machine){
+        $this->build_station_model->modify($machine);
         return $this->build_station_model->result;
     }
 }

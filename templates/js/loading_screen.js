@@ -46,7 +46,7 @@ function get_config(retry, status_div){
             if (retry){
                 status_div.append($("<span style='color: indianred'>ERROR Received wrong data or no data at all (Retrying)</span>"));
                 status_div.append("<br>");
-                fetch_all_projects(retry);
+                fetch_all_projects(retry, status_div);
             } else{
                 status_div.append($("<span style='color: indianred'>ERROR Received wrong data or no data at all</span>"));
                 load_fail();
@@ -84,7 +84,7 @@ function fetch_all_projects(retry, status_div){
             if (retry){
                 status_div.append($("<span style='color: indianred'>ERROR Received wrong data or no data at all (Retrying)</span>"));
                 status_div.append("<br>");
-                fetch_all_projects(retry);
+                fetch_all_projects(retry, status_div);
             } else{
                 status_div.append($("<span style='color: indianred'>ERROR Received wrong data or no data at all</span>"));
                 load_fail();
@@ -121,7 +121,7 @@ function fetch_all_global_events(retry, status_div){
             if (retry){
                 status_div.append($("<span style='color: indianred'>ERROR Received wrong data or no data at all (Retrying)</span>"));
                 status_div.append("<br>");
-                fetch_all_global_events(retry);
+                fetch_all_global_events(retry, status_div);
             } else{
                 status_div.append($("<span style='color: indianred'>ERROR Received wrong data or no data at all</span>"));
                 load_fail();
@@ -167,6 +167,15 @@ function show_error_dialog(text){
     console.error(text);
 }
 
+function hack_tooltips(){
+    $(function() {
+        $( document ).tooltip({
+            content:function(){
+                return this.getAttribute("title");
+            }
+        });
+    });
+}
 
 function load_design(status_div){
     var status_span = $("<span>Loading page structure...</span>");
@@ -180,6 +189,10 @@ function load_design(status_div){
         load_global_event_dialog();
         load_movers();
         load_view_style();
+        hack_tooltips();
+        window_resize();
+        init_color_coding();
+        auth_init();
         success = true;
     } catch(err){
         status_div.append($("<span style='color:indianred'>ERROR (Check console for more info)</span>"));
