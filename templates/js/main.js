@@ -495,7 +495,7 @@ function generate_cells(){
                         cell.addClass("even");
                     }
                 }
-                else color_code(img, row);
+                else color_code(cell, row);
 
                if (project_index === 0 && i !== 0){
                    var separator = $("<div class='separator'></div>")
