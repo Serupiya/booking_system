@@ -222,6 +222,8 @@ function redo_columns(arr){
         if (color_coding) color_code(img, val);
         else if (i%2){
             img.addClass("odd");
+        } else{
+            img.addClass("even");
         }
         row_descriptor_div.append(centered_descriptor);
         row_descriptor_div.append(img);
