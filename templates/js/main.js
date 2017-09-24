@@ -219,12 +219,15 @@ function redo_columns(arr){
         }
         var centered_descriptor = $("<div class='centered'>" + val + "</div>");
         var img = $("<div class='row_descriptor_img'></div>");
-        if (color_coding) color_code(img, val);
-        else if (i%2){
-            img.addClass("odd");
-        } else{
-            img.addClass("even");
+        if (!color_coding || chosen_row_type == "Project"){
+            if (i%2){
+                img.addClass("odd");
+            } else{
+                img.addClass("even");
+            }
         }
+        else color_code(img, val);
+
         row_descriptor_div.append(centered_descriptor);
         row_descriptor_div.append(img);
         rows.append(row_descriptor_div);
@@ -485,16 +488,14 @@ function generate_cells(){
                    });
                }
 
-               if (color_coding) {
-                   color_code(cell, row);
-               }
-               else{
-                   if (i%2){
-                       cell.addClass("odd");
-                   } else{
-                       cell.addClass("even");
-                   }
-               }
+                if (!color_coding || chosen_row_type == "Project"){
+                    if (i%2){
+                        img.addClass("odd");
+                    } else{
+                        img.addClass("even");
+                    }
+                }
+                else color_code(img, val);
 
                if (project_index === 0 && i !== 0){
                    var separator = $("<div class='separator'></div>")
