@@ -179,7 +179,7 @@ class ProjectModel extends BaseModel{
             '#9400d3', '#00ffef');
 
         if ($query_result->num_rows == 0){
-            return array_rand($colors);
+            return $colors[array_rand($colors)];
         }
 
         while($color_array = $query_result->fetch_assoc()) {
@@ -190,7 +190,7 @@ class ProjectModel extends BaseModel{
             }
         }
         if (count($colors) > 0){
-            return array_rand($colors);
+            return $colors[array_rand($colors)];
         } else{
             return "black";
         }
