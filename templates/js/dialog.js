@@ -73,6 +73,7 @@ function load_reserve_dialog(){
                             event_info["symbol"] = $(this).find(".event_symbol").val();
                             event_info["description"] = $(this).find(".event_description").val();
                             event_info["date"] = $(this).find(".event_date").val();
+                            event_info["project_name"] = project["name"];
                             project["events"].push(event_info);
                         });
 

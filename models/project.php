@@ -294,9 +294,9 @@ class ProjectModel extends BaseModel{
         }
         return true;
     }
-    private function add_project_events(&$project){
+    private function add_project_events($project){
         if (array_key_exists("events", $project)) {
-            foreach ($project["events"] as &$event) {
+            foreach ($project["events"] as $event) {
                 $query = sprintf("INSERT INTO project_events (project_name, description, date, symbol) VALUES ('%s', '%s', STR_TO_DATE('%s', '%%m/%%d/%%Y'), '%s')",
                     $project["name"],
                     $event["description"],
@@ -304,11 +304,10 @@ class ProjectModel extends BaseModel{
                     $event["symbol"]);
 
                 $this->db->query($query);
-                if ($this->assert_error("Failed to add links")) return false;
-
-                $event["project_name"] = $project["name"];
+                if ($this->assert_error("Failed to add project events")) return false;
             }
         }
+        var_dump($project);
         return true;
     }
 
