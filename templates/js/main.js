@@ -504,7 +504,7 @@ function generate_cells(){
                    //cell.addClass("separator");
                }
 
-                if (row_events.length){
+                if (row_events !== undefined && row_events.length){
                     $.each(row_events, function(){
                         var used_dates = this["date"];
                         var form_date = formated_to_date_array(this["date"]);
