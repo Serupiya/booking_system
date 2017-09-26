@@ -307,7 +307,6 @@ class ProjectModel extends BaseModel{
                 if ($this->assert_error("Failed to add project events")) return false;
             }
         }
-        var_dump($project);
         return true;
     }
 

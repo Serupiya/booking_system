@@ -4,7 +4,6 @@
     <list default="true" id="8c49445f-3a83-43a2-b0ca-7f38989278e0" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/project.php" afterPath="$PROJECT_DIR$/models/project.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/js/dialog.js" afterPath="$PROJECT_DIR$/templates/js/dialog.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -134,34 +133,34 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="project.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="project.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/models/project.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="628">
-              <caret line="305" column="41" selection-start-line="305" selection-start-column="41" selection-end-line="305" selection-end-column="41" />
+            <state relative-caret-position="667">
+              <caret line="308" column="9" selection-start-line="308" selection-start-column="9" selection-end-line="308" selection-end-column="9" />
               <folding>
-                <marker date="1506450531409" expanded="true" signature="370:390" ph="DELETE FROM " />
-                <marker date="1506450531409" expanded="true" signature="370:408" ph="DELETE FROM " />
-                <marker date="1506450531409" expanded="true" signature="735:813" ph="UPDATE booki... " />
-                <marker date="1506450531409" expanded="true" signature="735:967" ph="UPDATE booki... " />
-                <marker date="1506450531409" expanded="true" signature="735:1004" ph="UPDATE booki... " />
-                <marker date="1506450531409" expanded="true" signature="735:1005" ph="UPDATE proje... " />
-                <marker date="1506450531409" expanded="true" signature="1533:1582" ph="DELETE FROM " />
-                <marker date="1506450531409" expanded="true" signature="1825:1868" ph="DELETE FROM " />
-                <marker date="1506450531409" expanded="true" signature="2049:2101" ph="DELETE FROM " />
-                <marker date="1506450531409" expanded="true" signature="2638:2939" ph="INSERT INTO booking_system.projects... " />
-                <marker date="1506450531409" expanded="true" signature="2638:2944" ph="INSERT INTO projects... " />
-                <marker date="1506450531409" expanded="true" signature="3977:4035" ph="select color... projects" />
-                <marker date="1506450531409" expanded="true" signature="3977:4098" ph="select color... projects" />
-                <marker date="1506450531409" expanded="true" signature="12794:13049" ph="SELECT name,... projects" />
-                <marker date="1506450531409" expanded="true" signature="13296:13347" ph="SELECT * FRO... derivatives" />
-                <marker date="1506450531409" expanded="true" signature="13782:13839" ph="SELECT * FRO... preparation_progress" />
-                <marker date="1506450531409" expanded="true" signature="14167:14212" ph="SELECT * FRO... links" />
-                <marker date="1506450531409" expanded="true" signature="14687:14814" ph="SELECT DATE_... project_events" />
-                <marker date="1506450531409" expanded="true" signature="15386:15537" ph="INSERT INTO derivatives... " />
-                <marker date="1506450531409" expanded="true" signature="16055:16362" ph="INSERT INTO preparation_progress... " />
-                <marker date="1506450531409" expanded="true" signature="17102:17179" ph="INSERT INTO links... " />
-                <marker date="1506450531409" expanded="true" signature="17704:17832" ph="INSERT INTO project_events... " />
+                <marker date="1506450781184" expanded="true" signature="370:390" ph="DELETE FROM " />
+                <marker date="1506450781184" expanded="true" signature="370:408" ph="DELETE FROM " />
+                <marker date="1506450781184" expanded="true" signature="735:813" ph="UPDATE booki... " />
+                <marker date="1506450781184" expanded="true" signature="735:967" ph="UPDATE booki... " />
+                <marker date="1506450781184" expanded="true" signature="735:1004" ph="UPDATE booki... " />
+                <marker date="1506450781184" expanded="true" signature="735:1005" ph="UPDATE proje... " />
+                <marker date="1506450781184" expanded="true" signature="1533:1582" ph="DELETE FROM " />
+                <marker date="1506450781184" expanded="true" signature="1825:1868" ph="DELETE FROM " />
+                <marker date="1506450781184" expanded="true" signature="2049:2101" ph="DELETE FROM " />
+                <marker date="1506450781184" expanded="true" signature="2638:2939" ph="INSERT INTO booking_system.projects... " />
+                <marker date="1506450781184" expanded="true" signature="2638:2944" ph="INSERT INTO projects... " />
+                <marker date="1506450781184" expanded="true" signature="3977:4035" ph="select color... projects" />
+                <marker date="1506450781184" expanded="true" signature="3977:4098" ph="select color... projects" />
+                <marker date="1506450781184" expanded="true" signature="12794:13049" ph="SELECT name,... projects" />
+                <marker date="1506450781184" expanded="true" signature="13296:13347" ph="SELECT * FRO... derivatives" />
+                <marker date="1506450781184" expanded="true" signature="13782:13839" ph="SELECT * FRO... preparation_progress" />
+                <marker date="1506450781184" expanded="true" signature="14167:14212" ph="SELECT * FRO... links" />
+                <marker date="1506450781184" expanded="true" signature="14687:14814" ph="SELECT DATE_... project_events" />
+                <marker date="1506450781184" expanded="true" signature="15386:15537" ph="INSERT INTO derivatives... " />
+                <marker date="1506450781184" expanded="true" signature="16055:16362" ph="INSERT INTO preparation_progress... " />
+                <marker date="1506450781184" expanded="true" signature="17102:17179" ph="INSERT INTO links... " />
+                <marker date="1506450781184" expanded="true" signature="17704:17832" ph="INSERT INTO project_events... " />
               </folding>
             </state>
           </provider>
@@ -195,11 +194,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="db.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="db.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/db.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
+            <state relative-caret-position="476">
+              <caret line="33" column="29" selection-start-line="33" selection-start-column="29" selection-end-line="33" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -333,8 +332,8 @@
         <option value="$PROJECT_DIR$/templates/css/styles.css" />
         <option value="$PROJECT_DIR$/templates/js/main.js" />
         <option value="$PROJECT_DIR$/templates/js/dialog.js" />
-        <option value="$PROJECT_DIR$/models/project.php" />
         <option value="$PROJECT_DIR$/models/db.php" />
+        <option value="$PROJECT_DIR$/models/project.php" />
       </list>
     </option>
   </component>
@@ -430,100 +429,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="config" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="www" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="www" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="www" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="www" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="www" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="www" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="libs" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="www" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="www" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="css" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="www" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="www" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="css" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="images" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -667,12 +572,12 @@
       <workItem from="1504775561699" duration="34850000" />
       <workItem from="1504870077892" duration="740000" />
       <workItem from="1505398779758" duration="2617000" />
-      <workItem from="1505980566653" duration="94991000" />
+      <workItem from="1505980566653" duration="95143000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="336560000" />
+    <option name="totallyTimeSpent" value="336712000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="5" width="1921" height="1047" extended-state="0" />
@@ -1157,37 +1062,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/project.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="628">
-          <caret line="305" column="41" selection-start-line="305" selection-start-column="41" selection-end-line="305" selection-end-column="41" />
-          <folding>
-            <marker date="1506450531409" expanded="true" signature="370:390" ph="DELETE FROM " />
-            <marker date="1506450531409" expanded="true" signature="370:408" ph="DELETE FROM " />
-            <marker date="1506450531409" expanded="true" signature="735:813" ph="UPDATE booki... " />
-            <marker date="1506450531409" expanded="true" signature="735:967" ph="UPDATE booki... " />
-            <marker date="1506450531409" expanded="true" signature="735:1004" ph="UPDATE booki... " />
-            <marker date="1506450531409" expanded="true" signature="735:1005" ph="UPDATE proje... " />
-            <marker date="1506450531409" expanded="true" signature="1533:1582" ph="DELETE FROM " />
-            <marker date="1506450531409" expanded="true" signature="1825:1868" ph="DELETE FROM " />
-            <marker date="1506450531409" expanded="true" signature="2049:2101" ph="DELETE FROM " />
-            <marker date="1506450531409" expanded="true" signature="2638:2939" ph="INSERT INTO booking_system.projects... " />
-            <marker date="1506450531409" expanded="true" signature="2638:2944" ph="INSERT INTO projects... " />
-            <marker date="1506450531409" expanded="true" signature="3977:4035" ph="select color... projects" />
-            <marker date="1506450531409" expanded="true" signature="3977:4098" ph="select color... projects" />
-            <marker date="1506450531409" expanded="true" signature="12794:13049" ph="SELECT name,... projects" />
-            <marker date="1506450531409" expanded="true" signature="13296:13347" ph="SELECT * FRO... derivatives" />
-            <marker date="1506450531409" expanded="true" signature="13782:13839" ph="SELECT * FRO... preparation_progress" />
-            <marker date="1506450531409" expanded="true" signature="14167:14212" ph="SELECT * FRO... links" />
-            <marker date="1506450531409" expanded="true" signature="14687:14814" ph="SELECT DATE_... project_events" />
-            <marker date="1506450531409" expanded="true" signature="15386:15537" ph="INSERT INTO derivatives... " />
-            <marker date="1506450531409" expanded="true" signature="16055:16362" ph="INSERT INTO preparation_progress... " />
-            <marker date="1506450531409" expanded="true" signature="17102:17179" ph="INSERT INTO links... " />
-            <marker date="1506450531409" expanded="true" signature="17704:17832" ph="INSERT INTO project_events... " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/js/loading_screen.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1268,9 +1142,40 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/models/db.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
+        <state relative-caret-position="476">
+          <caret line="33" column="29" selection-start-line="33" selection-start-column="29" selection-end-line="33" selection-end-column="29" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/project.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="667">
+          <caret line="308" column="9" selection-start-line="308" selection-start-column="9" selection-end-line="308" selection-end-column="9" />
+          <folding>
+            <marker date="1506450781184" expanded="true" signature="370:390" ph="DELETE FROM " />
+            <marker date="1506450781184" expanded="true" signature="370:408" ph="DELETE FROM " />
+            <marker date="1506450781184" expanded="true" signature="735:813" ph="UPDATE booki... " />
+            <marker date="1506450781184" expanded="true" signature="735:967" ph="UPDATE booki... " />
+            <marker date="1506450781184" expanded="true" signature="735:1004" ph="UPDATE booki... " />
+            <marker date="1506450781184" expanded="true" signature="735:1005" ph="UPDATE proje... " />
+            <marker date="1506450781184" expanded="true" signature="1533:1582" ph="DELETE FROM " />
+            <marker date="1506450781184" expanded="true" signature="1825:1868" ph="DELETE FROM " />
+            <marker date="1506450781184" expanded="true" signature="2049:2101" ph="DELETE FROM " />
+            <marker date="1506450781184" expanded="true" signature="2638:2939" ph="INSERT INTO booking_system.projects... " />
+            <marker date="1506450781184" expanded="true" signature="2638:2944" ph="INSERT INTO projects... " />
+            <marker date="1506450781184" expanded="true" signature="3977:4035" ph="select color... projects" />
+            <marker date="1506450781184" expanded="true" signature="3977:4098" ph="select color... projects" />
+            <marker date="1506450781184" expanded="true" signature="12794:13049" ph="SELECT name,... projects" />
+            <marker date="1506450781184" expanded="true" signature="13296:13347" ph="SELECT * FRO... derivatives" />
+            <marker date="1506450781184" expanded="true" signature="13782:13839" ph="SELECT * FRO... preparation_progress" />
+            <marker date="1506450781184" expanded="true" signature="14167:14212" ph="SELECT * FRO... links" />
+            <marker date="1506450781184" expanded="true" signature="14687:14814" ph="SELECT DATE_... project_events" />
+            <marker date="1506450781184" expanded="true" signature="15386:15537" ph="INSERT INTO derivatives... " />
+            <marker date="1506450781184" expanded="true" signature="16055:16362" ph="INSERT INTO preparation_progress... " />
+            <marker date="1506450781184" expanded="true" signature="17102:17179" ph="INSERT INTO links... " />
+            <marker date="1506450781184" expanded="true" signature="17704:17832" ph="INSERT INTO project_events... " />
+          </folding>
         </state>
       </provider>
     </entry>
