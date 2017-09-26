@@ -625,7 +625,7 @@ function get_events_for_chosen_row(row){
     var events = [];
     if (chosen_row_type == "Projects"){
         $.each(projects, function(k, project){
-            if (project["name"] === row){
+            if (project["name"] === row && events !== undefined){
                 events = project["events"];
                 var color = getContrastYIQ(project["color"]);
                 $.each(events, function(){
