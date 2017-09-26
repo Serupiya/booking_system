@@ -102,7 +102,7 @@ class ProjectModel extends BaseModel{
     private function determine_project_color($project){
         $start_date_list = explode("/",$project["start_date"]); // m d y
         $end_date_list = explode("/",$project["end_date"]);
-        $query = sprintf("select color from booking_system.projects where abs(datediff(start_date, '%s-%s-%s')) < 365 || abs(datediff(end_date, '%s-%s-%s')) < 365; ",
+        $query = sprintf("select color from projects where abs(datediff(start_date, '%s-%s-%s')) < 365 || abs(datediff(end_date, '%s-%s-%s')) < 365; ",
             $end_date_list[2], $end_date_list[0], $end_date_list[1],  $start_date_list[2], $start_date_list[0], $start_date_list[1]);
         $query_result = $this->db->query($query);
 
@@ -179,7 +179,7 @@ class ProjectModel extends BaseModel{
             '#9400d3', '#00ffef');
 
         if ($query_result->num_rows == 0){
-            return $colors[0];
+            return array_rand($colors);
         }
 
         while($color_array = $query_result->fetch_assoc()) {
@@ -190,7 +190,7 @@ class ProjectModel extends BaseModel{
             }
         }
         if (count($colors) > 0){
-            return $colors[0];
+            return array_rand($colors);
         } else{
             return "black";
         }
