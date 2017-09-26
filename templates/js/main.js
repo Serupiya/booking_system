@@ -495,7 +495,7 @@ function generate_cells(){
                         cell.addClass("even");
                     }
                 }
-                else color_code(cell, row);
+                else if (!project_on_date) color_code(cell, row);
 
                if (project_index === 0 && i !== 0){
                    var separator = $("<div class='separator'></div>")
