@@ -41,6 +41,6 @@ function get_db_connection(){
 
 function get_schema_name(){
 
-    return "heroku_426923c18edf463";
+    return "`heroku_ef3f863533d08ac";
 
 }

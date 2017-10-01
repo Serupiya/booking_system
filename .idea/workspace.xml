@@ -3,14 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8c49445f-3a83-43a2-b0ca-7f38989278e0" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/config.php" afterPath="$PROJECT_DIR$/models/config.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/db.php" afterPath="$PROJECT_DIR$/models/db.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/bs.html" afterPath="$PROJECT_DIR$/templates/bs.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/css/styles.css" afterPath="$PROJECT_DIR$/templates/css/styles.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/js/config.js" afterPath="$PROJECT_DIR$/templates/js/config.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/js/dates.js" afterPath="$PROJECT_DIR$/templates/js/dates.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/js/loading_screen.js" afterPath="$PROJECT_DIR$/templates/js/loading_screen.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/js/main.js" afterPath="$PROJECT_DIR$/templates/js/main.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -233,8 +226,8 @@
       <file leaf-file-name="db.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/models/db.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="9" column="2" selection-start-line="9" selection-start-column="2" selection-end-line="9" selection-end-column="2" />
+            <state relative-caret-position="422">
+              <caret line="43" column="35" selection-start-line="43" selection-start-column="35" selection-end-line="43" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -658,12 +651,12 @@
       <workItem from="1504775561699" duration="34850000" />
       <workItem from="1504870077892" duration="740000" />
       <workItem from="1505398779758" duration="2617000" />
-      <workItem from="1505980566653" duration="104162000" />
+      <workItem from="1505980566653" duration="104446000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="345731000" />
+    <option name="totallyTimeSpent" value="346015000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="5" width="1919" height="1047" extended-state="0" />
@@ -1271,8 +1264,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/models/db.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="9" column="2" selection-start-line="9" selection-start-column="2" selection-end-line="9" selection-end-column="2" />
+        <state relative-caret-position="422">
+          <caret line="43" column="35" selection-start-line="43" selection-start-column="35" selection-end-line="43" selection-end-column="35" />
           <folding />
         </state>
       </provider>
