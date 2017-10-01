@@ -63,10 +63,9 @@ class BuildStationsModel extends BaseModel
         if ($this->error) return;
 
         $this->escape_array($build_station);
-        $query = sprintf("INSERT INTO build_stations (name, link, color) VALUES ('%s', '%s', '%s');",
+        $query = sprintf("INSERT INTO build_stations (name, link) VALUES ('%s', '%s');",
             $build_station["name"],
-            $build_station["link"],
-            $build_station["color"]);
+            $build_station["link"]);
         $this->db->query($query);
         if ($this->assert_error("Failed to add build station")) return;
         $build_station["id"] = $this->db->insert_id;
@@ -86,10 +85,9 @@ class BuildStationsModel extends BaseModel
 
         $this->escape_array($build_station);
 
-        $query = sprintf("UPDATE build_stations SET name = '%s', link = '%s', color = '%s' WHERE id = %d;",
+        $query = sprintf("UPDATE build_stations SET name = '%s', link = '%s' WHERE id = %d;",
             $build_station["name"],
             $build_station["link"],
-            $build_station["color"],
             $build_station["id"]);
 
         $this->db->query($query);
@@ -108,11 +106,10 @@ class ExecMachinesModel extends BaseModel
         if ($this->error) return;
 
         $this->escape_array($exec_machine);
-        $query = sprintf("INSERT INTO exec_stations (name, location, framework, color) VALUES ('%s', '%s', '%s', '%s');",
+        $query = sprintf("INSERT INTO exec_stations (name, location, framework) VALUES ('%s', '%s', '%s');",
             $exec_machine["name"],
             $exec_machine["location"],
-            $exec_machine["framework"],
-            $exec_machine["color"]);
+            $exec_machine["framework"]);
         $this->db->query($query);
         if ($this->assert_error("Failed to add execution machine")) return;
         $exec_machine["id"] = $this->db->insert_id;
@@ -132,11 +129,10 @@ class ExecMachinesModel extends BaseModel
 
         $this->escape_array($exec_machine);
 
-        $query = sprintf("UPDATE exec_stations SET name = '%s', location = '%s', framework = '%s', color = '%s' WHERE id = %d;",
+        $query = sprintf("UPDATE exec_stations SET name = '%s', location = '%s', framework = '%s' WHERE id = %d;",
             $exec_machine["name"],
             $exec_machine["location"],
             $exec_machine["framework"],
-            $exec_machine["color"],
             $exec_machine["id"]);
 
         $this->db->query($query);
@@ -154,9 +150,8 @@ class TeamsModel extends BaseModel
         if ($this->error) return;
 
         $this->escape_array($team);
-        $query = sprintf("INSERT INTO teams (name, color) VALUES ('%s', '%s');",
-            $team["name"],
-            $team["color"]);
+        $query = sprintf("INSERT INTO teams (name) VALUES ('%s');",
+            $team["name"]);
         $this->db->query($query);
         if ($this->assert_error("Failed to add team")) return;
         $team["id"] = $this->db->insert_id;
@@ -177,9 +172,8 @@ class TeamsModel extends BaseModel
 
         $this->escape_array($team);
 
-        $query = sprintf("UPDATE teams SET name = '%s', color = '%s' WHERE id = %d;",
+        $query = sprintf("UPDATE teams SET name = '%s' WHERE id = %d;",
             $team["name"],
-            $team["color"],
             $team["id"]);
 
         $this->db->query($query);
@@ -198,8 +192,8 @@ class OperatorModel extends BaseModel
         if ($this->error) return;
 
         $this->escape_array($operator);
-        $query = sprintf("INSERT INTO ate_operators (name, color) VALUES ('%s', '%s');",
-            $operator["name"], $operator["color"]);
+        $query = sprintf("INSERT INTO ate_operators (name) VALUES ('%s');",
+            $operator["name"]);
         $this->db->query($query);
         if ($this->assert_error("Failed to add team")) return;
         $operator["id"] = $this->db->insert_id;
@@ -219,9 +213,8 @@ class OperatorModel extends BaseModel
 
         $this->escape_array($operator);
 
-        $query = sprintf("UPDATE ate_operators SET name = '%s', color = '%s' WHERE id = %d;",
+        $query = sprintf("UPDATE ate_operators SET name = '%s' WHERE id = %d;",
             $operator["name"],
-            $operator["color"],
             $operator["id"]);
 
         $this->db->query($query);

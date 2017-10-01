@@ -50,8 +50,7 @@ function init_add_ate_operator_button(){
             $.ajax({
                 type: "POST",
                 url: "/views/config/add_operator.php",
-                data: {"name": $("#ate_operator_add_name").val(),
-                       "color": $("#ate_operator_add_color").val()},
+                data: {"name": $("#ate_operator_add_name").val()},
                 success: function (data) {
                     console.log(data);
                     if (data["error"] !== undefined) {
@@ -60,7 +59,6 @@ function init_add_ate_operator_button(){
                         config["ate_operators"].push(data);
                         add_ate_operator_to_list(data);
                     }
-                    jscolor.installByClassName("jscolor");
                     unblock_screen_with_load();
 
                 },
@@ -78,12 +76,10 @@ function add_ate_operator_to_list(operator){
     var container = $("<div style='width: calc(100% - 13px);float: left;clear: both;'></div>");
     var delete_button = $("<button class='config_delete_btn ui-button ui-corner-all ui-widget'>X</button>");
     container.append(delete_button);
-    var name = $("<input disabled class='text ui-widget-content ui-corner-all'>");
-    var color = $("<input class='jscolor text ui-widget-content ui-corner-all'>");
+    var name = $("<input class='text ui-widget-content ui-corner-all'>");
     name.val(operator["name"]);
-    color.val(operator["color"]);
-    $.each([name, color], function(){
-        var input_container = $("<div class='two_fields'></div>");
+    $.each([name], function(){
+        var input_container = $("<div class='one_field'></div>");
         input_container.append(this);
         container.append(input_container);
     });
@@ -123,7 +119,7 @@ function add_ate_operator_to_list(operator){
         $.ajax({
             type: "POST",
             url: "/views/config/modify_operator.php",
-            data: {"id": operator["id"], "name": name.val(), "color": color.val() },
+            data: {"id": operator["id"], "name": name.val()},
             success: function (data) {
                 if (data["error"] !== undefined) {
                     show_error_dialog(data["error"]);
@@ -162,7 +158,7 @@ function init_add_teams_button(){
             $.ajax({
                 type: "POST",
                 url: "/views/config/add_team.php",
-                data: {"name": $("#team_config_add_name").val(), "color": $("#team_config_add_color").val()},
+                data: {"name": $("#team_config_add_name").val()},
                 success: function (data) {
                     console.log(data);
                     if (data["error"] !== undefined) {
@@ -171,7 +167,6 @@ function init_add_teams_button(){
                         config["teams"].push(data);
                         add_team_to_list(data);
                     }
-                    jscolor.installByClassName("jscolor");
                     unblock_screen_with_load();
 
                 },
@@ -191,12 +186,10 @@ function add_team_to_list(team){
     var container = $("<div style='width: calc(100% - 13px);float: left;clear: both;'></div>");
     var delete_button = $("<button class='config_delete_btn ui-button ui-corner-all ui-widget'>X</button>");
     container.append(delete_button);
-    var name = $("<input disabled class='text ui-widget-content ui-corner-all'>");
-    var color = $("<input class='jscolor text ui-widget-content ui-corner-all'>");
+    var name = $("<input class='text ui-widget-content ui-corner-all'>");
     name.val(team["name"]);
-    color.val(team["color"]);
-    $.each([name, color], function(){
-        var input_container = $("<div class='two_fields'></div>");
+    $.each([name], function(){
+        var input_container = $("<div class='one_field'></div>");
         input_container.append(this);
         container.append(input_container);
     });
@@ -236,7 +229,7 @@ function add_team_to_list(team){
         $.ajax({
             type: "POST",
             url: "/views/config/modify_team.php",
-            data: {"id": team["id"], "name": name.val(), "color": color.val() },
+            data: {"id": team["id"], "name": name.val()},
             success: function (data) {
                 if (data["error"] !== undefined) {
                     show_error_dialog(data["error"]);
@@ -275,8 +268,8 @@ function init_add_build_station_button(){
                 type: "POST",
                 url: "/views/config/add_build_station.php",
                 data: {"name": $("#build_station_config_add_name").val(),
-                       "link": linkify($("#build_station_config_add_link").val()),
-                       "color": $("#build_station_config_add_color").val()},
+                       "link": linkify($("#build_station_config_add_link").val())
+                       },
                 success: function (data) {
                     console.log(data);
                     if (data["error"] !== undefined) {
@@ -285,7 +278,6 @@ function init_add_build_station_button(){
                         config["build_stations"].push(data);
                         add_build_station_to_list(data);
                     }
-                    jscolor.installByClassName("jscolor");
                     unblock_screen_with_load();
 
                 },
@@ -305,14 +297,12 @@ function add_build_station_to_list(build_station){
     var container = $("<div style='width: calc(100% - 13px);float: left;clear: both;'></div>");
     var delete_button = $("<button class='config_delete_btn ui-button ui-corner-all ui-widget'>X</button>");
     container.append(delete_button);
-    var name = $("<input disabled class='text ui-widget-content ui-corner-all'>");
+    var name = $("<input class='text ui-widget-content ui-corner-all'>");
     var link = $("<input class='text ui-widget-content ui-corner-all'>");
-    var color = $("<input class='jscolor text ui-widget-content ui-corner-all'>");
     name.val(build_station["name"]);
     link.val(build_station["link"]);
-    color.val(build_station["color"]);
-    $.each([name, link, color], function(){
-        var input_container = $("<div class='three_fields'></div>");
+    $.each([name, link], function(){
+        var input_container = $("<div class='two_fields'></div>");
         input_container.append(this);
         container.append(input_container);
     });
@@ -352,7 +342,7 @@ function add_build_station_to_list(build_station){
         $.ajax({
             type: "POST",
             url: "/views/config/modify_build_station.php",
-            data: {"id": build_station["id"], "name": name.val(), "link": linkify(link.val()), "color": color.val() },
+            data: {"id": build_station["id"], "name": name.val(), "link": linkify(link.val())},
             success: function (data) {
                 if (data["error"] !== undefined) {
                     show_error_dialog(data["error"]);
@@ -394,8 +384,7 @@ function init_add_exec_station_button(){
                 url: "/views/config/add_exec_station.php",
                 data: {"name": $("#exec_machine_config_add_name").val(),
                        "location": $("#exec_machine_config_add_location").val(),
-                       "framework": $("#exec_machine_config_add_framework").val(),
-                       "color": $("#exec_machine_config_add_color").val()},
+                       "framework": $("#exec_machine_config_add_framework").val()},
                 success: function (data) {
                     console.log(data);
                     if (data["error"] !== undefined) {
@@ -404,7 +393,6 @@ function init_add_exec_station_button(){
                         config["exec_stations"].push(data);
                         add_exec_station_to_list(data);
                     }
-                    jscolor.installByClassName("jscolor");
                     unblock_screen_with_load();
 
                 },
@@ -424,16 +412,14 @@ function add_exec_station_to_list(exec_station){
     var container = $("<div style='width: calc(100% - 13px);float: left;clear: both;'></div>");
     var delete_button = $("<button class='config_delete_btn ui-button ui-corner-all ui-widget'>X</button>");
     container.append(delete_button);
-    var name = $("<input disabled class='text ui-widget-content ui-corner-all'>");
+    var name = $("<input class='text ui-widget-content ui-corner-all'>");
     var framework = $("<input class='text ui-widget-content ui-corner-all'>");
     var location = $("<input class='text ui-widget-content ui-corner-all'>");
-    var color = $("<input class='jscolor text ui-widget-content ui-corner-all'>");
     name.val(exec_station["name"]);
     framework.val(exec_station["framework"]);
     location.val(exec_station["location"]);
-    color.val(exec_station["color"]);
-    $.each([name, framework, location, color], function(){
-        var input_container = $("<div class='four_fields'></div>");
+    $.each([name, framework, location], function(){
+        var input_container = $("<div class='three_fields'></div>");
         input_container.append(this);
         container.append(input_container);
     });
@@ -475,7 +461,7 @@ function add_exec_station_to_list(exec_station){
         $.ajax({
             type: "POST",
             url: "/views/config/modify_exec_station.php",
-            data: {"id": exec_station["id"], "name": name.val(), "location": location.val(), "framework": framework.val(), "color": color.val() },
+            data: {"id": exec_station["id"], "name": name.val(), "location": location.val(), "framework": framework.val()},
             success: function (data) {
                 if (data["error"] !== undefined) {
                     show_error_dialog(data["error"]);
@@ -599,56 +585,6 @@ function apply_auth_level(){
 //
 
 
-// color coding
-
-function init_color_coding(){
-    $("#color_coding_checkbox").prop("checked", $.cookie("color_coding") === "true");
-    $("#color_coding_checkbox").checkboxradio({
-        icon: false
-    });
-    $("#color_coding_checkbox").change(function(){
-        $.cookie("color_coding", $("#color_coding_checkbox").prop("checked"));
-        load_page_structure();
-    })
-}
-
-
-function color_code(cell, row){
-    switch(chosen_row_type){
-        case "Build Machines":
-            $.each(config["build_stations"], function(i, bs){
-                if (bs["name"] === row){
-                    cell.css("background-color", "#" + bs["color"]);
-                }
-            });
-            break;
-        case "Execution Machines":
-            $.each(config["exec_stations"], function(i, ex){
-                if (ex["name"] === row){
-                    cell.css("background-color", "#" + ex["color"]);
-                }
-            });
-            break;
-        case "ATE operators":
-            $.each(config["ate_operators"], function(i, op){
-                if (op["name"] === row){
-                    cell.css("background-color", "#" + op["color"]);
-                }
-            });
-            break;
-        case "Teams":
-            $.each(config["teams"], function(i, team){
-                if (team["name"] === row){
-                    cell.css("background-color", "#" + team["color"]);
-                }
-            });
-            break;
-    }
-
-}
-//
-
-
 function config_to_visuals(){
     $("#ate_operators_config_list").empty();
     $("#teams_config_list").empty();
@@ -695,5 +631,4 @@ function config_to_visuals(){
         add_ate_operator_to_list(operator);
         ate_operators.push(operator["name"]);
     });
-    jscolor.installByClassName("jscolor");
 }

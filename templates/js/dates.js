@@ -9,8 +9,15 @@ function prev_week(d, m, y){
     return [date.getDate(), date.getMonth() + 1, date.getFullYear()];
 }
 
-function get_first_day_of_week(){
+function get_first_day_of_current_week(){
     var d = new Date();
+    var day = d.getDay(),
+        diff = d.getDate() - day + (day === 0 ? -6:1); // adjust when day is sunday
+    var first =  new Date(d.setDate(diff));
+    return [first.getDate(), first.getMonth() + 1, first.getFullYear()];
+}
+
+function get_first_day_of_week(d){
     var day = d.getDay(),
         diff = d.getDate() - day + (day === 0 ? -6:1); // adjust when day is sunday
     var first =  new Date(d.setDate(diff));

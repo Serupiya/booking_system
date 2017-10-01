@@ -191,7 +191,6 @@ function load_design(status_div){
         load_view_style();
         hack_tooltips();
         window_resize();
-        init_color_coding();
         auth_init();
         success = true;
     } catch(err){

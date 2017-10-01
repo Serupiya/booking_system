@@ -208,7 +208,6 @@ function add_build_machine_links(){
 }
 
 function redo_columns(arr){
-    var color_coding = $.cookie("color_coding") === "true";
     var rows = $("#row_descriptor");
     rows.empty();
     chosen_rows = arr;
@@ -219,15 +218,14 @@ function redo_columns(arr){
         }
         var centered_descriptor = $("<div class='centered'>" + val + "</div>");
         var img = $("<div class='row_descriptor_img'></div>");
-        if (!color_coding || chosen_row_type == "Projects"){
-            if (i%2){
-                img.addClass("odd");
-            } else{
-                img.addClass("even");
-            }
+        if (i%2){
+            img.addClass("odd");
+        } else{
+            img.addClass("even");
         }
-        else color_code(img, val);
-
+        if (i === arr.length - 1){
+            row_descriptor_div.css("border-bottom", 0);
+        }
         row_descriptor_div.append(centered_descriptor);
         row_descriptor_div.append(img);
         rows.append(row_descriptor_div);
@@ -304,7 +302,7 @@ function load_next(){
         if (next_date[1] !== last_date[1] || month_container.length === 0){
             month_div = $("<div class='month'></div>");
             date_header.append(month_div);
-            month_div.append("<div class='month_name thick'><div class='fixed'>" + get_month_name(next_date[1]) + " " +  next_date[2] + "</div></div>");
+            month_div.append("<div class='month_name'><div class='fixed'>" + get_month_name(next_date[1]) + " " +  next_date[2] + "</div></div>");
             days_div = $("<div class='days'></div>");
             month_div.append(days_div);
         } else{
@@ -312,9 +310,7 @@ function load_next(){
         }
         page_structure.push({"date": next_date});
         var day = $("<div class='day'>" + next_date[0] + "</div>");
-        if (next_date[0] === 1){
-            day.addClass("thick")
-        }
+
         days_div.append(day);
         last_date = next_date;
     } else{
@@ -324,7 +320,7 @@ function load_next(){
         if (week_num_arr[1] !== old_week_num_arr[1] || month_container.length === 0){
             month_div = $("<div class='month'></div>");
             date_header.append(month_div);
-            month_div.append("<div class='month_name thick'><div class='fixed'>" + get_short_month_name(week_num_arr[1]) + "'" +  (week_num_arr[0] % 100 ) + "</div></div>");
+            month_div.append("<div class='month_name'><div class='fixed'>" + get_short_month_name(week_num_arr[1]) + "'" +  (week_num_arr[0] % 100 ) + "</div></div>");
             days_div = $("<div class='days'></div>");
             month_div.append(days_div);
         } else{
@@ -333,9 +329,6 @@ function load_next(){
 
         page_structure.push({"date": next_date, "end_date": get_last_day_of_week(next_date)});
         var week = $("<div class='day'>" + week_num_arr[2] + "</div>");
-        if (next_date[0] === 1){
-            week.addClass("thick")
-        }
         days_div.append(week);
         last_date = next_date;
     }
@@ -391,11 +384,17 @@ function load_page_structure(){
     page_structure = [];
     $("#overview").empty();
     if (view_style.val() === "daily") {
-        first_date = get_current_day();
-        first_date = get_previous_day(first_date[0], first_date[1], first_date[2]);
+        if (!first_date){
+            first_date = get_current_day();
+            first_date = get_previous_day(first_date[0], first_date[1], first_date[2]);
+        }
         last_date = first_date.slice();
     } else{
-        first_date = get_first_day_of_week();
+        if (!first_date){
+            first_date = get_first_day_of_current_week();
+        } else{
+            first_date = get_first_day_of_week(new Date(first_date[2], first_date[1] - 1, first_date[0]));
+        }
         first_date = prev_week(first_date[0], first_date[1], first_date[2]);
         last_date = first_date.slice();
     }
@@ -407,7 +406,6 @@ function load_page_structure(){
 }
 
 function generate_cells(){
-    var color_coding = $.cookie("color_coding") === "true";
     var overview = $("#overview");
     overview.empty();
     $.each(page_structure, function(i, struct){
@@ -488,36 +486,37 @@ function generate_cells(){
                    });
                }
 
-                if (!color_coding || chosen_row_type == "Projects"){
-                    if (i%2){
-                        cell.addClass("odd");
-                    } else{
-                        cell.addClass("even");
-                    }
+                if (i%2){
+                    cell.addClass("odd");
+                } else{
+                    cell.addClass("even");
                 }
-                else if (!project_on_date) color_code(cell, row);
 
                if (project_index === 0 && i !== 0){
-                   var separator = $("<div class='separator'></div>")
+                   var separator = $("<div class='separator'></div>");
                    cell.append(separator);
-                   cell.css("height", "35px")
+                   cell.css("height", "35px");
                    //cell.addClass("separator");
                }
 
                 if (row_events !== undefined && row_events.length){
+                    var used_dates = [];
                     $.each(row_events, function(){
-                        var used_dates = this["date"];
+
                         var form_date = formated_to_date_array(this["date"]);
                         if (struct["end_date"] !== undefined && date_in_dates(form_date, struct["date"], struct["end_date"]) || check_same_date(form_date, struct["date"])){
                             if (used_dates.indexOf(this["date"]) !== -1){
-                                cell.find(".project_event_marker").find("symbol_text").text(cell.find(".project_event_marker").find("symbol_text").text() + this["symbol"] );
+                                console.log(used_dates.indexOf(this["date"]));
+                                console.log(cell.find(".project_event_marker"));
+                                cell.find(".project_event_marker").find(".symbol_text").text(cell.find(".project_event_marker").find(".symbol_text").text() + this["symbol"] );
                             }
-                            if (project_index === 0 & i!== 0){
-                                cell.append("<div class='project_event_marker' style='height:calc(100% - 5px);color: " + this["color"] +  "; background-color: " + this["project_color"] + "'><div>" + this["symbol"] + "</div></div>");
-                            } else {
-                                cell.append("<div class='project_event_marker' style='color: " + this["color"] +  "; background-color: " + this["project_color"] + "'><div class='symbol_text'>" + this["symbol"] + "</div></div>");
+                            else{
+                                if (project_index === 0 && i!== 0){
+                                    cell.append("<div class='project_event_marker' style='height:calc(100% - 5px);color: " + this["color"] +  "; background-color: " + this["project_color"] + "'><div>" + this["symbol"] + "</div></div>");
+                                } else {
+                                    cell.append("<div class='project_event_marker' style='color: " + this["color"] +  "; background-color: " + this["project_color"] + "'><div class='symbol_text'>" + this["symbol"] + "</div></div>");
+                                }
                             }
-
                             var text;
                             if (!project_on_date){
                                 text = this["project_name"] + " - " + this["description"] + " (" +  this["date"] + ")";
@@ -540,6 +539,8 @@ function generate_cells(){
                                 }
                                 cell.attr("title", tooltip.html());
                             }
+                            used_dates.push(this["date"]);
+
 
                         }
                     })
