@@ -2,17 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8c49445f-3a83-43a2-b0ca-7f38989278e0" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/templates/js/config.js" afterPath="$PROJECT_DIR$/js/config.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/templates/js/dates.js" afterPath="$PROJECT_DIR$/js/dates.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/templates/js/dialog.js" afterPath="$PROJECT_DIR$/js/dialog.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/templates/js/libs/jquery-3.1.0.min.js" afterPath="$PROJECT_DIR$/js/libs/jquery-3.1.0.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/templates/js/libs/jquery-ui.min.js" afterPath="$PROJECT_DIR$/js/libs/jquery-ui.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/templates/js/libs/jquery.cookie.js" afterPath="$PROJECT_DIR$/js/libs/jquery.cookie.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/templates/js/libs/jscolor.min.js" afterPath="$PROJECT_DIR$/js/libs/jscolor.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/templates/js/loading_screen.js" afterPath="$PROJECT_DIR$/js/loading_screen.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/templates/js/main.js" afterPath="$PROJECT_DIR$/js/main.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/bs.html" afterPath="$PROJECT_DIR$/templates/bs.html" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -116,8 +106,8 @@
       <file leaf-file-name="bs.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/bs.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-17">
-              <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+            <state relative-caret-position="-357">
+              <caret line="91" column="27" selection-start-line="91" selection-start-column="27" selection-end-line="91" selection-end-column="27" />
               <folding>
                 <element signature="n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
                 <element signature="n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
@@ -583,12 +573,12 @@
       <workItem from="1504870077892" duration="740000" />
       <workItem from="1505398779758" duration="2617000" />
       <workItem from="1505980566653" duration="105096000" />
-      <workItem from="1508414675674" duration="2341000" />
+      <workItem from="1508414675674" duration="2682000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="349006000" />
+    <option name="totallyTimeSpent" value="349347000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="5" width="1919" height="1047" extended-state="0" />
@@ -1112,8 +1102,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/bs.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-17">
-          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+        <state relative-caret-position="-357">
+          <caret line="91" column="27" selection-start-line="91" selection-start-column="27" selection-end-line="91" selection-end-column="27" />
           <folding>
             <element signature="n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
