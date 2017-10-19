@@ -1,13 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Michal
- * Date: 3. 9. 2017
- * Time: 20:47
- */
 
 //localhost
-/*
+
 function get_db_connection(){
     $server_name = "localhost";
     $username = "root";
@@ -23,10 +17,10 @@ function get_schema_name(){
 }
 
 
-*/
 
 
-//heroku
+/*
+//heroku hosting
 function get_db_connection(){
     $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
 
@@ -44,3 +38,4 @@ function get_schema_name(){
     return "heroku_426923c18edf463";
 
 }
+*/

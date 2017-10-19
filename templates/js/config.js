@@ -1,20 +1,16 @@
-/**
- * Created by Michal on 7. 9. 2017.
- */
 
-
-function load_config_dialog(){
+function load_config_dialog() {
     $("#config_dialog").dialog({
         autoOpen: false,
         modal: true,
-        minWidth:600,
+        minWidth: 600,
         height: 600,
         buttons: {
-            "Close": function(){
+            "Close": function() {
                 $(this).dialog("close");
             }
         },
-        close: function(){
+        close: function() {
             block_screen_with_load();
             config_to_visuals();
             load_page_structure();
@@ -23,7 +19,7 @@ function load_config_dialog(){
         }
     });
     $("#config_tab_switch").tabs()
-    $("#open_config").click(function(){
+    $("#open_config").click(function() {
         $("#config_dialog").dialog("open");
     });
 
@@ -39,19 +35,21 @@ function load_config_dialog(){
 
 // ATE_OPERATOR
 
-function init_add_ate_operator_button(){
-    $("#add_ate_operator_config").click(function(){
-        if ($("#ate_operator_add_name").val() === ""){
+function init_add_ate_operator_button() {
+    $("#add_ate_operator_config").click(function() {
+        if ($("#ate_operator_add_name").val() === "") {
             $("#validation_error_msg").empty();
             $("#validation_error_msg").append("<p>You must fill out all fields</p>");
             $("#validation_error_msg").dialog("open");
-        } else{
+        } else {
             block_screen_with_load();
             $.ajax({
                 type: "POST",
                 url: "/views/config/add_operator.php",
-                data: {"name": $("#ate_operator_add_name").val()},
-                success: function (data) {
+                data: {
+                    "name": $("#ate_operator_add_name").val()
+                },
+                success: function(data) {
                     console.log(data);
                     if (data["error"] !== undefined) {
                         show_error_dialog(data["error"]);
@@ -62,7 +60,7 @@ function init_add_ate_operator_button(){
                     unblock_screen_with_load();
 
                 },
-                error: function (request, status, error) {
+                error: function(request, status, error) {
                     show_error_dialog("Server either didn't respond or didn't send a JSON response (" + error + ")");
                     console.error(request, status, error);
                     unblock_screen_with_load();
@@ -72,13 +70,13 @@ function init_add_ate_operator_button(){
     })
 }
 
-function add_ate_operator_to_list(operator){
+function add_ate_operator_to_list(operator) {
     var container = $("<div style='width: calc(100% - 13px);float: left;clear: both;'></div>");
     var delete_button = $("<button class='config_delete_btn ui-button ui-corner-all ui-widget'>X</button>");
     container.append(delete_button);
     var name = $("<input class='text ui-widget-content ui-corner-all'>");
     name.val(operator["name"]);
-    $.each([name], function(){
+    $.each([name], function() {
         var input_container = $("<div class='one_field'></div>");
         input_container.append(this);
         container.append(input_container);
@@ -86,18 +84,20 @@ function add_ate_operator_to_list(operator){
     var modify_button = $("<button class='config_modify_btn ui-button ui-corner-all ui-widget'>OK</button>");
     container.append(modify_button);
     $("#ate_operators_config_list").append(container);
-    delete_button.click(function(){
+    delete_button.click(function() {
         block_screen_with_load();
         $.ajax({
             type: "POST",
             url: "/views/config/delete_operator.php",
-            data: {"id": operator["id"]},
-            success: function (data) {
+            data: {
+                "id": operator["id"]
+            },
+            success: function(data) {
                 if (data["error"] !== undefined) {
                     show_error_dialog(data["error"]);
                 } else {
-                    for(var i = 0; i<config["ate_operators"].length; i++){
-                        if (config["ate_operators"][i]["id"] === data["id"]){
+                    for (var i = 0; i < config["ate_operators"].length; i++) {
+                        if (config["ate_operators"][i]["id"] === data["id"]) {
                             config["ate_operators"].splice(i, 1);
                         }
                     }
@@ -107,25 +107,28 @@ function add_ate_operator_to_list(operator){
                 unblock_screen_with_load();
 
             },
-            error: function (request, status, error) {
+            error: function(request, status, error) {
                 show_error_dialog("Server either didn't respond or didn't send a JSON response (" + error + ")");
                 console.error(request, status, error);
                 unblock_screen_with_load();
             }
         });
     });
-    modify_button.click(function(){
+    modify_button.click(function() {
         block_screen_with_load();
         $.ajax({
             type: "POST",
             url: "/views/config/modify_operator.php",
-            data: {"id": operator["id"], "name": name.val()},
-            success: function (data) {
+            data: {
+                "id": operator["id"],
+                "name": name.val()
+            },
+            success: function(data) {
                 if (data["error"] !== undefined) {
                     show_error_dialog(data["error"]);
                 } else {
-                    for(var i = 0; i<config["ate_operators"].length; i++){
-                        if (config["ate_operators"][i]["id"] === data["id"]){
+                    for (var i = 0; i < config["ate_operators"].length; i++) {
+                        if (config["ate_operators"][i]["id"] === data["id"]) {
                             config["ate_operators"][i] = data;
                         }
                     }
@@ -133,7 +136,7 @@ function add_ate_operator_to_list(operator){
                 unblock_screen_with_load();
 
             },
-            error: function (request, status, error) {
+            error: function(request, status, error) {
                 show_error_dialog("Server either didn't respond or didn't send a JSON response (" + error + ")");
                 console.error(request, status, error);
                 unblock_screen_with_load();
@@ -147,19 +150,21 @@ function add_ate_operator_to_list(operator){
 
 // TEAM
 
-function init_add_teams_button(){
-    $("#add_team_config").click(function(){
-        if ($("#team_config_add_name").val() === ""){
+function init_add_teams_button() {
+    $("#add_team_config").click(function() {
+        if ($("#team_config_add_name").val() === "") {
             $("#validation_error_msg").empty();
             $("#validation_error_msg").append("<p>You must fill out all fields</p>");
             $("#validation_error_msg").dialog("open");
-        } else{
+        } else {
             block_screen_with_load();
             $.ajax({
                 type: "POST",
                 url: "/views/config/add_team.php",
-                data: {"name": $("#team_config_add_name").val()},
-                success: function (data) {
+                data: {
+                    "name": $("#team_config_add_name").val()
+                },
+                success: function(data) {
                     console.log(data);
                     if (data["error"] !== undefined) {
                         show_error_dialog(data["error"]);
@@ -170,7 +175,7 @@ function init_add_teams_button(){
                     unblock_screen_with_load();
 
                 },
-                error: function (request, status, error) {
+                error: function(request, status, error) {
                     show_error_dialog("Server either didn't respond or didn't send a JSON response (" + error + ")");
                     console.error(request, status, error);
                     unblock_screen_with_load();
@@ -182,13 +187,13 @@ function init_add_teams_button(){
 
 
 
-function add_team_to_list(team){
+function add_team_to_list(team) {
     var container = $("<div style='width: calc(100% - 13px);float: left;clear: both;'></div>");
     var delete_button = $("<button class='config_delete_btn ui-button ui-corner-all ui-widget'>X</button>");
     container.append(delete_button);
     var name = $("<input class='text ui-widget-content ui-corner-all'>");
     name.val(team["name"]);
-    $.each([name], function(){
+    $.each([name], function() {
         var input_container = $("<div class='one_field'></div>");
         input_container.append(this);
         container.append(input_container);
@@ -196,18 +201,20 @@ function add_team_to_list(team){
     var modify_button = $("<button class='config_modify_btn ui-button ui-corner-all ui-widget'>OK</button>");
     container.append(modify_button);
     $("#teams_config_list").append(container);
-    delete_button.click(function(){
+    delete_button.click(function() {
         block_screen_with_load();
         $.ajax({
             type: "POST",
             url: "/views/config/delete_team.php",
-            data: {"id": team["id"]},
-            success: function (data) {
+            data: {
+                "id": team["id"]
+            },
+            success: function(data) {
                 if (data["error"] !== undefined) {
                     show_error_dialog(data["error"]);
                 } else {
-                    for(var i = 0; i<config["teams"].length; i++){
-                        if (config["teams"][i]["id"] === data["id"]){
+                    for (var i = 0; i < config["teams"].length; i++) {
+                        if (config["teams"][i]["id"] === data["id"]) {
                             config["teams"].splice(i, 1);
                         }
                     }
@@ -216,7 +223,7 @@ function add_team_to_list(team){
                 unblock_screen_with_load();
 
             },
-            error: function (request, status, error) {
+            error: function(request, status, error) {
                 show_error_dialog("Server either didn't respond or didn't send a JSON response (" + error + ")");
                 console.error(request, status, error);
                 unblock_screen_with_load();
@@ -224,18 +231,21 @@ function add_team_to_list(team){
         });
     });
 
-    modify_button.click(function(){
+    modify_button.click(function() {
         block_screen_with_load();
         $.ajax({
             type: "POST",
             url: "/views/config/modify_team.php",
-            data: {"id": team["id"], "name": name.val()},
-            success: function (data) {
+            data: {
+                "id": team["id"],
+                "name": name.val()
+            },
+            success: function(data) {
                 if (data["error"] !== undefined) {
                     show_error_dialog(data["error"]);
                 } else {
-                    for(var i = 0; i<config["teams"].length; i++){
-                        if (config["teams"][i]["id"] === data["id"]){
+                    for (var i = 0; i < config["teams"].length; i++) {
+                        if (config["teams"][i]["id"] === data["id"]) {
                             config["teams"][i] = data;
                         }
                     }
@@ -243,7 +253,7 @@ function add_team_to_list(team){
                 unblock_screen_with_load();
 
             },
-            error: function (request, status, error) {
+            error: function(request, status, error) {
                 show_error_dialog("Server either didn't respond or didn't send a JSON response (" + error + ")");
                 console.error(request, status, error);
                 unblock_screen_with_load();
@@ -256,21 +266,22 @@ function add_team_to_list(team){
 
 // BUILD_STATION
 
-function init_add_build_station_button(){
-    $("#add_build_station_config").click(function(){
-        if ($("#build_station_config_add_name").val() === "" || $("#build_station_config_add_link").val() === ""){
+function init_add_build_station_button() {
+    $("#add_build_station_config").click(function() {
+        if ($("#build_station_config_add_name").val() === "" || $("#build_station_config_add_link").val() === "") {
             $("#validation_error_msg").empty();
             $("#validation_error_msg").append("<p>You must fill out all fields</p>");
             $("#validation_error_msg").dialog("open");
-        } else{
+        } else {
             block_screen_with_load();
             $.ajax({
                 type: "POST",
                 url: "/views/config/add_build_station.php",
-                data: {"name": $("#build_station_config_add_name").val(),
-                       "link": linkify($("#build_station_config_add_link").val())
-                       },
-                success: function (data) {
+                data: {
+                    "name": $("#build_station_config_add_name").val(),
+                    "link": linkify($("#build_station_config_add_link").val())
+                },
+                success: function(data) {
                     console.log(data);
                     if (data["error"] !== undefined) {
                         show_error_dialog(data["error"]);
@@ -281,7 +292,7 @@ function init_add_build_station_button(){
                     unblock_screen_with_load();
 
                 },
-                error: function (request, status, error) {
+                error: function(request, status, error) {
                     show_error_dialog("Server either didn't respond or didn't send a JSON response (" + error + ")");
                     console.error(request, status, error);
                     unblock_screen_with_load();
@@ -293,7 +304,7 @@ function init_add_build_station_button(){
 
 
 
-function add_build_station_to_list(build_station){
+function add_build_station_to_list(build_station) {
     var container = $("<div style='width: calc(100% - 13px);float: left;clear: both;'></div>");
     var delete_button = $("<button class='config_delete_btn ui-button ui-corner-all ui-widget'>X</button>");
     container.append(delete_button);
@@ -301,7 +312,7 @@ function add_build_station_to_list(build_station){
     var link = $("<input class='text ui-widget-content ui-corner-all'>");
     name.val(build_station["name"]);
     link.val(build_station["link"]);
-    $.each([name, link], function(){
+    $.each([name, link], function() {
         var input_container = $("<div class='two_fields'></div>");
         input_container.append(this);
         container.append(input_container);
@@ -309,18 +320,20 @@ function add_build_station_to_list(build_station){
     var modify_button = $("<button class='config_modify_btn ui-button ui-corner-all ui-widget'>OK</button>");
     container.append(modify_button);
     $("#build_stations_config_list").append(container);
-    delete_button.click(function(){
+    delete_button.click(function() {
         block_screen_with_load();
         $.ajax({
             type: "POST",
             url: "/views/config/delete_build_station.php",
-            data: {"id": build_station["id"]},
-            success: function (data) {
+            data: {
+                "id": build_station["id"]
+            },
+            success: function(data) {
                 if (data["error"] !== undefined) {
                     show_error_dialog(data["error"]);
                 } else {
-                    for(var i = 0; i<config["build_stations"].length; i++){
-                        if (config["build_stations"][i]["id"] === data["id"]){
+                    for (var i = 0; i < config["build_stations"].length; i++) {
+                        if (config["build_stations"][i]["id"] === data["id"]) {
                             config["build_stations"].splice(i, 1);
                         }
                     }
@@ -330,25 +343,29 @@ function add_build_station_to_list(build_station){
                 unblock_screen_with_load();
 
             },
-            error: function (request, status, error) {
+            error: function(request, status, error) {
                 show_error_dialog("Server either didn't respond or didn't send a JSON response (" + error + ")");
                 console.error(request, status, error);
                 unblock_screen_with_load();
             }
         });
     });
-    modify_button.click(function(){
+    modify_button.click(function() {
         block_screen_with_load();
         $.ajax({
             type: "POST",
             url: "/views/config/modify_build_station.php",
-            data: {"id": build_station["id"], "name": name.val(), "link": linkify(link.val())},
-            success: function (data) {
+            data: {
+                "id": build_station["id"],
+                "name": name.val(),
+                "link": linkify(link.val())
+            },
+            success: function(data) {
                 if (data["error"] !== undefined) {
                     show_error_dialog(data["error"]);
                 } else {
-                    for(var i = 0; i<config["build_stations"].length; i++){
-                        if (config["build_stations"][i]["id"] === data["id"]){
+                    for (var i = 0; i < config["build_stations"].length; i++) {
+                        if (config["build_stations"][i]["id"] === data["id"]) {
                             config["build_stations"][i] = data;
                         }
                     }
@@ -356,7 +373,7 @@ function add_build_station_to_list(build_station){
                 unblock_screen_with_load();
 
             },
-            error: function (request, status, error) {
+            error: function(request, status, error) {
                 show_error_dialog("Server either didn't respond or didn't send a JSON response (" + error + ")");
                 console.error(request, status, error);
                 unblock_screen_with_load();
@@ -369,23 +386,25 @@ function add_build_station_to_list(build_station){
 
 
 // EXEC STATION
-function init_add_exec_station_button(){
-    $("#add_exec_machine_config").click(function(){
-        if ($("#exec_machine_config_add_name").val() === "" || $("#exec_machine_config_add_location").val() === ""
-            || $("#exec_machine_config_add_framework").val() === ""){
+function init_add_exec_station_button() {
+    $("#add_exec_machine_config").click(function() {
+        if ($("#exec_machine_config_add_name").val() === "" || $("#exec_machine_config_add_location").val() === "" ||
+            $("#exec_machine_config_add_framework").val() === "") {
 
             $("#validation_error_msg").empty();
             $("#validation_error_msg").append("<p>You must fill out all fields</p>");
             $("#validation_error_msg").dialog("open");
-        } else{
+        } else {
             block_screen_with_load();
             $.ajax({
                 type: "POST",
                 url: "/views/config/add_exec_station.php",
-                data: {"name": $("#exec_machine_config_add_name").val(),
-                       "location": $("#exec_machine_config_add_location").val(),
-                       "framework": $("#exec_machine_config_add_framework").val()},
-                success: function (data) {
+                data: {
+                    "name": $("#exec_machine_config_add_name").val(),
+                    "location": $("#exec_machine_config_add_location").val(),
+                    "framework": $("#exec_machine_config_add_framework").val()
+                },
+                success: function(data) {
                     console.log(data);
                     if (data["error"] !== undefined) {
                         show_error_dialog(data["error"]);
@@ -396,7 +415,7 @@ function init_add_exec_station_button(){
                     unblock_screen_with_load();
 
                 },
-                error: function (request, status, error) {
+                error: function(request, status, error) {
                     show_error_dialog("Server either didn't respond or didn't send a JSON response (" + error + ")");
                     console.error(request, status, error);
                     unblock_screen_with_load();
@@ -408,7 +427,7 @@ function init_add_exec_station_button(){
 
 
 
-function add_exec_station_to_list(exec_station){
+function add_exec_station_to_list(exec_station) {
     var container = $("<div style='width: calc(100% - 13px);float: left;clear: both;'></div>");
     var delete_button = $("<button class='config_delete_btn ui-button ui-corner-all ui-widget'>X</button>");
     container.append(delete_button);
@@ -418,7 +437,7 @@ function add_exec_station_to_list(exec_station){
     name.val(exec_station["name"]);
     framework.val(exec_station["framework"]);
     location.val(exec_station["location"]);
-    $.each([name, framework, location], function(){
+    $.each([name, framework, location], function() {
         var input_container = $("<div class='three_fields'></div>");
         input_container.append(this);
         container.append(input_container);
@@ -428,18 +447,20 @@ function add_exec_station_to_list(exec_station){
 
     $("#exec_machines_config_list").append(container);
 
-    delete_button.click(function(){
+    delete_button.click(function() {
         block_screen_with_load();
         $.ajax({
             type: "POST",
             url: "/views/config/delete_exec_station.php",
-            data: {"id": exec_station["id"]},
-            success: function (data) {
+            data: {
+                "id": exec_station["id"]
+            },
+            success: function(data) {
                 if (data["error"] !== undefined) {
                     show_error_dialog(data["error"]);
                 } else {
-                    for(var i = 0; i<config["exec_stations"].length; i++){
-                        if (config["exec_stations"][i]["id"] === data["id"]){
+                    for (var i = 0; i < config["exec_stations"].length; i++) {
+                        if (config["exec_stations"][i]["id"] === data["id"]) {
                             config["exec_stations"].splice(i, 1);
                         }
                     }
@@ -449,25 +470,30 @@ function add_exec_station_to_list(exec_station){
                 unblock_screen_with_load();
 
             },
-            error: function (request, status, error) {
+            error: function(request, status, error) {
                 show_error_dialog("Server either didn't respond or didn't send a JSON response (" + error + ")");
                 console.error(request, status, error);
                 unblock_screen_with_load();
             }
         });
     });
-    modify_button.click(function(){
+    modify_button.click(function() {
         block_screen_with_load();
         $.ajax({
             type: "POST",
             url: "/views/config/modify_exec_station.php",
-            data: {"id": exec_station["id"], "name": name.val(), "location": location.val(), "framework": framework.val()},
-            success: function (data) {
+            data: {
+                "id": exec_station["id"],
+                "name": name.val(),
+                "location": location.val(),
+                "framework": framework.val()
+            },
+            success: function(data) {
                 if (data["error"] !== undefined) {
                     show_error_dialog(data["error"]);
                 } else {
-                    for(var i = 0; i<config["exec_stations"].length; i++){
-                        if (config["exec_stations"][i]["id"] === data["id"]){
+                    for (var i = 0; i < config["exec_stations"].length; i++) {
+                        if (config["exec_stations"][i]["id"] === data["id"]) {
                             config["exec_stations"][i] = data;
                         }
                     }
@@ -475,7 +501,7 @@ function add_exec_station_to_list(exec_station){
                 unblock_screen_with_load();
 
             },
-            error: function (request, status, error) {
+            error: function(request, status, error) {
                 show_error_dialog("Server either didn't respond or didn't send a JSON response (" + error + ")");
                 console.error(request, status, error);
                 unblock_screen_with_load();
@@ -486,44 +512,46 @@ function add_exec_station_to_list(exec_station){
 
 // authorization
 
-function auth_init(){
+function auth_init() {
     $("#info_dialog").dialog({
         autoOpen: false,
         modal: true,
-        minWidth:400,
+        minWidth: 400,
         height: 250,
         resizable: false
     });
     $("#auth_dialog").dialog({
         autoOpen: false,
         modal: true,
-        minWidth:300,
+        minWidth: 300,
         height: 170,
         resizable: false,
         buttons: {
-            "Close": function(){
+            "Close": function() {
                 $(this).dialog("close");
             },
-            "Authorize": function(){
+            "Authorize": function() {
                 auth($("#password").val());
             }
         }
     });
-    $("#open_authorization").click(function(){
+    $("#open_authorization").click(function() {
         $("#auth_dialog").dialog("open");
     });
     apply_auth_level();
 }
 
 
-function auth(pw){
+function auth(pw) {
     block_screen_with_load();
     $("#auth_dialog").dialog("close");
     $.ajax({
         type: "POST",
         url: "/views/auth.php",
-        data: {"password": pw},
-        success: function (data) {
+        data: {
+            "password": pw
+        },
+        success: function(data) {
             if (data["error"] !== undefined) {
                 show_error_dialog(data["error"]);
             } else {
@@ -532,23 +560,23 @@ function auth(pw){
                 apply_auth_level();
 
                 $("#info_dialog").empty();
-                if (data["level"]){
+                if (data["level"]) {
                     var stuff_you_can_do;
-                    if (data["level"] == 1){
+                    if (data["level"] == 1) {
                         stuff_you_can_do = "add/modify/delete projects."
-                    } else{
+                    } else {
                         stuff_you_can_do = "add/modify/delete projects, add/remove global events, configure the booking system."
                     }
-                    $("#info_dialog").append("<div>Gained level " + data["level"] + " rights</div><div>You may now " + stuff_you_can_do +  "</div>")
+                    $("#info_dialog").append("<div>Gained level " + data["level"] + " rights</div><div>You may now " + stuff_you_can_do + "</div>")
 
-                } else{
+                } else {
                     $("#info_dialog").append("<div>Invalid password.</div>")
                 }
                 $("#info_dialog").dialog("open");
 
             }
         },
-        error: function (request, status, error) {
+        error: function(request, status, error) {
             show_error_dialog("Server either didn't respond or didn't send a JSON response (" + error + ")");
             console.error(request, status, error);
             unblock_screen_with_load();
@@ -557,24 +585,24 @@ function auth(pw){
 
 }
 
-function apply_auth_level(){
+function apply_auth_level() {
     var level = $.cookie("auth_level");
-    if (level === undefined){
+    if (level === undefined) {
         level = 0;
     }
-    if (level == 0){
+    if (level == 0) {
         $("#add_project").addClass("unauthorized");
         $(".project_delete_button").addClass("unauthorized");
         $(".project_save_button").addClass("unauthorized");
-    } else{
+    } else {
         $("#add_project").removeClass("unauthorized");
         $(".project_delete_button").removeClass("unauthorized");
         $(".project_save_button").removeClass("unauthorized");
     }
-    if (level < 2){
+    if (level < 2) {
         $("#add_global_event").addClass("unauthorized");
         $("#open_config").addClass("unauthorized");
-    } else{
+    } else {
         $("#add_global_event").removeClass("unauthorized");
         $("#open_config").removeClass("unauthorized");
         $("#open_authorization").hide();
@@ -585,7 +613,7 @@ function apply_auth_level(){
 //
 
 
-function config_to_visuals(){
+function config_to_visuals() {
     $("#ate_operators_config_list").empty();
     $("#teams_config_list").empty();
     $("#build_stations_config_list").empty();
@@ -597,37 +625,37 @@ function config_to_visuals(){
     exec_machine_frameworks = {};
     exec_locations = {};
     build_machine_links = {};
-    $.each(config["build_stations"], function(i, bm){
+    $.each(config["build_stations"], function(i, bm) {
         add_build_station_to_list(bm);
         build_machines.push(bm["name"]);
         build_machine_links[bm["name"]] = bm["link"];
     });
-    if (build_machines.indexOf("TBD") === -1){
+    if (build_machines.indexOf("TBD") === -1) {
         build_machines.push("TBD");
     }
-    $.each(config["exec_stations"], function(i, ex){
+    $.each(config["exec_stations"], function(i, ex) {
         add_exec_station_to_list(ex);
         exec_machines.push(ex["name"]);
-        if (exec_locations[ex["location"]] === undefined){
+        if (exec_locations[ex["location"]] === undefined) {
             exec_locations[ex["location"]] = [ex["name"]];
-        } else{
+        } else {
             exec_locations[ex["location"]].push(ex["name"]);
         }
-        if (exec_machine_frameworks[ex["framework"]] === undefined){
+        if (exec_machine_frameworks[ex["framework"]] === undefined) {
             exec_machine_frameworks[ex["framework"]] = [ex["name"]];
-        } else{
+        } else {
             exec_machine_frameworks[ex["framework"]].push(ex["name"]);
         }
 
     });
-    if (exec_machines.indexOf("TBD") === -1){
+    if (exec_machines.indexOf("TBD") === -1) {
         exec_machines.push("TBD");
     }
-    $.each(config["teams"], function(i, team){
+    $.each(config["teams"], function(i, team) {
         add_team_to_list(team);
         teams.push(team["name"]);
     });
-    $.each(config["ate_operators"], function(i, operator){
+    $.each(config["ate_operators"], function(i, operator) {
         add_ate_operator_to_list(operator);
         ate_operators.push(operator["name"]);
     });

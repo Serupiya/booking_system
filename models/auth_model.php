@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: Michal
- * Date: 24. 9. 2017
- * Time: 11:43
- */
 include_once "base_model.php";
 
 class AuthModel extends BaseModel{

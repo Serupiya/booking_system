@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Michal
- * Date: 7. 9. 2017
- * Time: 17:08
- */
+
 include_once "../../controllers/config.php";
 $controller = new Operator();
 $result = $controller->delete($_POST);

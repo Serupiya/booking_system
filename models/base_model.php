@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Michal
- * Date: 6. 9. 2017
- * Time: 18:30
- */
 
 class BaseModel{
     public $result;

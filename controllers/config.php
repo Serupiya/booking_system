@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Michal
- * Date: 7. 9. 2017
- * Time: 16:21
- */
-
 
 include_once $_SERVER['DOCUMENT_ROOT'] . "/models/config.php";
 

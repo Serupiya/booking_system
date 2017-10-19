@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Michal
- * Date: 3. 9. 2017
- * Time: 20:45
- */
 
 include_once "base_model.php";
 

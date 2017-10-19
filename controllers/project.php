@@ -1,15 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Michal
- * Date: 3. 9. 2017
- * Time: 20:31
- */
 
 include_once "../models/project.php";
 
-
-//error_reporting(E_ALL ^ E_WARNING);
 
 class Project
 {

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Michal
- * Date: 24. 9. 2017
- * Time: 15:27
- */
 
 include_once "../../controllers/config.php";
 $controller = new ExecutionMachine();

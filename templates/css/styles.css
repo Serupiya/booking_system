@@ -210,66 +210,7 @@ li>a{
     /*background-color:lightgoldenrodyellow;*/
     background-color: #f2f2f2;
 }
-/*
-.reserved.odd_row.even_project{
-    background-color: #007fff;
-}
-.reserved.odd_row.odd_project{
-    background-color: #9757ff;
-}
 
-.reserved.even_row.even_project{
-    background-color: #007fff;
-}
-.reserved.even_row.odd_project{
-    background-color: #ff895f ;
-}
-.reserved.even_row.even_project{
-    background-color: #ff9d23;
-}
-
-.reserved.odd_row.even_project.event{
-    background: #007fff url("images/event_bg") repeat;
-}
-
-.reserved.odd_row.odd_project.event{
-    background: #9757ff url("images/event_bg") repeat;
-}
-
-.reserved.even_row.even_project.event{
-    background: #007fff url("images/event_bg") repeat;
-}
-.reserved.even_row.odd_project.event{
-    background: #ff895f url("images/event_bg") repeat;
-}
-.reserved.even_row.even_project.event{
-    background: #ff9d23 url("images/event_bg") repeat;
-}
-
-.odd_row.event{
-    background: rgba(15,119,255,0.11) url("images/event_bg") repeat;
-}
-
-
-.reserved.odd_row.even_project.weekend{
-    background: #007fff url("images/weekend_bg") repeat;
-}
-
-.reserved.odd_row.odd_project.weekend{
-    background: #9757ff url("images/weekend_bg") repeat;
-}
-
-.reserved.even_row.even_project.weekend{
-    background: #007fff url("images/weekend_bg") repeat;
-}
-.reserved.even_row.odd_project.weekend{
-    background: #ff895f url("images/weekend_bg") repeat;
-}
-.reserved.even_row.even_project.weekend{
-    background: #ff9d23 url("images/weekend_bg") repeat;
-}
-
-*/
 .odd_row.weekend{
     background: rgba(15,119,255,0.11) url("images/weekend_bg") repeat;
 }

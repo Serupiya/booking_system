@@ -1,11 +1,7 @@
-/**
- * Created by Michal on 4. 9. 2017.
- */
-
 var loaded;
 var should_load = 3;
 
-function load(){
+function load() {
     loaded = 0;
     var comment_div = $("#loading_comments");
     var container = $("<div></div>");
@@ -20,19 +16,24 @@ function load(){
 }
 
 
-function get_config(retry, status_div){
+function get_config(retry, status_div) {
     var status_span = $("<span>Fetching config from database...</span>");
     status_div.append(status_span);
-    config = {"ate_operators": [], "teams": [], "build_stations": [], "exec_stations": []};
+    config = {
+        "ate_operators": [],
+        "teams": [],
+        "build_stations": [],
+        "exec_stations": []
+    };
     $.ajax({
         type: "POST",
         url: "/views/config/get_config.php",
-        success: function (data) {
+        success: function(data) {
             if (data["error"] !== undefined) {
                 status_div.append($("<span style='color: indianred'>" + data["error"] + "</span>"));
                 load_fail();
             } else {
-                for (var key in data){
+                for (var key in data) {
                     config[key] = data[key];
                 }
                 status_div.append($("<span style='color: limegreen'>OK</span>"));
@@ -40,14 +41,14 @@ function get_config(retry, status_div){
                 finish_load();
             }
         },
-        error: function (request, status, error) {
+        error: function(request, status, error) {
             console.log(request, status, error);
             retry--;
-            if (retry){
+            if (retry) {
                 status_div.append($("<span style='color: indianred'>ERROR Received wrong data or no data at all (Retrying)</span>"));
                 status_div.append("<br>");
                 fetch_all_projects(retry, status_div);
-            } else{
+            } else {
                 status_div.append($("<span style='color: indianred'>ERROR Received wrong data or no data at all</span>"));
                 load_fail();
             }
@@ -55,22 +56,22 @@ function get_config(retry, status_div){
     });
 }
 
-function fetch_all_projects(retry, status_div){
+function fetch_all_projects(retry, status_div) {
     var status_span = $("<span>Fetching projects from database...</span>");
     status_div.append(status_span);
     $.ajax({
         type: "GET",
         url: "views/get_projects.php",
-        success: function(project_arr){
+        success: function(project_arr) {
             var success = true;
-            if (project_arr["error"] !== undefined){
+            if (project_arr["error"] !== undefined) {
                 status_div.append($("<span style='color: indianred'>" + project_arr["error"] + "</span>"));
                 success = false;
                 load_fail();
-            } else{
+            } else {
                 projects = project_arr;
             }
-            if (success){
+            if (success) {
                 status_div.append($("<span style='color: limegreen'>OK</span>"));
                 status_div.append("<br>");
                 loaded++;
@@ -78,14 +79,14 @@ function fetch_all_projects(retry, status_div){
 
             }
         },
-        error: function(request, status, error){
+        error: function(request, status, error) {
             console.log(request, status, error);
             retry--;
-            if (retry){
+            if (retry) {
                 status_div.append($("<span style='color: indianred'>ERROR Received wrong data or no data at all (Retrying)</span>"));
                 status_div.append("<br>");
                 fetch_all_projects(retry, status_div);
-            } else{
+            } else {
                 status_div.append($("<span style='color: indianred'>ERROR Received wrong data or no data at all</span>"));
                 load_fail();
             }
@@ -93,36 +94,36 @@ function fetch_all_projects(retry, status_div){
     });
 }
 
-function fetch_all_global_events(retry, status_div){
+function fetch_all_global_events(retry, status_div) {
     var status_span = $("<span>Fetching global events from database...</span>");
     status_div.append(status_span);
     $.ajax({
         type: "GET",
         url: "views/get_global_events.php",
-        success: function(event_array){
+        success: function(event_array) {
             var success = true;
-            if (event_array["error"] !== undefined){
+            if (event_array["error"] !== undefined) {
                 status_div.append($("<span style='color: indianred'>" + event_array["error"] + "</span>"));
                 success = false;
                 load_fail();
-            } else{
+            } else {
                 global_events = event_array;
             }
-            if (success){
+            if (success) {
                 status_div.append($("<span style='color: limegreen'>OK</span>"));
                 status_div.append("<br>");
                 loaded++;
                 finish_load();
             }
         },
-        error: function(request, status, error){
+        error: function(request, status, error) {
             console.log(request, status, error);
             retry--;
-            if (retry){
+            if (retry) {
                 status_div.append($("<span style='color: indianred'>ERROR Received wrong data or no data at all (Retrying)</span>"));
                 status_div.append("<br>");
                 fetch_all_global_events(retry, status_div);
-            } else{
+            } else {
                 status_div.append($("<span style='color: indianred'>ERROR Received wrong data or no data at all</span>"));
                 load_fail();
             }
@@ -130,58 +131,62 @@ function fetch_all_global_events(retry, status_div){
     });
 }
 
-function finish_load(){
-    if (loaded === 3){
+function finish_load() {
+    if (loaded === 3) {
         var container = $("<div></div>");
         $("#loading_comments").append(container);
         load_design(container);
     }
 }
 
-function load_fail(){
+function load_fail() {
     var img = $("#loading_img");
-    $.when(img.animate({opacity: 0}, 300 )).then(function(){
+    $.when(img.animate({
+        opacity: 0
+    }, 300)).then(function() {
         img.attr("src", "templates/css/images/fail.png");
-        img.animate({opacity: 100}, 300 )
+        img.animate({
+            opacity: 100
+        }, 300)
     });
 }
 
-function remove_loading_screen(){
+function remove_loading_screen() {
     $("#load_prep_container").show();
-    $("#loading_screen").delay(1000).fadeOut( "slow" );
+    $("#loading_screen").delay(1000).fadeOut("slow");
 
 }
 
 
-function block_screen_with_load(){
+function block_screen_with_load() {
     $("#load_overlay").fadeIn();
 }
 
-function unblock_screen_with_load(){
+function unblock_screen_with_load() {
     $("#load_overlay").fadeOut();
 }
 
-function show_error_dialog(text){
+function show_error_dialog(text) {
     $("#error_msg_dialog_text").text(text);
     $("#error_msg_dialog").dialog("open")
     console.error(text);
 }
 
-function hack_tooltips(){
+function hack_tooltips() {
     $(function() {
-        $( document ).tooltip({
-            content:function(){
+        $(document).tooltip({
+            content: function() {
                 return this.getAttribute("title");
             }
         });
     });
 }
 
-function load_design(status_div){
+function load_design(status_div) {
     var status_span = $("<span>Loading page structure...</span>");
     status_div.append(status_span);
     var success;
-    try{
+    try {
         config_to_visuals();
         load_reserve_dialog();
         load_config_dialog();
@@ -193,13 +198,13 @@ function load_design(status_div){
         window_resize();
         auth_init();
         success = true;
-    } catch(err){
+    } catch (err) {
         status_div.append($("<span style='color:indianred'>ERROR (Check console for more info)</span>"));
         console.error("ERROR: ", err);
         load_fail();
         success = false;
     }
-    if (success){
+    if (success) {
         status_div.append($("<span style='color:limegreen'>OK</span>"));
         remove_loading_screen();
     }
