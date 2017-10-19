@@ -6,7 +6,7 @@ To make this work: <br>
 4) Edit functions get_db_connection and get_schema_name in models/db.php - DB servername, username, password and schema name needs to be specified<br>
 5) The server should now work, you can access it via booking_system.php (serverroot.com/booking_system.php)<br>
 <br>
-*this can be done with INSERT INTO `<schema name>`.`authorization` (`password`, `level`) VALUES ('\<password\>', \<level\>);<br>
+*this can be done with INSERT INTO `/schema name/`.`authorization` (`password`, `level`) VALUES ('/password/', /level/); where you replace the values in the / brackets with your own <br>
 In case there are any problems and you are able to access the page, there should be a error dump in the browser console - check it out first.
 
 
