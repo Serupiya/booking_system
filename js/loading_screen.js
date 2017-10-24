@@ -27,7 +27,7 @@ function get_config(retry, status_div) {
     };
     $.ajax({
         type: "POST",
-        url: "/views/config/get_config.php",
+        url: "views/get_config.php",
         success: function(data) {
             if (data["error"] !== undefined) {
                 status_div.append($("<span style='color: indianred'>" + data["error"] + "</span>"));

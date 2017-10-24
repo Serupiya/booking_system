@@ -95,7 +95,7 @@ function load_reserve_dialog() {
                         block_screen_with_load();
                         $.ajax({
                             type: "POST",
-                            url: active === 0 ? "/views/add_project.php" : "/views/modify_project.php",
+                            url: active === 0 ? "views/add_project.php" : "views/modify_project.php",
                             data: project,
                             success: function(data) {
                                 console.log(data);
@@ -243,7 +243,7 @@ function load_reserve_dialog() {
                 block_screen_with_load();
                 $.ajax({
                     type: "POST",
-                    url: "/views/delete_project.php",
+                    url: "views/delete_project.php",
                     data: {
                         "name": $("#deleted_project_name").text()
                     },
@@ -769,7 +769,7 @@ function load_global_event_dialog() {
                         block_screen_with_load();
                         $.ajax({
                             type: "POST",
-                            url: "/views/add_global_event.php",
+                            url: "views/add_global_event.php",
                             data: event,
                             success: function(data) {
                                 if (data["error"] !== undefined) {
@@ -845,7 +845,7 @@ function reload_view_global_events() {
             block_screen_with_load();
             $.ajax({
                 type: "POST",
-                url: "/views/delete_global_event.php",
+                url: "views/delete_global_event.php",
                 data: {
                     "id": event["id"]
                 },

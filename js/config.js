@@ -45,7 +45,7 @@ function init_add_ate_operator_button() {
             block_screen_with_load();
             $.ajax({
                 type: "POST",
-                url: "/views/config/add_operator.php",
+                url: "views/add_operator.php",
                 data: {
                     "name": $("#ate_operator_add_name").val()
                 },
@@ -88,7 +88,7 @@ function add_ate_operator_to_list(operator) {
         block_screen_with_load();
         $.ajax({
             type: "POST",
-            url: "/views/config/delete_operator.php",
+            url: "views/delete_operator.php",
             data: {
                 "id": operator["id"]
             },
@@ -118,7 +118,7 @@ function add_ate_operator_to_list(operator) {
         block_screen_with_load();
         $.ajax({
             type: "POST",
-            url: "/views/config/modify_operator.php",
+            url: "views/modify_operator.php",
             data: {
                 "id": operator["id"],
                 "name": name.val()
@@ -160,7 +160,7 @@ function init_add_teams_button() {
             block_screen_with_load();
             $.ajax({
                 type: "POST",
-                url: "/views/config/add_team.php",
+                url: "views/add_team.php",
                 data: {
                     "name": $("#team_config_add_name").val()
                 },
@@ -205,7 +205,7 @@ function add_team_to_list(team) {
         block_screen_with_load();
         $.ajax({
             type: "POST",
-            url: "/views/config/delete_team.php",
+            url: "views/delete_team.php",
             data: {
                 "id": team["id"]
             },
@@ -235,7 +235,7 @@ function add_team_to_list(team) {
         block_screen_with_load();
         $.ajax({
             type: "POST",
-            url: "/views/config/modify_team.php",
+            url: "views/modify_team.php",
             data: {
                 "id": team["id"],
                 "name": name.val()
@@ -276,7 +276,7 @@ function init_add_build_station_button() {
             block_screen_with_load();
             $.ajax({
                 type: "POST",
-                url: "/views/config/add_build_station.php",
+                url: "views/add_build_station.php",
                 data: {
                     "name": $("#build_station_config_add_name").val(),
                     "link": linkify($("#build_station_config_add_link").val())
@@ -324,7 +324,7 @@ function add_build_station_to_list(build_station) {
         block_screen_with_load();
         $.ajax({
             type: "POST",
-            url: "/views/config/delete_build_station.php",
+            url: "views/delete_build_station.php",
             data: {
                 "id": build_station["id"]
             },
@@ -354,7 +354,7 @@ function add_build_station_to_list(build_station) {
         block_screen_with_load();
         $.ajax({
             type: "POST",
-            url: "/views/config/modify_build_station.php",
+            url: "views/modify_build_station.php",
             data: {
                 "id": build_station["id"],
                 "name": name.val(),
@@ -398,7 +398,7 @@ function init_add_exec_station_button() {
             block_screen_with_load();
             $.ajax({
                 type: "POST",
-                url: "/views/config/add_exec_station.php",
+                url: "views/add_exec_station.php",
                 data: {
                     "name": $("#exec_machine_config_add_name").val(),
                     "location": $("#exec_machine_config_add_location").val(),
@@ -451,7 +451,7 @@ function add_exec_station_to_list(exec_station) {
         block_screen_with_load();
         $.ajax({
             type: "POST",
-            url: "/views/config/delete_exec_station.php",
+            url: "views/delete_exec_station.php",
             data: {
                 "id": exec_station["id"]
             },
@@ -481,7 +481,7 @@ function add_exec_station_to_list(exec_station) {
         block_screen_with_load();
         $.ajax({
             type: "POST",
-            url: "/views/config/modify_exec_station.php",
+            url: "views/modify_exec_station.php",
             data: {
                 "id": exec_station["id"],
                 "name": name.val(),
@@ -547,7 +547,7 @@ function auth(pw) {
     $("#auth_dialog").dialog("close");
     $.ajax({
         type: "POST",
-        url: "/views/auth.php",
+        url: "views/auth.php",
         data: {
             "password": pw
         },

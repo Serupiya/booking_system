@@ -103,11 +103,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="bs.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="bs.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/bs.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-357">
-              <caret line="91" column="27" selection-start-line="91" selection-start-column="27" selection-end-line="91" selection-end-column="27" />
+            <state relative-caret-position="493">
+              <caret line="335" column="28" selection-start-line="335" selection-start-column="28" selection-end-line="335" selection-end-column="28" />
               <folding>
                 <element signature="n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
                 <element signature="n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
@@ -170,16 +170,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="auth.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/controllers/auth.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="5" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="config.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/config.js">
           <provider selected="true" editor-type-id="text-editor">
@@ -195,22 +185,74 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="config.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/models/config.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1258">
+              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+              <folding>
+                <marker date="1508415876971" expanded="true" signature="432:459" ph="SELECT * FRO... exec_stations" />
+                <marker date="1508415876971" expanded="true" signature="720:748" ph="SELECT * FRO... build_stations" />
+                <marker date="1508415876971" expanded="true" signature="1011:1030" ph="SELECT * FRO... teams" />
+                <marker date="1508415876971" expanded="true" signature="1275:1302" ph="SELECT * FRO... ate_operators" />
+                <marker date="1508415876971" expanded="true" signature="1791:1850" ph="INSERT INTO booking_system.build_stations... " />
+                <marker date="1508415876971" expanded="true" signature="2282:2322" ph="DELETE FROM " />
+                <marker date="1508415876971" expanded="true" signature="2654:2717" ph="UPDATE build... " />
+                <marker date="1508415876971" expanded="true" signature="2654:2718" ph="UPDATE build... " />
+                <marker date="1508415876971" expanded="true" signature="3247:3326" ph="INSERT INTO booking_system.build_stations... " />
+                <marker date="1508415876971" expanded="true" signature="3800:3839" ph="DELETE FROM " />
+                <marker date="1508415876971" expanded="true" signature="4171:4256" ph="UPDATE exec_... " />
+                <marker date="1508415876971" expanded="true" signature="4800:4837" ph="INSERT INTO booking_system.teams... " />
+                <marker date="1508415876971" expanded="true" signature="4800:4838" ph="INSERT INTO teams... " />
+                <marker date="1508415876971" expanded="true" signature="5180:5211" ph="DELETE FROM " />
+                <marker date="1508415876971" expanded="true" signature="5499:5541" ph="UPDATE teams... " />
+                <marker date="1508415876971" expanded="true" signature="5986:6032" ph="INSERT INTO booking_system.ate_operators... " />
+                <marker date="1508415876971" expanded="true" signature="6394:6433" ph="DELETE FROM " />
+                <marker date="1508415876971" expanded="true" signature="6736:6786" ph="UPDATE ate_o... " />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="db.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/db.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="24" column="36" selection-start-line="24" selection-start-column="36" selection-end-line="24" selection-end-column="36" />
+            <state relative-caret-position="303">
+              <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="add_team.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/config/add_team.php">
+      <file leaf-file-name="project.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/project.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="-918">
+              <caret line="0" column="5" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="5" />
+              <folding>
+                <marker date="1508415887468" expanded="true" signature="287:307" ph="DELETE FROM " />
+                <marker date="1508415887468" expanded="true" signature="287:325" ph="DELETE FROM " />
+                <marker date="1508415887468" expanded="true" signature="652:730" ph="UPDATE booki... " />
+                <marker date="1508415887468" expanded="true" signature="652:884" ph="UPDATE booki... " />
+                <marker date="1508415887468" expanded="true" signature="652:921" ph="UPDATE booki... " />
+                <marker date="1508415887468" expanded="true" signature="652:922" ph="UPDATE proje... " />
+                <marker date="1508415887468" expanded="true" signature="1450:1499" ph="DELETE FROM " />
+                <marker date="1508415887468" expanded="true" signature="1742:1785" ph="DELETE FROM " />
+                <marker date="1508415887468" expanded="true" signature="1966:2018" ph="DELETE FROM " />
+                <marker date="1508415887468" expanded="true" signature="2555:2856" ph="INSERT INTO booking_system.projects... " />
+                <marker date="1508415887468" expanded="true" signature="2555:2861" ph="INSERT INTO projects... " />
+                <marker date="1508415887468" expanded="true" signature="3894:3952" ph="select color... projects" />
+                <marker date="1508415887468" expanded="true" signature="3894:4015" ph="select color... projects" />
+                <marker date="1508415887468" expanded="true" signature="12711:12966" ph="SELECT name,... projects" />
+                <marker date="1508415887468" expanded="true" signature="13213:13264" ph="SELECT * FRO... derivatives" />
+                <marker date="1508415887468" expanded="true" signature="13699:13756" ph="SELECT * FRO... preparation_progress" />
+                <marker date="1508415887468" expanded="true" signature="14084:14129" ph="SELECT * FRO... links" />
+                <marker date="1508415887468" expanded="true" signature="14604:14731" ph="SELECT DATE_... project_events" />
+                <marker date="1508415887468" expanded="true" signature="15303:15454" ph="INSERT INTO derivatives... " />
+                <marker date="1508415887468" expanded="true" signature="15972:16279" ph="INSERT INTO preparation_progress... " />
+                <marker date="1508415887468" expanded="true" signature="17019:17096" ph="INSERT INTO links... " />
+                <marker date="1508415887468" expanded="true" signature="17621:17749" ph="INSERT INTO project_events... " />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -573,16 +615,16 @@
       <workItem from="1504870077892" duration="740000" />
       <workItem from="1505398779758" duration="2617000" />
       <workItem from="1505980566653" duration="105096000" />
-      <workItem from="1508414675674" duration="2682000" />
+      <workItem from="1508414675674" duration="5727000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="349347000" />
+    <option name="totallyTimeSpent" value="352392000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="5" width="1919" height="1047" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2301629" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -906,64 +948,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/config.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding>
-            <marker date="1508415876971" expanded="true" signature="432:459" ph="SELECT * FRO... exec_stations" />
-            <marker date="1508415876971" expanded="true" signature="720:748" ph="SELECT * FRO... build_stations" />
-            <marker date="1508415876971" expanded="true" signature="1011:1030" ph="SELECT * FRO... teams" />
-            <marker date="1508415876971" expanded="true" signature="1275:1302" ph="SELECT * FRO... ate_operators" />
-            <marker date="1508415876971" expanded="true" signature="1791:1850" ph="INSERT INTO booking_system.build_stations... " />
-            <marker date="1508415876971" expanded="true" signature="2282:2322" ph="DELETE FROM " />
-            <marker date="1508415876971" expanded="true" signature="2654:2717" ph="UPDATE build... " />
-            <marker date="1508415876971" expanded="true" signature="2654:2718" ph="UPDATE build... " />
-            <marker date="1508415876971" expanded="true" signature="3247:3326" ph="INSERT INTO booking_system.build_stations... " />
-            <marker date="1508415876971" expanded="true" signature="3800:3839" ph="DELETE FROM " />
-            <marker date="1508415876971" expanded="true" signature="4171:4256" ph="UPDATE exec_... " />
-            <marker date="1508415876971" expanded="true" signature="4800:4837" ph="INSERT INTO booking_system.teams... " />
-            <marker date="1508415876971" expanded="true" signature="4800:4838" ph="INSERT INTO teams... " />
-            <marker date="1508415876971" expanded="true" signature="5180:5211" ph="DELETE FROM " />
-            <marker date="1508415876971" expanded="true" signature="5499:5541" ph="UPDATE teams... " />
-            <marker date="1508415876971" expanded="true" signature="5986:6032" ph="INSERT INTO booking_system.ate_operators... " />
-            <marker date="1508415876971" expanded="true" signature="6394:6433" ph="DELETE FROM " />
-            <marker date="1508415876971" expanded="true" signature="6736:6786" ph="UPDATE ate_o... " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/project.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="5" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="5" />
-          <folding>
-            <marker date="1508415887468" expanded="true" signature="287:307" ph="DELETE FROM " />
-            <marker date="1508415887468" expanded="true" signature="287:325" ph="DELETE FROM " />
-            <marker date="1508415887468" expanded="true" signature="652:730" ph="UPDATE booki... " />
-            <marker date="1508415887468" expanded="true" signature="652:884" ph="UPDATE booki... " />
-            <marker date="1508415887468" expanded="true" signature="652:921" ph="UPDATE booki... " />
-            <marker date="1508415887468" expanded="true" signature="652:922" ph="UPDATE proje... " />
-            <marker date="1508415887468" expanded="true" signature="1450:1499" ph="DELETE FROM " />
-            <marker date="1508415887468" expanded="true" signature="1742:1785" ph="DELETE FROM " />
-            <marker date="1508415887468" expanded="true" signature="1966:2018" ph="DELETE FROM " />
-            <marker date="1508415887468" expanded="true" signature="2555:2856" ph="INSERT INTO booking_system.projects... " />
-            <marker date="1508415887468" expanded="true" signature="2555:2861" ph="INSERT INTO projects... " />
-            <marker date="1508415887468" expanded="true" signature="3894:3952" ph="select color... projects" />
-            <marker date="1508415887468" expanded="true" signature="3894:4015" ph="select color... projects" />
-            <marker date="1508415887468" expanded="true" signature="12711:12966" ph="SELECT name,... projects" />
-            <marker date="1508415887468" expanded="true" signature="13213:13264" ph="SELECT * FRO... derivatives" />
-            <marker date="1508415887468" expanded="true" signature="13699:13756" ph="SELECT * FRO... preparation_progress" />
-            <marker date="1508415887468" expanded="true" signature="14084:14129" ph="SELECT * FRO... links" />
-            <marker date="1508415887468" expanded="true" signature="14604:14731" ph="SELECT DATE_... project_events" />
-            <marker date="1508415887468" expanded="true" signature="15303:15454" ph="INSERT INTO derivatives... " />
-            <marker date="1508415887468" expanded="true" signature="15972:16279" ph="INSERT INTO preparation_progress... " />
-            <marker date="1508415887468" expanded="true" signature="17019:17096" ph="INSERT INTO links... " />
-            <marker date="1508415887468" expanded="true" signature="17621:17749" ph="INSERT INTO project_events... " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/global_event.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
@@ -1063,14 +1047,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/db.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="24" column="36" selection-start-line="24" selection-start-column="36" selection-end-line="24" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/controllers/config.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-306">
@@ -1102,8 +1078,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/bs.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-357">
-          <caret line="91" column="27" selection-start-line="91" selection-start-column="27" selection-end-line="91" selection-end-column="27" />
+        <state relative-caret-position="493">
+          <caret line="335" column="28" selection-start-line="335" selection-start-column="28" selection-end-line="335" selection-end-column="28" />
           <folding>
             <element signature="n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
@@ -1151,6 +1127,72 @@
             <element signature="n#style#0;n#button#0;n#div#1;n#div#0;n#div#2;n#div#0;n#div#12;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#3;n#div#0;n#div#12;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#13;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/project.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-918">
+          <caret line="0" column="5" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="5" />
+          <folding>
+            <marker date="1508415887468" expanded="true" signature="287:307" ph="DELETE FROM " />
+            <marker date="1508415887468" expanded="true" signature="287:325" ph="DELETE FROM " />
+            <marker date="1508415887468" expanded="true" signature="652:730" ph="UPDATE booki... " />
+            <marker date="1508415887468" expanded="true" signature="652:884" ph="UPDATE booki... " />
+            <marker date="1508415887468" expanded="true" signature="652:921" ph="UPDATE booki... " />
+            <marker date="1508415887468" expanded="true" signature="652:922" ph="UPDATE proje... " />
+            <marker date="1508415887468" expanded="true" signature="1450:1499" ph="DELETE FROM " />
+            <marker date="1508415887468" expanded="true" signature="1742:1785" ph="DELETE FROM " />
+            <marker date="1508415887468" expanded="true" signature="1966:2018" ph="DELETE FROM " />
+            <marker date="1508415887468" expanded="true" signature="2555:2856" ph="INSERT INTO booking_system.projects... " />
+            <marker date="1508415887468" expanded="true" signature="2555:2861" ph="INSERT INTO projects... " />
+            <marker date="1508415887468" expanded="true" signature="3894:3952" ph="select color... projects" />
+            <marker date="1508415887468" expanded="true" signature="3894:4015" ph="select color... projects" />
+            <marker date="1508415887468" expanded="true" signature="12711:12966" ph="SELECT name,... projects" />
+            <marker date="1508415887468" expanded="true" signature="13213:13264" ph="SELECT * FRO... derivatives" />
+            <marker date="1508415887468" expanded="true" signature="13699:13756" ph="SELECT * FRO... preparation_progress" />
+            <marker date="1508415887468" expanded="true" signature="14084:14129" ph="SELECT * FRO... links" />
+            <marker date="1508415887468" expanded="true" signature="14604:14731" ph="SELECT DATE_... project_events" />
+            <marker date="1508415887468" expanded="true" signature="15303:15454" ph="INSERT INTO derivatives... " />
+            <marker date="1508415887468" expanded="true" signature="15972:16279" ph="INSERT INTO preparation_progress... " />
+            <marker date="1508415887468" expanded="true" signature="17019:17096" ph="INSERT INTO links... " />
+            <marker date="1508415887468" expanded="true" signature="17621:17749" ph="INSERT INTO project_events... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/db.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="303">
+          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1258">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding>
+            <marker date="1508415876971" expanded="true" signature="432:459" ph="SELECT * FRO... exec_stations" />
+            <marker date="1508415876971" expanded="true" signature="720:748" ph="SELECT * FRO... build_stations" />
+            <marker date="1508415876971" expanded="true" signature="1011:1030" ph="SELECT * FRO... teams" />
+            <marker date="1508415876971" expanded="true" signature="1275:1302" ph="SELECT * FRO... ate_operators" />
+            <marker date="1508415876971" expanded="true" signature="1791:1850" ph="INSERT INTO booking_system.build_stations... " />
+            <marker date="1508415876971" expanded="true" signature="2282:2322" ph="DELETE FROM " />
+            <marker date="1508415876971" expanded="true" signature="2654:2717" ph="UPDATE build... " />
+            <marker date="1508415876971" expanded="true" signature="2654:2718" ph="UPDATE build... " />
+            <marker date="1508415876971" expanded="true" signature="3247:3326" ph="INSERT INTO booking_system.build_stations... " />
+            <marker date="1508415876971" expanded="true" signature="3800:3839" ph="DELETE FROM " />
+            <marker date="1508415876971" expanded="true" signature="4171:4256" ph="UPDATE exec_... " />
+            <marker date="1508415876971" expanded="true" signature="4800:4837" ph="INSERT INTO booking_system.teams... " />
+            <marker date="1508415876971" expanded="true" signature="4800:4838" ph="INSERT INTO teams... " />
+            <marker date="1508415876971" expanded="true" signature="5180:5211" ph="DELETE FROM " />
+            <marker date="1508415876971" expanded="true" signature="5499:5541" ph="UPDATE teams... " />
+            <marker date="1508415876971" expanded="true" signature="5986:6032" ph="INSERT INTO booking_system.ate_operators... " />
+            <marker date="1508415876971" expanded="true" signature="6394:6433" ph="DELETE FROM " />
+            <marker date="1508415876971" expanded="true" signature="6736:6786" ph="UPDATE ate_o... " />
           </folding>
         </state>
       </provider>
