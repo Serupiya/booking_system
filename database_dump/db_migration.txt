@@ -1,0 +1,23 @@
+ALTER TABLE derivatives
+ADD ate_operator VARCHAR(45);
+
+SET SQL_SAFE_UPDATES = 0;
+
+update derivatives d, projects p
+set d.ate_operator = p.ate_operator
+where d.project_name = p.name;
+
+ALTER TABLE `projects` 
+DROP COLUMN `ate_operator`;
+
+ALTER TABLE project_events 
+DROP FOREIGN KEY `rref`;
+ALTER TABLE project_events
+ADD CONSTRAINT `rref`
+  FOREIGN KEY (`project_name`)
+  REFERENCES projects (`name`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+  
+ 
