@@ -216,7 +216,7 @@ function load_reserve_dialog() {
                     $(checkbox).prop("checked", $("#" + $(checkbox).attr("name")).prop("checked"));
                     progress += Number($(checkbox).prop("checked")) * 10;
                 });
-                currently_edited_ate_milestone.parent().find(".progressbar").progressbar("value", progress);
+                currently_edited_ate_milestone.parent().find(".progressbar").progressbar("value", progress + "%");
                 $(this).dialog("close");
             },
             "Cancel": function() {
