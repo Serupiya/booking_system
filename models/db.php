@@ -1,6 +1,7 @@
 <?php
 
 //localhost
+
 /*
 function get_db_connection(){
     $server_name = "localhost";
@@ -15,6 +16,7 @@ function get_schema_name(){
     return "booking_system";
 }
 */
+
 
 
 

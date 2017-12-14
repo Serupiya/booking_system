@@ -78,9 +78,11 @@ function create_table(rows) {
             project_names = project_names.sort();
             redo_columns(project_names);
             break;
+        /*
         case "Teams":
             redo_columns(teams);
             break;
+        */
         case "ATE operators":
             redo_columns(ate_operators);
             break;
@@ -522,11 +524,13 @@ function get_projects_for_chosen_row(row) {
                 });
                 //}
                 break;
+            /*
             case "Teams":
                 if (project["team"] === row) {
                     appliable_projects.push(project);
                 }
                 break;
+                */
             case "Projects":
                 if (project["name"] === row) {
                     if (chosen_team === undefined || chosen_team == "all" || project["team"] == chosen_team){
