@@ -1,7 +1,7 @@
 <?php
 
 //localhost
-
+/*
 function get_db_connection(){
     $server_name = "localhost";
     $username = "root";
@@ -10,6 +10,7 @@ function get_db_connection(){
     $conn = new mysqli($server_name, $username, $password);
     return $conn;
 }
+*/
 
 
 function get_schema_name(){
@@ -19,7 +20,7 @@ function get_schema_name(){
 
 
 
-/*
+
 //heroku hosting
 function get_db_connection(){
     $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
@@ -38,4 +39,3 @@ function get_schema_name(){
     return "heroku_426923c18edf463";
 
 }
-*/
