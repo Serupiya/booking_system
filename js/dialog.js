@@ -535,7 +535,7 @@ function activate_derivative_add_button() {
             progress_container.append(progress_visual);
             progress_container.append(progress_checkbox_info_container);
             progress_visual.progressbar({
-                value: "0",
+                value: "0%",
                 change: function() {
                     progress_visual_label.text(progress_visual.progressbar("value") + "%");
                 },
