@@ -31,9 +31,6 @@ ul.ui-menu.ui-corner-bottom.ui-widget.ui-widget-content{
 .ui-tabs-vertical .ui-tabs-nav li a { display:block; }
 .ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active { padding-bottom: 0; padding-right: .1em; border-right-width: 1px; }
 .ui-tabs-vertical .ui-tabs-panel { padding: 1em; float: right; width:calc(50% - 2em)}
-li{
-    overflow: hidden;
-}
 li>a{
     width:100%;
 }
@@ -260,7 +257,7 @@ li>a{
 
 .progressbar{
     float:left;
-    width:100%;
+    width:98%;
     height: 15px;
     top: 4px;
 }
@@ -338,7 +335,7 @@ li>a{
     margin-right: 24px;
 }
 .centered{
-    width: 80%;
+    width: calc(99% - 20px);
     position: absolute;
     position: relative;
     top: 50%;
@@ -350,8 +347,8 @@ li>a{
 
 .row_descriptor_img{
     height:100%;
-    width: 20%;
-    float:left;
+    width: 20px;
+    float:right;
     -webkit-clip-path: polygon(60% 40%, 100% 0, 100% 100%, 60% 60%, 0 50%);
     clip-path: polygon(60% 40%, 100% 0, 100% 100%, 60% 60%, 0 50%);
 
@@ -364,8 +361,12 @@ li>a{
 
 .fullscreen_col.active{
     float:left;
-    width:calc(33% - 16px);;
+    width:calc(50% - 16px);;
     margin-right:1%;
+}
+
+.fullscreen_col.smaller.active{
+    width:calc(24.7% - 16px);;
 }
 
 .event_symbol.text.ui-widget-content.ui-corner-all{
@@ -454,4 +455,36 @@ li>a{
     border:solid;
     border-width: 0 0 1px 0;
     border-color: lightgrey;
+}
+
+#slider{
+    height: 0px;
+    border-width: 0px;
+    width:60%
+}
+
+
+#slider>span{
+    height: 8px;
+    width: 8px;
+    margin-left: -4px;
+}
+
+#rename_button{
+    width: calc(100% - 24px);
+    float: right;
+    margin-left: 20px;
+    padding-left: 5px;
+    padding-right: 5px;
+    overflow: hidden;
+}
+
+.derivative_column_container{
+    width: calc(31% - 17px);
+    float: left;
+    margin-right: calc(2% + 17px);
+}
+
+.link{
+    word-break: break-all;
 }

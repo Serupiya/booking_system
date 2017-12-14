@@ -26,4 +26,9 @@ class Project
         $this->project_model->fetch_all();
         return $this->project_model->result;
     }
+    function rename($project){
+        //the project only contains new_name and old_name
+        $this->project_model->rename($project);
+        return $this->project_model->result;
+    }
 }

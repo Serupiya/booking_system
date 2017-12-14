@@ -51,7 +51,7 @@ function load_reserve_dialog() {
 
                         project["start_date"] = start_date_input.val();
                         project["end_date"] = end_date_input.val();
-                        project["ate_operator"] = project_leader_select.val();
+                        //project["ate_operator"] = project_leader_select.val();
                         project["team"] = team_select.val();
                         project["derivatives"] = [];
                         $(".derivative").each(function() {
@@ -59,6 +59,7 @@ function load_reserve_dialog() {
                             derivative_info["name"] = $(this).find(".derivative_name").val();
                             derivative_info["exec_station"] = $(this).find(".exec_station").val();
                             derivative_info["build_station"] = $(this).find(".build_station").val();
+                            derivative_info["ate_operator"] = $(this).find(".operator").val();
                             derivative_info["link"] = $(this).find(".link_span").text();
                             derivative_info["progress"] = {};
                             $(this).find(".progress_checkboxes").children().each(function(i, checkbox) {
@@ -160,12 +161,13 @@ function load_reserve_dialog() {
             });
             project_name_select.selectmenu("refresh");
 
+            /*
             project_leader_select.empty();
             $.each(ate_operators, function(i, operator) {
                 project_leader_select.append("<option value='" + operator + "'>" + operator + "</option>");
             });
             project_leader_select.selectmenu("refresh");
-
+            */
             team_select.empty();
             $.each(teams, function(i, team) {
                 team_select.append("<option value='" + team + "'>" + team + "</option>");
@@ -183,7 +185,6 @@ function load_reserve_dialog() {
         },
         close: function() {
             clear_fields();
-
         }
     });
 
@@ -321,7 +322,7 @@ function load_reserve_dialog() {
         }
     });
     project_name_select.selectmenu();
-    project_leader_select.selectmenu();
+    //project_leader_select.selectmenu();
     team_select.selectmenu();
     start_date_input.datepicker({
         "onSelect": function() {
@@ -373,6 +374,7 @@ function load_reserve_dialog() {
     })
 
 
+    load_rename_dialog();
     init_project_events();
 }
 
@@ -437,6 +439,7 @@ function activate_derivative_add_button() {
 
             var build_station = $("<select style='position:relative;z-index:120' class='build_station'></select>");
             var exec_station = $("<select style='position:relative;z-index:120' class='exec_station'></select>");
+            var operator = $("<select style='position:relative;z-index:120' class='operator'></select>");
 
             delete_button.click(function() {
                 container_div.remove();
@@ -462,11 +465,19 @@ function activate_derivative_add_button() {
                         formated_to_date_array(end_date_input.val()));
                 }
 
-                $.each(viable_machines["used_build_machines"], function(i, machine) {
-                    build_station.append("<option value='" + machine + "'>" + machine + " (USED)</option>");
+                $.each(viable_machines["ate_operators"], function(i, op){
+                    operator.append("<option value='" + op + "'>" + op + "</option>");
                 });
+
+                $.each(viable_machines["used_ate_operators"], function(i, op){
+                    operator.append("<option value='" + op + "'>" + op + " (TAKEN)</option>");
+                });
+
                 $.each(viable_machines["build_machines"], function(i, machine) {
                     build_station.append("<option value='" + machine + "'>" + machine + "</option>");
+                });
+                $.each(viable_machines["used_build_machines"], function(i, machine) {
+                    build_station.append("<option value='" + machine + "'>" + machine + " (USED)</option>");
                 });
                 $.each(viable_machines["exec_machines"], function(i, machine) {
                     if (machine !== "TBD") {
@@ -485,21 +496,24 @@ function activate_derivative_add_button() {
             } else {
                 build_station.append("<option value='TBD'>Set a correct date first</option>");
                 exec_station.append("<option value='TBD'>Set a correct date first</option>");
+                operator.append("<option value='TBD'>Set a correct date first</option>");
             }
 
-            var bs_container = $("<div style='width: calc(48% - 17px); float: left;margin-right: calc(2% + 17px);'></div>");
+            var bs_container = $("<div class='derivative_column_container'></div>");
             bs_container.append(build_station);
-            var ex_container = $("<div style='width:calc(48% - 17px);float:left;margin-right: calc(2% + 17px);'></div>");
+            var ex_container = $("<div class='derivative_column_container'></div>");
             ex_container.append(exec_station);
+            var op_container = $("<div class='derivative_column_container'></div>");
+            op_container.append(operator);
 
-
-            var ex_and_bs_container = $("<div></div>");
-            ex_and_bs_container.append(bs_container);
-            ex_and_bs_container.append(ex_container);
+            var selectbox_containers = $("<div></div>");
+            selectbox_containers.append(bs_container);
+            selectbox_containers.append(ex_container);
+            selectbox_containers.append(op_container);
 
 
             var progress_container = $("<div class='progress_container' style='width:calc(100% - 8px); float:left'></div>");
-            var progress_visual = $("<div class='progressbar' style='float:left;width:100%'></div>");
+            var progress_visual = $("<div class='progressbar'></div>");
             var progress_visual_label = $("<div class='progress-label'>0</div>");
 
             var progress_checkbox_info_container = $("<div class='progress_checkboxes' style='display:none'></div>");
@@ -530,7 +544,7 @@ function activate_derivative_add_button() {
             });
 
             var derivative_content_container = $("<div class='derivative_content_container'></div>");
-            derivative_content_container.append(ex_and_bs_container);
+            derivative_content_container.append(selectbox_containers);
             derivative_content_container.append(progress_container);
             container_div.append(derivative_content_container);
 
@@ -548,6 +562,9 @@ function activate_derivative_add_button() {
             exec_station.selectmenu();
             exec_station.val("TBD");
             exec_station.selectmenu("refresh");
+            operator.selectmenu();
+            operator.val("TBD");
+            operator.selectmenu("refresh");
 
 
             reserve_derivative.val("");
@@ -569,7 +586,7 @@ function choose_project_to_edit() {
         });
 
 
-        select_or_add_removed(project_leader_select, project["ate_operator"]);
+        //select_or_add_removed(project_leader_select, project["ate_operator"]);
         select_or_add_removed(team_select, project["team"]);
 
         start_date_input.val("");
@@ -593,10 +610,12 @@ function choose_project_to_edit() {
             var tab = $(".derivative").last();
             var build_station = tab.find(".build_station");
             var exec_station = tab.find(".exec_station");
+            var operator = tab.find(".operator");
             tab.find(".link_span").text(derivative["link"]);
 
             select_or_add_removed(build_station, derivative["build_station"]);
             select_or_add_removed(exec_station, derivative["exec_station"]);
+            select_or_add_removed(operator, derivative["ate_operator"]);
 
             var progress = 0;
             tab.find(".progress_checkboxes").children().each(function(i, checkbox) {
@@ -685,6 +704,20 @@ function on_date_change(start_date_input, end_date_input, own_project) {
                 build_station.val("TBD");
                 build_station.selectmenu("refresh");
             });
+
+            $(".operator").each(function(i, operator) {
+                operator = $(operator);
+                operator.empty();
+                $.each(viable_machines["used_ate_operators"], function(i, op) {
+                    operator.append("<option value='" + op + "'>" + op + " (TAKEN)</option>");
+                });
+                $.each(viable_machines["ate_operators"], function(i, op) {
+                    operator.append("<option value='" + op + "'>" + op + "</option>");
+                });
+                operator.val("TBD");
+                operator.selectmenu("refresh");
+            });
+
             $(".exec_station").each(function(i, exec_station) {
                 exec_station = $(exec_station);
                 exec_station.empty();
@@ -708,7 +741,13 @@ function on_date_change(start_date_input, end_date_input, own_project) {
             });
 
         } else {
-
+            $(".operator").each(function(i, op) {
+                op = $(op);
+                op.empty();
+                op.append("<option value='TBD'>Set a correct date first</option>");
+                op.val("TBD");
+                op.selectmenu("refresh");
+            });
 
             $(".build_station").each(function(i, build_station) {
                 build_station = $(build_station);
@@ -952,4 +991,57 @@ function linkify(link_str) {
         link_str = "http://" + link_str;
     }
     return link_str;
+}
+
+
+function load_rename_dialog(){
+    $("#rename_button").click(function(){
+        $("#rename_dialog").dialog("open");
+    });
+    $("#rename_dialog").dialog({
+        height: 210,
+        width: 550,
+        resizable: false,
+        autoOpen: false,
+        modal: true,
+        buttons: {
+            "Rename": function() {
+                var old_name = project_edit_name_select.val();
+                var new_name = $("#new_name").val();
+                block_screen_with_load();
+                $.ajax({
+                    type: "POST",
+                    url: "views/rename_project.php",
+                    data: {"old_name": old_name, "new_name": new_name},
+                    success: function(data) {
+                        console.log(data);
+                        if (data["error"] !== undefined) {
+                            show_error_dialog(data["error"]);
+                        } else{
+                            $.each(projects, function(i, p){
+                               if (p["name"] == old_name){
+                                   p["name"] = data["name"];
+                               }
+                            });
+                            $("#rename_dialog").dialog("close");
+                        }
+                        reserve_dialog.dialog("close");
+                        create_table(chosen_row_type);
+                        unblock_screen_with_load();
+                    },
+                    error: function(request, status, error) {
+                        show_error_dialog("Server either didn't respond or didn't send a JSON response (" + error + ")");
+                        console.error(request, status, error);
+                        unblock_screen_with_load();
+                    }
+                });
+            },
+            "Cancel": function() {
+                $(this).dialog("close");
+            }
+        },
+        open: function() {
+            $("#rename_new_name_label").text("Rename \"" + project_edit_name_select.val() + "\" to:");
+        }
+    });
 }

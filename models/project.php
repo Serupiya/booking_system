@@ -20,16 +20,28 @@ class ProjectModel extends BaseModel{
 
     }
 
+    public function rename($project){
+        if ($this->error) return;
+        $this->escape_array($project);
+
+        $query = sprintf("UPDATE projects SET name = '%s' WHERE name = '%s';",
+            $project["new_name"],
+            $project["old_name"]);
+        $this->db->query($query);
+        if ($this->assert_error("Failed to rename project")) return;
+        $this->result = array("name"=>$project["new_name"]);
+    }
+
     public function modify($project){
         if ($this->error) return;
 
         $this->escape_array($project);
 
-        $query = sprintf("UPDATE projects SET start_date = STR_TO_DATE('%s', '%%m/%%d/%%Y'), end_date = STR_TO_DATE('%s', '%%m/%%d/%%Y'), ate_operator = '%s', team = '%s',
+        $query = sprintf("UPDATE projects SET start_date = STR_TO_DATE('%s', '%%m/%%d/%%Y'), end_date = STR_TO_DATE('%s', '%%m/%%d/%%Y'), team = '%s',
                           sw_versions = '%s', additional_info = '%s', framework = '%s', hw_versions = '%s' WHERE name = '%s';",
                             $project["start_date"],
                             $project["end_date"],
-                            $project["ate_operator"],
+                    //        $project["ate_operator"],
                             $project["team"],
                             $project["sw_versions"],
                             $project["additional_info"],
@@ -71,13 +83,13 @@ class ProjectModel extends BaseModel{
 
         $this->escape_array($project);
         $project["color"] = $this->determine_project_color($project);
-        $query = sprintf("INSERT INTO projects (name, start_date, end_date, ate_operator, team,
-                          sw_versions, hw_versions, additional_info, framework, color) VALUES ('%s', STR_TO_DATE('%s', '%%m/%%d/%%Y'), STR_TO_DATE('%s', '%%m/%%d/%%Y'), '%s', '%s',
+        $query = sprintf("INSERT INTO projects (name, start_date, end_date, team,
+                          sw_versions, hw_versions, additional_info, framework, color) VALUES ('%s', STR_TO_DATE('%s', '%%m/%%d/%%Y'), STR_TO_DATE('%s', '%%m/%%d/%%Y'), '%s',
                           '%s', '%s', '%s', '%s', '%s');",
                             $project["name"],
                             $project["start_date"],
                             $project["end_date"],
-                            $project["ate_operator"],
+                            //$project["ate_operator"],
                             $project["team"],
                             $project["sw_versions"],
                             $project["hw_versions"],
@@ -197,9 +209,9 @@ class ProjectModel extends BaseModel{
         if ($this->error) return;
 
         $this->result = Array();
-
+        //ate_operator
         $query_result = $this->db->query("SELECT name, DATE_FORMAT(start_date, '%m/%d/%Y') 'start_date', 
-                          DATE_FORMAT(end_date, '%m/%d/%Y') 'end_date', ate_operator, team,
+                          DATE_FORMAT(end_date, '%m/%d/%Y') 'end_date', team,
                           sw_versions, additional_info, framework, color, hw_versions FROM projects;");
         if ($this->assert_error("Failed to fetch projects")) return;
 
@@ -251,13 +263,14 @@ class ProjectModel extends BaseModel{
 
         if (array_key_exists("derivatives", $project)) {
             foreach ($project["derivatives"] as &$derivative) {
-                $query = sprintf("INSERT INTO derivatives (exec_station, build_station, link, project_name, name)
-                                  VALUES ('%s', '%s', '%s', '%s', '%s');",
+                $query = sprintf("INSERT INTO derivatives (exec_station, build_station, link, project_name, name, ate_operator)
+                                  VALUES ('%s', '%s', '%s', '%s', '%s', '%s');",
                                     $derivative["exec_station"],
                                     $derivative["build_station"],
                                     $derivative["link"],
                                     $project["name"],
-                                    $derivative["name"]);
+                                    $derivative["name"],
+                                    $derivative["ate_operator"]);
 
                 $this->db->query($query);
                 if ($this->assert_error("Failed to add derivative")) return false;

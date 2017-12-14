@@ -200,7 +200,11 @@ function sort_projects_for_no_overlap(projects_with_dates) {
     return rows;
 }
 
-function check_same_date(date1, date2) {
+function check_same_date(date1, date2, weekly) {
+    if (weekly){
+        date1 = get_week_number(date1[0], date1[1], date1[2]);
+        date2 = get_week_number(date2[0], date2[1], date2[2])
+    }
     for (var i = 0; i < 3; i++) {
         if (date1[i] !== date2[i]) {
             return false;
@@ -230,15 +234,26 @@ function get_possible_reservation_slots(start_date, end_date, own_project) {
     viable_exec_machines.push("TBD");
     var viable_build_machines = build_machines.slice();
     var used_build_machines = [];
+    var viable_operators = ate_operators.slice();
+    viable_operators.push("TBD");
+    var used_operators = [];
     $.each(projects, function(i, project) {
         if (own_project === undefined || project["name"] !== own_project) {
             if (dates_overlap(start_date, end_date,
                     formated_to_date_array(project["start_date"]), formated_to_date_array(project["end_date"]))) {
                 $.each(project["derivatives"], function(k, derivative) {
+                    var j;
                     if (derivative["exec_station"] !== "TBD") {
-                        var j = viable_exec_machines.indexOf(derivative["exec_station"]);
+                        j = viable_exec_machines.indexOf(derivative["exec_station"]);
                         if (j >= 0) {
                             viable_exec_machines.splice(j, 1);
+                        }
+                    }
+                    if (derivative["ate_operator"] !== "TBD"){
+                        j = viable_operators.indexOf(derivative["ate_operator"]);
+                        if (j >= 0) {
+                            viable_operators.splice(j, 1);
+                            used_operators.push(derivative["ate_operator"]);
                         }
                     }
                     if (derivative["build_station"] !== "TBD") {
@@ -253,9 +268,16 @@ function get_possible_reservation_slots(start_date, end_date, own_project) {
             }
         }
     });
+    viable_exec_machines = viable_exec_machines.sort();
+    viable_build_machines = viable_build_machines.sort();
+    used_build_machines = used_build_machines.sort();
+    viable_operators = viable_operators.sort();
+    used_operators = used_operators.sort();
     return {
         "exec_machines": viable_exec_machines,
         "build_machines": viable_build_machines,
-        "used_build_machines": used_build_machines
+        "used_build_machines": used_build_machines,
+        "ate_operators": viable_operators,
+        "used_ate_operators": used_operators
     }
 }

@@ -182,21 +182,41 @@ function hack_tooltips() {
     });
 }
 
+function load_slider(){
+    $( "#slider" ).slider({
+        value: $.cookie("slideVal")?$.cookie("slideVal"):15,
+        stop: function(__, val){
+            $.cookie("slideVal", val.value);
+            window_resize();
+        }
+    });
+/*
+    $( "#slider" ).slider(
+        "value", 15 / 0.6
+    );*/
+}
+
 function load_design(status_div) {
     var status_span = $("<span>Loading page structure...</span>");
     status_div.append(status_span);
     var success;
     try {
+        var temp = load_page_structure;
+        load_page_structure = function(){};
         config_to_visuals();
+        load_slider();
         load_reserve_dialog();
         load_config_dialog();
-        load_page_structure();
+
         load_global_event_dialog();
         load_movers();
         load_view_style();
         hack_tooltips();
         window_resize();
+        load_team_selection();
         auth_init();
+        load_page_structure = temp;
+        load_page_structure();
         success = true;
     } catch (err) {
         status_div.append($("<span style='color:indianred'>ERROR (Check console for more info)</span>"));

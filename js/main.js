@@ -10,7 +10,6 @@ var global_events = [];
 var config;
 var project_edit_name_select;
 var project_name_select;
-var project_leader_select;
 var project_name_input;
 var team_select;
 var start_date_input;
@@ -50,8 +49,17 @@ function load_column_chooser() {
     create_table(column_select.val());
 }
 
+function sort_alphabetically(){
+    exec_machines = exec_machines.sort();
+    build_machines = build_machines.sort();
+    teams = teams.sort();
+    ate_operators = ate_operators.sort();
+}
+
 function create_table(rows) {
     chosen_row_type = rows;
+    var chosen_team = $.cookie("selected_team");
+    sort_alphabetically();
     switch (rows) {
         case "Build Machines":
             redo_columns(build_machines);
@@ -63,8 +71,11 @@ function create_table(rows) {
         case "Projects":
             var project_names = [];
             $.each(projects, function(i, project) {
-                project_names.push(project["name"]);
+                if (chosen_team === undefined || chosen_team == "all" || project["team"] == chosen_team){
+                    project_names.push(project["name"]);
+                }
             });
+            project_names = project_names.sort();
             redo_columns(project_names);
             break;
         case "Teams":
@@ -281,10 +292,11 @@ function load_page_structure() {
     } else {
         if (!first_date) {
             first_date = get_first_day_of_current_week();
+            first_date = prev_week(first_date[0], first_date[1], first_date[2]);
         } else {
             first_date = get_first_day_of_week(new Date(first_date[2], first_date[1] - 1, first_date[0]));
         }
-        first_date = prev_week(first_date[0], first_date[1], first_date[2]);
+
         last_date = first_date.slice();
     }
     for (var i = 0; i < column_count; i++) {
@@ -396,17 +408,20 @@ function generate_cells() {
                     $.each(row_events, function() {
 
                         var form_date = formated_to_date_array(this["date"]);
-                        if (struct["end_date"] !== undefined && date_in_dates(form_date, struct["date"], struct["end_date"]) || check_same_date(form_date, struct["date"])) {
-                            if (used_dates.indexOf(this["date"]) !== -1) {
-                                console.log(used_dates.indexOf(this["date"]));
-                                console.log(cell.find(".project_event_marker"));
+                        if (check_same_date(form_date, struct["date"], struct["end_date"] !== undefined)) {
+
+                            if (cell.find(".project_event_marker").find(".symbol_text").length){
+                                console.log(cell.find(".project_event_marker").find(".symbol_text"));
                                 cell.find(".project_event_marker").find(".symbol_text").text(cell.find(".project_event_marker").find(".symbol_text").text() + this["symbol"]);
-                            } else {
+                            }
+                            else {
+
                                 if (project_index === 0 && i !== 0) {
-                                    cell.append("<div class='project_event_marker' style='height:calc(100% - 5px);color: " + this["color"] + "; background-color: " + this["project_color"] + "'><div>" + this["symbol"] + "</div></div>");
+                                    cell.append("<div class='project_event_marker' style='height:calc(100% - 5px);color: " + this["color"] + "; background-color: " + this["project_color"] + "'><div class='symbol_text'>" + this["symbol"] + "</div></div>");
                                 } else {
                                     cell.append("<div class='project_event_marker' style='color: " + this["color"] + "; background-color: " + this["project_color"] + "'><div class='symbol_text'>" + this["symbol"] + "</div></div>");
                                 }
+
                             }
                             var text;
                             if (!project_on_date) {
@@ -477,6 +492,7 @@ function start_editing_project(project) {
 
 
 function get_projects_for_chosen_row(row) {
+    var chosen_team = $.cookie("selected_team");
     var appliable_projects = [];
     $.each(projects, function(k, project) {
         switch (chosen_row_type) {
@@ -495,9 +511,16 @@ function get_projects_for_chosen_row(row) {
                 });
                 break;
             case "ATE operators":
+                /*
                 if (project["ate_operator"] === row) {
                     appliable_projects.push(project);
-                }
+                } else{*/
+                $.each(project["derivatives"], function(i, derivative){
+                    if (derivative["ate_operator"] === row){
+                        appliable_projects.push(project);
+                    }
+                });
+                //}
                 break;
             case "Teams":
                 if (project["team"] === row) {
@@ -506,7 +529,10 @@ function get_projects_for_chosen_row(row) {
                 break;
             case "Projects":
                 if (project["name"] === row) {
-                    appliable_projects.push(project);
+                    if (chosen_team === undefined || chosen_team == "all" || project["team"] == chosen_team){
+                        appliable_projects.push(project);
+                    }
+
                 }
         }
     });
@@ -611,18 +637,49 @@ function load_view_style() {
     }
 }
 
+function load_team_selection(){
+    var team_selection = $("#team_selection");
+    team_selection.append("<option value='all'>All teams</option>>");
+    $.each(teams, function(i, t){
+       team_selection.append("<option value='" + t + "'>" + t + "</option>>");
+    });
+    team_selection.selectmenu({
+        "change": function() {
+            $.cookie("selected_team", team_selection.val());
+            create_table(chosen_row_type);
+        }
+    });
+    var saved_value = $.cookie("selected_team");
+    if (saved_value !== undefined) {
+        team_selection.val(saved_value);
+        team_selection.selectmenu("refresh");
+        load_page_structure();
+    }
+
+}
+
 function get_col_num() {
     var total_width = ($(window).width() - 16) * window.devicePixelRatio;
-    var main_width = total_width * 0.85;
+    var main_width = total_width * (0.95 -  get_slider_perc());
     return Math.floor(main_width / 30);
+}
+
+function get_slider_perc(){
+    return $.cookie("slideVal")? (Number($.cookie("slideVal")) * 0.6) / 100 : 0.15;
+    //return 0.15;
+    //return  $( "#slider" ).slider("value") / 0.6;
 }
 
 function window_resize() {
     var total_width = ($(window).width() - 16) * window.devicePixelRatio;
-    $("#filler").width(total_width * 0.08);
+    //$("#filler").width(total_width * 0.08);
+
+    var slider_perc = get_slider_perc();
+
     $("#zoombreak_disabler").width(total_width);
-    $("#row_descriptor").width(total_width / 10);
-    var main_width = total_width * 0.9;
+    $("#row_descriptor").width(total_width * slider_perc);
+    $("#mover_left").css("margin-left", slider_perc*100 - 2 + "%"); /*"calc(" + (total_width * slider_perc) + "px - 2$)")*/
+    var main_width = total_width * (1 - slider_perc);
     $("#overview").width(main_width);
     $("#full_header").width(total_width);
     var col_num = get_col_num();
@@ -635,7 +692,6 @@ function window_resize() {
 $(document).ready(function() {
     project_edit_name_select = $("#reserve_edit_project_name");
     project_name_select = $("#reserve_project_name");
-    project_leader_select = $("#reserve_leader");
     project_name_input = $("#reserve_new_project_name");
     team_select = $("#reserve_team");
     start_date_input = $("#start_date");

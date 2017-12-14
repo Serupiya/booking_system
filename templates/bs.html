@@ -55,6 +55,7 @@
                         </div>
                     </div>
                 <div id="zoombreak_disabler">
+                    <div id="slider"></div>
                     <div id="row_descriptor">
 
                     </div>
@@ -98,6 +99,10 @@
                     <input type="text" name="new_link" id="new_link" class="text ui-widget-content ui-corner-all">
                 </div>
             </div>
+            <div id="rename_dialog" title="Rename project">
+                <label id="rename_new_name_label" for="new_name"></label>
+                <input type="text" name="new_name" id="new_name" class="text ui-widget-content ui-corner-all" maxlength="62">
+            </div>
             <div id="reserve_dialog" title="Projects">
                 <div id="reserve_project_switch_tabs">
                     <ul>
@@ -113,17 +118,24 @@
 
                         <div style="overflow: auto">
 
-                            <div class="fullscreen_col">
-                                <div style="width:95%; margin-bottom: 12px" id="reserve_edit_div">
+                            <div class="fullscreen_col smaller">
+                                <div style="width: calc(100% - 12px);" id="reserve_edit_div">
                                     <label for="reserve_new_project_name">Edit project</label>
-                                    <select id="reserve_edit_project_name"></select>
+                                    <div style="width: 100%;display: inline-block;">
+                                        <div style="width:75%; float:left">
+                                            <select id="reserve_edit_project_name"></select>
+                                        </div>
+                                        <div style="width:25%;float:left">
+                                            <button id="rename_button" class="ui-button ui-corner-all ui-widget">Rename</button>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div id="reserve_create_div">
                                     <label for="reserve_new_project_name">Project Name</label>
-                                    <input type="text" name="new_project_name" id="reserve_new_project_name" class="text ui-widget-content ui-corner-all">
+                                    <input type="text" name="new_project_name" id="reserve_new_project_name" class="text ui-widget-content ui-corner-all" maxlength="62">
                                 </div>
-                                <div style="overflow: auto">
+                                <div style="overflow: auto; clear:both">
                                     <div style="width:calc(45% - 14px);margin-right:10%;float:left">
                                         <label for="start_date">Start date</label>
                                         <input type="text" style="width: 100%" name="leader" id="start_date" readonly='true' class="text ui-widget-content ui-corner-all">
@@ -135,22 +147,16 @@
                                 </div>
                                 <div style="overflow: auto">
                                     <div style="width: calc(45% - 16px);margin-right: 10%;float:left;padding-bottom:12px;">
-                                        <label for="reserve_leader">ATE operator</label>
-                                        <select style="float:left" id="reserve_leader"></select>
-                                    </div>
-                                    <div style="width: calc(45% - 16px);float:left">
-                                        <label for="reserve_leader">Team</label>
-                                        <select style="float:left" id="reserve_team"></select>
-                                    </div>
-                                </div>
-                                <div style="overflow: auto">
-                                    <div style="width:calc(100% - 32px);float:left;padding-bottom:12px">
                                         <label for="framework">Framework</label>
                                         <select style="float:left" id="framework"></select>
                                     </div>
+                                    <div style="width: calc(45% - 16px);float:left">
+                                        <label for="reserve_team">Team</label>
+                                        <select style="float:left" id="reserve_team"></select>
+                                    </div>
                                 </div>
 
-                                <div>
+                                <div style="width:calc(100% - 12px)">
                                     <label for="event_select">Events</label>
                                     <div style="width:70%;float:left;padding-bottom:12px">
                                         <select style="float:left" id="event_select">
@@ -189,11 +195,14 @@
                                     <label style="float:left; width:30%">
                                         Name
                                     </label>
-                                    <label style="float:left; width:29%">
+                                    <label style="float:left; width:21.45%">
                                         Build Station
                                     </label>
-                                    <label style="float:left; width:30%">
+                                    <label style="float:left; width:21.45%">
                                         Execution Station
+                                    </label>
+                                    <label style="float:left; width:21.45%">
+                                        ATE operator
                                     </label>
                                 </div>
                                 <div id="reserve_derivative_div" style="overflow: auto">
@@ -201,7 +210,7 @@
 
                             </div>
 
-                            <div class="fullscreen_col">
+                            <div class="fullscreen_col smaller">
                                 <div style="overflow: auto;position:relative">
                                     <div id="link_container" style="display:none">
                                         <label >Hyperlinks</label>
@@ -209,25 +218,24 @@
                                         </div>
                                     </div>
                                     <div style="clear:both">
-                                        <div style="width:35%;float:left">
+                                        <div style="width:calc(35% + 5px);float:left">
                                             <label for="link_input">Link</label>
                                         </div>
-                                        <div style="width:5%;height:1px;float:left"></div>
-                                        <div style="width:35%;float:left">
+
+                                        <div style="width:calc(35% + 5px);float:left">
                                             <label for="link_description">Description</label>
                                         </div>
                                     </div>
-                                    <div style="width:35%;float:left">
-
-                                        <input type="text" style="width: 100%" name="link_input" id="link_input" class="text ui-widget-content ui-corner-all">
-                                    </div>
-                                    <div style="width:5%;height:1px;float:left"></div>
-                                    <div style="width:35%;float:left">
-                                        <input type="text" style="width: 100%" name="link_description" id="link_description" class="text ui-widget-content ui-corner-all">
-                                    </div>
-                                    <div style="width:5%;height:1px;float:left"></div>
-                                    <div style="width:20%;float:left">
-                                        <button class="ui-button ui-corner-all ui-widget" id="add_link">Add</button>
+                                    <div style="display: inline-block;">
+                                        <div style="width:calc(35% - 13px);margin-right: 18px;float:left;">
+                                            <input type="text" style="width: 100%" name="link_input" id="link_input" class="text ui-widget-content ui-corner-all">
+                                        </div>
+                                        <div style="width:calc(35% - 13px);margin-right: 18px;float:left;">
+                                            <input type="text" style="width: 100%" name="link_description" id="link_description" class="text ui-widget-content ui-corner-all">
+                                        </div>
+                                        <div style="width:calc(20% - 32px);float:left">
+                                            <button class="ui-button ui-corner-all ui-widget" id="add_link">Add</button>
+                                        </div>
                                     </div>
 
                                 </div>
@@ -383,10 +391,14 @@
             <button id="add_global_event" class="ui-button ui-corner-all ui-widget">Global events</button>
             <button id="open_config" class="ui-button ui-corner-all ui-widget">Configuration</button>
             <button id="open_authorization" class="ui-button ui-corner-all ui-widget">Authorize</button>
-            <div style="width:20%; float:right;margin-right: 5%;">
+            <div style="width:15%; float:right;margin-right: 7%;">
                 <select id="view_style">
                     <option value="daily">Daily View</option>
                     <option value="weekly">Weekly View</select>
+                </select>
+            </div>
+            <div style="width:12%; float:right;margin-right: 20px;">
+                <select id="team_selection">
                 </select>
             </div>
         </div>
