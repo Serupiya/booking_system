@@ -184,7 +184,7 @@ function hack_tooltips() {
 
 function load_slider(){
     $( "#slider" ).slider({
-        value: $.cookie("slideVal")?$.cookie("slideVal"):15,
+        value: $.cookie("slideVal")?$.cookie("slideVal"):15/0.6,
         stop: function(__, val){
             $.cookie("slideVal", val.value);
             window_resize();

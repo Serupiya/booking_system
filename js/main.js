@@ -375,11 +375,11 @@ function generate_cells() {
                     cell.addClass("reserved");
                     var tooltip = $("<div></div>");
                     tooltip.append("<div>Project: " + project_on_date["name"] + "</div>");
-                    tooltip.append("<div>ATE Operator: " + project_on_date["ate_operator"] + "</div>");
+                    //tooltip.append("<div>ATE Operator: " + project_on_date["ate_operator"] + "</div>");
                     if (project_on_date["derivatives"] !== undefined && project_on_date["derivatives"].length) {
                         tooltip.append("<div>Derivatives:</div>");
                         $.each(project_on_date["derivatives"], function() {
-                            tooltip.append("<div style='margin-left:25px'>" + this["name"] + " - " + this["build_station"] + "</div>");
+                            tooltip.append("<div style='margin-left:25px'>" + this["name"] + " - " + this["build_station"] + " / " + this["ate_operator"] +  "</div>");
                         });
                     }
                     cell.attr("title", tooltip.html());
