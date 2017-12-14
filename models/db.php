@@ -10,14 +10,12 @@ function get_db_connection(){
     $conn = new mysqli($server_name, $username, $password);
     return $conn;
 }
-*/
 
-/*
 function get_schema_name(){
     return "booking_system";
 }
-
 */
+
 
 
 
@@ -39,3 +37,4 @@ function get_schema_name(){
     return "heroku_426923c18edf463";
 
 }
+

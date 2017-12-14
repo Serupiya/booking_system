@@ -217,7 +217,7 @@ function load_reserve_dialog() {
                     $(checkbox).prop("checked", $("#" + $(checkbox).attr("name")).prop("checked"));
                     progress += Number($(checkbox).prop("checked")) * 10;
                 });
-                currently_edited_ate_milestone.parent().find(".progressbar").progressbar("value", progress + "%");
+                currently_edited_ate_milestone.parent().find(".progressbar").progressbar("value", progress);
                 $(this).dialog("close");
             },
             "Cancel": function() {
@@ -535,7 +535,10 @@ function activate_derivative_add_button() {
             progress_container.append(progress_visual);
             progress_container.append(progress_checkbox_info_container);
             progress_visual.progressbar({
-                value: "0%",
+                value: 0,
+                create: function(){
+                    progress_visual_label.text("0%");
+                },
                 change: function() {
                     progress_visual_label.text(progress_visual.progressbar("value") + "%");
                 },
