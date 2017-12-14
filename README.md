@@ -10,5 +10,5 @@ To make this work: <br>
 In case there are any problems and you are able to access the page, there should be a error dump in the browser console - check it out first.
 <br><br>
 To update to version 1.1:<br>
-1) Run the SQL script in database_dump/db_migration.txt<br>
+1) Run the SQL script from database_dump/db_migration.txt<br>
 2) update the rest of the files except models/db.php<br>
