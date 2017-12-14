@@ -9,4 +9,6 @@ To make this work: <br>
 *this can be done with INSERT INTO `/schema name/`.`authorization` (`password`, `level`) VALUES ('/password/', /level/); where you replace the values in the / brackets with your own <br>
 In case there are any problems and you are able to access the page, there should be a error dump in the browser console - check it out first.
 
-
+To update to version 1.1:
+1) Run the SQL script in database_dump/db_migration.txt
+2) update the rest of the files except models/db.php
