@@ -209,6 +209,7 @@ function load_reserve_dialog() {
         resizable: false,
         autoOpen: false,
         modal: true,
+        value: "0%",
         buttons: {
             "Ok": function() {
                 var progress = 0;
