@@ -78,11 +78,6 @@ function create_table(rows) {
             project_names = project_names.sort();
             redo_columns(project_names);
             break;
-        /*
-        case "Teams":
-            redo_columns(teams);
-            break;
-        */
         case "ATE operators":
             redo_columns(ate_operators);
             break;
@@ -377,7 +372,6 @@ function generate_cells() {
                     cell.addClass("reserved");
                     var tooltip = $("<div></div>");
                     tooltip.append("<div>Project: " + project_on_date["name"] + "</div>");
-                    //tooltip.append("<div>ATE Operator: " + project_on_date["ate_operator"] + "</div>");
                     if (project_on_date["derivatives"] !== undefined && project_on_date["derivatives"].length) {
                         tooltip.append("<div>Derivatives:</div>");
                         $.each(project_on_date["derivatives"], function() {
@@ -402,7 +396,6 @@ function generate_cells() {
                     var separator = $("<div class='separator'></div>");
                     cell.append(separator);
                     cell.css("height", "35px");
-                    //cell.addClass("separator");
                 }
 
                 if (row_events !== undefined && row_events.length) {
@@ -453,8 +446,6 @@ function generate_cells() {
                         }
                     })
                 }
-                //cell.addClass(page_structure[k]["column"].children().length%2?"even_row":"odd_row");
-
                 struct["column"].append(cell);
 
             });
@@ -513,24 +504,12 @@ function get_projects_for_chosen_row(row) {
                 });
                 break;
             case "ATE operators":
-                /*
-                if (project["ate_operator"] === row) {
-                    appliable_projects.push(project);
-                } else{*/
                 $.each(project["derivatives"], function(i, derivative){
                     if (derivative["ate_operator"] === row){
                         appliable_projects.push(project);
                     }
                 });
-                //}
                 break;
-            /*
-            case "Teams":
-                if (project["team"] === row) {
-                    appliable_projects.push(project);
-                }
-                break;
-                */
             case "Projects":
                 if (project["name"] === row) {
                     if (chosen_team === undefined || chosen_team == "all" || project["team"] == chosen_team){
@@ -670,13 +649,10 @@ function get_col_num() {
 
 function get_slider_perc(){
     return $.cookie("slideVal")? (Number($.cookie("slideVal")) * 0.6) / 100 : 0.15;
-    //return 0.15;
-    //return  $( "#slider" ).slider("value") / 0.6;
 }
 
 function window_resize() {
     var total_width = ($(window).width() - 16) * window.devicePixelRatio;
-    //$("#filler").width(total_width * 0.08);
 
     var slider_perc = get_slider_perc();
 

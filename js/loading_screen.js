@@ -190,10 +190,6 @@ function load_slider(){
             window_resize();
         }
     });
-/*
-    $( "#slider" ).slider(
-        "value", 15 / 0.6
-    );*/
 }
 
 function load_design(status_div) {
