@@ -71,7 +71,7 @@ function create_table(rows) {
         case "Projects":
             var active_project_names = [];
             $.each(projects, function(i, project) {
-                if (dates_overlap(first_date, last_date, formated_to_date_array(project["start_date"]), formated_to_date_array(project["end_date"]))){
+                if (dates_overlap(first_date, get_last_day_of_week(last_date), formated_to_date_array(project["start_date"]), formated_to_date_array(project["end_date"]))){
                     if (chosen_team === undefined || chosen_team == "all" || project["team"] == chosen_team){
                         active_project_names.push(project["name"]);
                     }
@@ -416,9 +416,7 @@ function generate_cells() {
 
                         var form_date = formated_to_date_array(this["date"]);
                         if (check_same_date(form_date, struct["date"], struct["end_date"] !== undefined)) {
-
                             if (cell.find(".project_event_marker").find(".symbol_text").length){
-                                console.log(cell.find(".project_event_marker").find(".symbol_text"));
                                 cell.find(".project_event_marker").find(".symbol_text").text(cell.find(".project_event_marker").find(".symbol_text").text() + this["symbol"]);
                             }
                             else {
