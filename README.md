@@ -12,3 +12,8 @@ In case there are any problems and you are able to access the page, there should
 To update to version 1.1:<br>
 1) Run the SQL script from database_dump/db_migration.txt<br>
 2) update the rest of the files except models/db.php<br>
+<br>
+Version 1.12:<br>
+Added Projects History; Projects now show only active projects<br>
+To update to version 1.12:<br>
+- override all files except for modesl/db.php<br>
