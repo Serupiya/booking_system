@@ -69,6 +69,18 @@ function create_table(rows) {
             redo_columns(exec_machines);
             break;
         case "Projects":
+            var active_project_names = [];
+            $.each(projects, function(i, project) {
+                if (dates_overlap(first_date, last_date, formated_to_date_array(project["start_date"]), formated_to_date_array(project["end_date"]))){
+                    if (chosen_team === undefined || chosen_team == "all" || project["team"] == chosen_team){
+                        active_project_names.push(project["name"]);
+                    }
+                }
+            });
+            active_project_names = active_project_names.sort();
+            redo_columns(active_project_names);
+            break;
+        case "Projects History":
             var project_names = [];
             $.each(projects, function(i, project) {
                 if (chosen_team === undefined || chosen_team == "all" || project["team"] == chosen_team){
@@ -510,6 +522,7 @@ function get_projects_for_chosen_row(row) {
                     }
                 });
                 break;
+            case "Projects History":
             case "Projects":
                 if (project["name"] === row) {
                     if (chosen_team === undefined || chosen_team == "all" || project["team"] == chosen_team){
@@ -517,6 +530,7 @@ function get_projects_for_chosen_row(row) {
                     }
 
                 }
+                break;
         }
     });
     return appliable_projects;
@@ -524,7 +538,7 @@ function get_projects_for_chosen_row(row) {
 
 function get_events_for_chosen_row(row) {
     var events = [];
-    if (chosen_row_type == "Projects") {
+    if (chosen_row_type == "Projects" || chosen_row_type == "Projects History") {
         $.each(projects, function(k, project) {
             if (project["name"] === row && events !== undefined) {
                 events = project["events"];

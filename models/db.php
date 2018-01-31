@@ -15,8 +15,8 @@ function get_db_connection(){
 function get_schema_name(){
     return "booking_system";
 }
-
 */
+
 
 
 
