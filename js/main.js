@@ -80,7 +80,7 @@ function create_table(rows) {
             active_project_names = active_project_names.sort();
             redo_columns(active_project_names);
             break;
-        case "Projects History":
+        case "Project History":
             var project_names = [];
             $.each(projects, function(i, project) {
                 if (chosen_team === undefined || chosen_team == "all" || project["team"] == chosen_team){
@@ -520,7 +520,7 @@ function get_projects_for_chosen_row(row) {
                     }
                 });
                 break;
-            case "Projects History":
+            case "Project History":
             case "Projects":
                 if (project["name"] === row) {
                     if (chosen_team === undefined || chosen_team == "all" || project["team"] == chosen_team){
@@ -536,7 +536,7 @@ function get_projects_for_chosen_row(row) {
 
 function get_events_for_chosen_row(row) {
     var events = [];
-    if (chosen_row_type == "Projects" || chosen_row_type == "Projects History") {
+    if (chosen_row_type == "Projects" || chosen_row_type == "Project History") {
         $.each(projects, function(k, project) {
             if (project["name"] === row && events !== undefined) {
                 events = project["events"];
