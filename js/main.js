@@ -498,37 +498,36 @@ function get_projects_for_chosen_row(row) {
     var chosen_team = $.cookie("selected_team");
     var appliable_projects = [];
     $.each(projects, function(k, project) {
-        switch (chosen_row_type) {
-            case "Build Machines":
-                $.each(project["derivatives"], function(i, derivative) {
-                    if (derivative["build_station"] === row) {
+        if (chosen_team === undefined || chosen_team == "all" || project["team"] == chosen_team){
+            switch (chosen_row_type) {
+                case "Build Machines":
+                    $.each(project["derivatives"], function(i, derivative) {
+                        if (derivative["build_station"] === row) {
+                            appliable_projects.push(project);
+                        }
+                    });
+                    break;
+                case "Execution Machines":
+                    $.each(project["derivatives"], function(i, derivative) {
+                        if (derivative["exec_station"] === row) {
+                            appliable_projects.push(project);
+                        }
+                    });
+                    break;
+                case "ATE operators":
+                    $.each(project["derivatives"], function(i, derivative){
+                        if (derivative["ate_operator"] === row){
+                            appliable_projects.push(project);
+                        }
+                    });
+                    break;
+                case "Project History":
+                case "Projects":
+                    if (project["name"] === row) {
                         appliable_projects.push(project);
                     }
-                });
-                break;
-            case "Execution Machines":
-                $.each(project["derivatives"], function(i, derivative) {
-                    if (derivative["exec_station"] === row) {
-                        appliable_projects.push(project);
-                    }
-                });
-                break;
-            case "ATE operators":
-                $.each(project["derivatives"], function(i, derivative){
-                    if (derivative["ate_operator"] === row){
-                        appliable_projects.push(project);
-                    }
-                });
-                break;
-            case "Project History":
-            case "Projects":
-                if (project["name"] === row) {
-                    if (chosen_team === undefined || chosen_team == "all" || project["team"] == chosen_team){
-                        appliable_projects.push(project);
-                    }
-
-                }
-                break;
+                    break;
+            }
         }
     });
     return appliable_projects;
