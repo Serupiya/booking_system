@@ -2,6 +2,9 @@
     font-family: Candara, Calibri, Segoe, "Segoe UI", Optima, Arial, sans-serif;
 }
 
+body{
+    margin-top: 0;
+}
 label, input { display:block; }
 input.text { margin-bottom:12px; width:95%; padding: .4em; }
 fieldset { padding:0; border:0; }
@@ -214,7 +217,7 @@ li>a{
 
 #loading_screen{
     background: white;
-    z-index: 3;
+    z-index: 12;
     position: fixed;
     width: 100%;
     height: 100%;
@@ -427,8 +430,23 @@ li>a{
     width:calc(100% - 32px);
 }
 
+#date_space_filler{
+    width:100%;
+    height: 86px;
+}
+
 #date_header{
     width:100%;
+}
+#column_chooser-button{
+    padding:3px 8px;
+}
+
+#full_header{
+    position:  fixed;
+    background:  white;
+    z-index: 10;
+    padding-top: 8px;
 }
 
 .unauthorized{
@@ -460,7 +478,9 @@ li>a{
 #slider{
     height: 0px;
     border-width: 0px;
-    width:60%
+    width:60%;
+    position:fixed;
+    z-index: 11;
 }
 
 
