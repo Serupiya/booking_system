@@ -13,7 +13,10 @@ To update to version 1.1:<br>
 1) Run the SQL script from database_dump/db_migration.txt<br>
 2) update the rest of the files except models/db.php<br>
 <br>
-Version 1.12:<br>
-Added Projects History; Projects now show only active projects<br>
-To update to version 1.12:<br>
+Version 1.13:<br>
+-Added Projects History; Projects now show only active projects<br>
+-Header location is now fixed<br>
+-Removed most grey or bright colors<br>
+-Team filter now works in all categories<br>
+To update to version 1.13:<br>
 - override all files except for modesl/db.php<br>
