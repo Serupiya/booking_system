@@ -15,6 +15,7 @@ function get_db_connection(){
 function get_schema_name(){
     return "booking_system";
 }
+
 */
 
 
@@ -39,5 +40,4 @@ function get_schema_name(){
     return "heroku_426923c18edf463";
 
 }
-
 

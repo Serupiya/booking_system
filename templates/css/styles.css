@@ -284,7 +284,7 @@ li>a{
 
 #load_overlay{
     background: rgba(255, 255, 255, 0.86);
-    z-index: 1000;
+    z-index: 150;
     position: fixed;
     width: 100%;
     height: 100%;
@@ -479,7 +479,6 @@ li>a{
     height: 0px;
     border-width: 0px;
     width:60%;
-    position:fixed;
     z-index: 11;
 }
 
@@ -507,4 +506,44 @@ li>a{
 
 .link{
     word-break: break-all;
+}
+/*
+.ui-selectmenu-open{
+    z-index: 103;
+}*/
+
+#maf_config_list{
+    display: inline-block;
+    width:100%;
+    float:left;
+}
+
+.sliding_label{
+    width: calc(95% + 11px);
+    background-color: #f6f6f6;
+    margin-bottom: 5px;
+    height: 26px;
+    vertical-align: middle;
+    line-height: 26px;
+    padding-left: 5px;
+    clear:both;
+}
+.sliding_label:hover{
+    background-color: #e9e9e9;
+}
+.maf_field_container{
+    width:50%;
+    float: left;
+    margin-top: 10px;
+}
+.maf_station_select_size_reducer{
+    width: calc(85% - 32px);
+    float: left;
+}
+
+#maf_container{
+    clear:both;
+    width: calc(100% - 16px);
+    margin-bottom: 20px;
+    display:inline-block;
 }

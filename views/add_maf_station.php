@@ -1,7 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Michal
- * Date: 16. 2. 2018
- * Time: 20:52
- */
+
+include_once "../controllers/config.php";
+$controller = new MAFStation();
+$result = $controller->add($_POST);
+header('Content-Type: application/json');
+echo json_encode($result);

@@ -42,6 +42,7 @@
                             <option value="Build Machines">Build Machines</option>
                             <option value="Execution Machines">Execution Machines</option>
                             <option value="ATE operators">ATE operators</option>
+                            <option value="MAF Lite">MAF Lite</option>
                             <option value="Project History">Project History</option>
                             <option value="Projects">Projects</option>
                         </select>
@@ -184,33 +185,44 @@
                                 </div>
                             </div>
                             <div class="fullscreen_col">
-                                <div style="overflow: auto; clear:both">
-                                    <label for="reserve_derivative">Derivative</label>
-                                    <div style="width:70%;float:left">
+                                <div style="overflow: auto; clear:both; display:inline">
+                                    <label for="derivative_toggle" class="sliding_label">Derivatives</label>
+                                    <div id="derivative_toggle">
+                                        <div style="width:70%;float:left">
+                                            <input type="text" placeholder="New derivative name" style="width: 100%" name="reserve_derivative" id="reserve_derivative" class="text ui-widget-content ui-corner-all">
+                                        </div>
+                                        <div style="width:calc(5% + 16px);float:left;height: 1px"></div>
+                                        <div style="width:20%;float:left">
+                                            <button style="width:100%;float:left" id="reserve_add_derivative_btn" class="ui-button ui-corner-all ui-widget">Add</button>
+                                        </div>
+                                        <div style="width:95%;display: none"; id="derivative_labels">
+                                            <label style="float:left; width:30%">
+                                                Name
+                                            </label>
+                                            <label style="float:left; width:21.45%">
+                                                Build Station
+                                            </label>
+                                            <label style="float:left; width:21.45%">
+                                                Execution Station
+                                            </label>
+                                            <label style="float:left; width:21.45%">
+                                                ATE operator
+                                            </label>
+                                        </div>
+                                        <div id="reserve_derivative_div" style="overflow: auto">
+                                        </div>
+                                    </div>
+                                    <label for="maf_toggle" style="margin-top:10px" class="sliding_label">MAF Lite</label>
+                                    <div id="maf_toggle">
+                                        <div style="width:20%;float:left">
+                                            <button style="width:100%;float:left" id="new_maf_button" class="ui-button ui-corner-all ui-widget">Add</button>
+                                        </div>
+                                        <div id="maf_container">
 
-                                        <input type="text" style="width: 100%" name="reserve_derivative" id="reserve_derivative" class="text ui-widget-content ui-corner-all">
-                                    </div>
-                                    <div style="width:calc(5% + 16px);;float:left;height: 1px"></div>
-                                    <div style="width:20%;float:left">
-                                        <button style="width:100%;float:left" id="reserve_add_derivative_btn" class="ui-button ui-corner-all ui-widget">Add</button>
+                                        </div>
                                     </div>
                                 </div>
-                                <div style="width:95%;display: none"; id="derivative_labels">
-                                    <label style="float:left; width:30%">
-                                        Name
-                                    </label>
-                                    <label style="float:left; width:21.45%">
-                                        Build Station
-                                    </label>
-                                    <label style="float:left; width:21.45%">
-                                        Execution Station
-                                    </label>
-                                    <label style="float:left; width:21.45%">
-                                        ATE operator
-                                    </label>
-                                </div>
-                                <div id="reserve_derivative_div" style="overflow: auto">
-                                </div>
+
 
                             </div>
 
@@ -306,16 +318,19 @@
             <div id="config_tab_switch">
                 <ul>
                     <li>
-                        <a href="#exec_machines_config">Execution machines</a>
+                        <a class="main_config config_link" href="#exec_machines_config">Execution machines</a>
                     </li>
                     <li>
-                        <a href="#build_stations_config">Build stations</a>
+                        <a class="main_config config_link" href="#build_stations_config">Build stations</a>
                     </li>
                     <li>
-                        <a href="#teams_config">Teams</a>
+                        <a class="main_config config_link" href="#teams_config">Teams</a>
                     </li>
                     <li>
-                        <a href="#ate_operators_config">ATE operators</a>
+                        <a class="main_config config_link" href="#ate_operators_config">ATE operators</a>
+                    </li>
+                    <li>
+                        <a class="maf_config config_link" href="#maf_lite_stations_config">MAF Lite</a>
                     </li>
                 </ul>
                 <div id="exec_machines_config">
@@ -386,6 +401,36 @@
                     <br>
                     <hr style="clear:both">
                     <div id="ate_operators_config_list"></div>
+                </div>
+                <div id="maf_lite_stations_config">
+                    <div style="margin-left:13px">
+                        <div class="four_fields">
+                            <label for="maf_add_name">Name</label>
+                            <input id="maf_add_name" class="text ui-widget-content ui-corner-all">
+                        </div>
+                        <div class="four_fields">
+                            <label for="maf_add_ip">IP address</label>
+                            <input id="maf_add_ip" class="text ui-widget-content ui-corner-all">
+                        </div>
+                        <div class="four_fields">
+                            <label for="maf_add_status">Status</label>
+                            <select id="maf_add_status">
+                                <option value="running">RUNNING</option>
+                                <option value="malfunction">MALFUNCTION</option>
+                                <option value="borrowed">BORROWED</option>
+                            </select>
+                        </div>
+                        <div class="four_fields">
+                            <label for="maf_add_comment">Additional info</label>
+                            <input id="maf_add_comment" class="not-required text ui-widget-content ui-corner-all">
+                        </div>
+                        <div style="float:left;">
+                            <button style="top:1.2em" class="ui-button ui-corner-all ui-widget" id="add_maf_config">Add</button>
+                        </div>
+                    </div>
+                    <br>
+                    <hr style="clear:both">
+                    <div id="maf_config_list"></div>
                 </div>
             </div>
         </div>

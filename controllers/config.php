@@ -89,3 +89,22 @@ class BuildStation{
         return $this->build_station_model->result;
     }
 }
+
+class MAFStation{
+    private $maf_station_model;
+    function __construct(){
+        $this->maf_station_model = new MAFStationModel();
+    }
+    public function add($machine){
+        $this->maf_station_model->add($machine);
+        return $this->maf_station_model->result;
+    }
+    public function delete($machine){
+        $this->maf_station_model->delete($machine);
+        return $this->maf_station_model->result;
+    }
+    public function modify($machine){
+        $this->maf_station_model->modify($machine);
+        return $this->maf_station_model->result;
+    }
+}

@@ -15,34 +15,42 @@ class ConfigModel extends BaseModel
             "exec_stations" => Array(),
             "build_stations" => Array(),
             "teams" => Array(),
-            "ate_operators" => Array());
+            "ate_operators" => Array(),
+            "maf_stations" => Array());
 
-        $query_result = $this->db->query("SELECT * FROM exec_stations;");
+        $query_result = $this->db->query("SELECT * FROM exec_stations ORDER BY name;");
         if ($this->assert_error("Failed to fetch config/exec_stations")) return;
 
         while($result = $query_result->fetch_assoc()) {
             array_push($this->result["exec_stations"], $result);
         }
 
-        $query_result = $this->db->query("SELECT * FROM build_stations;");
+        $query_result = $this->db->query("SELECT * FROM build_stations ORDER BY name;");
         if ($this->assert_error("Failed to fetch config/build_stations")) return;
 
         while($result = $query_result->fetch_assoc()) {
             array_push($this->result["build_stations"], $result);
         }
 
-        $query_result = $this->db->query("SELECT * FROM teams;");
+        $query_result = $this->db->query("SELECT * FROM teams ORDER BY name;");
         if ($this->assert_error("Failed to fetch config/teams")) return;
 
         while($result = $query_result->fetch_assoc()) {
             array_push($this->result["teams"], $result);
         }
 
-        $query_result = $this->db->query("SELECT * FROM ate_operators;");
+        $query_result = $this->db->query("SELECT * FROM ate_operators ORDER BY name;");
         if ($this->assert_error("Failed to fetch config/ate_operators")) return;
 
         while($result = $query_result->fetch_assoc()) {
             array_push($this->result["ate_operators"], $result);
+        }
+
+        $query_result = $this->db->query("SELECT * FROM maf_stations ORDER BY name;");
+        if ($this->assert_error("Failed to fetch config/maf_stations")) return;
+
+        while($result = $query_result->fetch_assoc()) {
+            array_push($this->result["maf_stations"], $result);
         }
     }
 }
@@ -130,7 +138,7 @@ class ExecMachinesModel extends BaseModel
             $exec_machine["id"]);
 
         $this->db->query($query);
-        if ($this->assert_error("Failed to modify exec station")) return;
+        if ($this->assert_error("Failed to modify execution machine")) return;
         $this->result = $exec_machine;
     }
 }
@@ -189,7 +197,7 @@ class OperatorModel extends BaseModel
         $query = sprintf("INSERT INTO ate_operators (name) VALUES ('%s');",
             $operator["name"]);
         $this->db->query($query);
-        if ($this->assert_error("Failed to add team")) return;
+        if ($this->assert_error("Failed to add operator")) return;
         $operator["id"] = $this->db->insert_id;
         $this->result = $operator;
     }
@@ -199,7 +207,7 @@ class OperatorModel extends BaseModel
         $this->escape_array($operator);
         $query = sprintf("DELETE FROM ate_operators WHERE id = %d", $operator["id"]);
         $this->db->query($query);
-        if ($this->assert_error("Failed to delete team")) return;
+        if ($this->assert_error("Failed to delete operator")) return;
         $this->result = $operator;
     }
     public function modify($operator){
@@ -214,5 +222,48 @@ class OperatorModel extends BaseModel
         $this->db->query($query);
         if ($this->assert_error("Failed to modify operator")) return;
         $this->result = $operator;
+    }
+}
+
+class MAFStationModel extends BaseModel{
+    function __construct()
+    {
+        parent::__construct();
+    }
+    public function add($maf){
+        if ($this->error) return;
+
+        $this->escape_array($maf);
+        $query = sprintf("INSERT INTO maf_stations (name, ip, status, comment) VALUES ('%s', '%s', '%s', '%s');",
+            $maf["name"], $maf["ip"], $maf["status"], $maf["comment"]);
+        $this->db->query($query);
+        if ($this->assert_error("Failed to add MAF")) return;
+        $maf["id"] = $this->db->insert_id;
+        $this->result = $maf;
+    }
+    public function delete($maf){
+        if ($this->error) return;
+
+        $this->escape_array($maf);
+        $query = sprintf("DELETE FROM maf_stations WHERE id = %d", $maf["id"]);
+        $this->db->query($query);
+        if ($this->assert_error("Failed to delete MAF")) return;
+        $this->result = $maf;
+    }
+    public function modify($maf){
+        if ($this->error) return;
+
+        $this->escape_array($maf);
+
+        $query = sprintf("UPDATE maf_stations SET name = '%s', ip = '%s', status = '%s', comment = '%s' WHERE id = %d;",
+            $maf["name"],
+            $maf["ip"],
+            $maf["status"],
+            $maf["comment"],
+            $maf["id"]);
+
+        $this->db->query($query);
+        if ($this->assert_error("Failed to modify MAF")) return;
+        $this->result = $maf;
     }
 }

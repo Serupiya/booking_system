@@ -2,6 +2,7 @@ var build_machines;
 var exec_machines;
 var ate_operators;
 var teams;
+var maf_stations;
 var exec_machine_frameworks;
 var exec_locations;
 var build_machine_links;
@@ -82,16 +83,29 @@ function create_table(rows) {
             break;
         case "Project History":
             var project_names = [];
-            $.each(projects, function(i, project) {
+            var projects_sorted_by_start_date = projects.sort(function(first, second){
+                var date1 = formated_to_date_array(first["start_date"]);
+                var date2 = formated_to_date_array(second["start_date"]);
+                for (var i = 2; i>=0; i--){
+                    if (date1[i] != date2[i]){
+                        return date1[i] < date2[i]?1:-1;
+                    }
+                }
+                return 0;
+            });
+
+            $.each(projects_sorted_by_start_date, function(i, project) {
                 if (chosen_team === undefined || chosen_team == "all" || project["team"] == chosen_team){
                     project_names.push(project["name"]);
                 }
             });
-            project_names = project_names.sort();
             redo_columns(project_names);
             break;
         case "ATE operators":
             redo_columns(ate_operators);
+            break;
+        case "MAF Lite":
+            redo_columns(maf_stations);
             break;
     }
 }
@@ -527,6 +541,13 @@ function get_projects_for_chosen_row(row) {
                         appliable_projects.push(project);
                     }
                     break;
+                case "MAF Lite":
+                    $.each(project["maf_stations"], function(i, station){
+                        if (station === row){
+                            appliable_projects.push(project);
+                        }
+                    });
+                    break;
             }
         }
     });
@@ -699,5 +720,8 @@ $(document).ready(function() {
     view_style = $("#view_style");
     column_count = get_col_num();
     $(window).resize(window_resize);
+    $(window).scroll(function(){
+        $("#full_header").css("left", (-$(window).scrollLeft() + 8) + "px");
+    });
     load();
 });

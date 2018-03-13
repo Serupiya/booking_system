@@ -237,6 +237,11 @@ function get_possible_reservation_slots(start_date, end_date, own_project) {
     var viable_operators = ate_operators.slice();
     viable_operators.push("TBD");
     var used_operators = [];
+
+    var viable_maf_stations = maf_stations.slice();
+    viable_maf_stations.push("TBD");
+    var used_maf_stations = [];
+
     $.each(projects, function(i, project) {
         if (own_project === undefined || project["name"] !== own_project) {
             if (dates_overlap(start_date, end_date,
@@ -264,6 +269,16 @@ function get_possible_reservation_slots(start_date, end_date, own_project) {
                         }
                     }
                 });
+                $.each(project["maf_stations"], function(k, maf_name){
+                    var j;
+                    if (maf_name !== "TBD"){
+                        j = viable_maf_stations.indexOf(maf_name);
+                        if (j >= 0){
+                            viable_maf_stations.splice(j, 1);
+                            used_maf_stations.push(maf_name);
+                        }
+                    }
+                });
 
             }
         }
@@ -278,6 +293,8 @@ function get_possible_reservation_slots(start_date, end_date, own_project) {
         "build_machines": viable_build_machines,
         "used_build_machines": used_build_machines,
         "ate_operators": viable_operators,
-        "used_ate_operators": used_operators
+        "used_ate_operators": used_operators,
+        "maf_stations": viable_maf_stations,
+        "used_maf_stations": used_maf_stations
     }
 }

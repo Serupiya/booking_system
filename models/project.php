@@ -66,12 +66,18 @@ class ProjectModel extends BaseModel{
             $project["name"]);
         $this->db->query($query);
 
-        $this->db->query($query);
+        //$this->db->query($query);
         if ($this->assert_error("Failed to delete old events")) return;
+
+        $query = sprintf("DELETE FROM project_mafs WHERE project_name = '%s'",
+            $project["name"]);
+        $this->db->query($query);
+        if ($this->assert_error("Failed to delete old maf stations")) return;
+
 
         if (!$this->add_links($project)) return;
         if (!$this->add_project_events($project)) return;
-
+        if (!$this->add_maf_stations($project)) return;
 
         $this->result = $project;
     }
@@ -102,6 +108,7 @@ class ProjectModel extends BaseModel{
         if (!$this->add_derivatives($project)) return;
         if (!$this->add_links($project)) return;
         if (!$this->add_project_events($project)) return;
+        if (!$this->add_maf_stations($project)) return;
         $this->result = $project;
     }
 
@@ -237,6 +244,16 @@ class ProjectModel extends BaseModel{
                 }
             }
 
+            $project["maf_stations"] = Array();
+            $maf_query_result = $this->db->query(sprintf("SELECT * FROM project_mafs WHERE project_name = '%s'",
+                $project["name"]));
+
+            if ($maf_query_result) {
+                while ($maf = $maf_query_result->fetch_assoc()) {
+                    array_push($project["maf_stations"], $maf["maf_name"]);
+                }
+            }
+
             array_push($this->result, $project);
         }
     }
@@ -283,6 +300,20 @@ class ProjectModel extends BaseModel{
         }
         return true;
     }
+
+    private function add_maf_stations($project){
+        if (array_key_exists("maf_stations", $project)) {
+            foreach ($project["maf_stations"] as $station) {
+                $query = sprintf("INSERT INTO project_mafs (project_name, maf_name) VALUES ('%s', '%s')",
+                    $project["name"],
+                    $station);
+                $this->db->query($query);
+                if ($this->assert_error("Failed to add maf stations")) return false;
+            }
+        }
+        return true;
+    }
+
     private function add_project_events($project){
         if (array_key_exists("events", $project)) {
             foreach ($project["events"] as $event) {

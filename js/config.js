@@ -4,12 +4,14 @@ function load_config_dialog() {
         autoOpen: false,
         modal: true,
         minWidth: 600,
+        width: 900,
         height: 600,
         buttons: {
             "Close": function() {
                 $(this).dialog("close");
             }
         },
+
         close: function() {
             block_screen_with_load();
             config_to_visuals();
@@ -18,44 +20,115 @@ function load_config_dialog() {
 
         }
     });
-    $("#config_tab_switch").tabs()
+    $("#config_tab_switch").tabs();
     $("#open_config").click(function() {
         $("#config_dialog").dialog("open");
+        $("#ate_operators_config_list").empty();
+        $("#teams_config_list").empty();
+        $("#build_stations_config_list").empty();
+        $("#maf_config_list").empty();
+        $("#exec_machines_config_list").empty();
+        $.each(config["build_stations"], function(i, bm) {
+            add_build_station_to_list(bm);
+        });
+        $.each(config["exec_stations"], function(i, ex) {
+            add_exec_station_to_list(ex);
+        });
+        $.each(config["teams"], function(i, team) {
+            add_team_to_list(team);
+        });
+        $.each(config["ate_operators"], function(i, operator) {
+            add_ate_operator_to_list(operator);
+        });
+        $.each(config["maf_stations"], function(i, maf){
+            add_maf_station_to_list(maf);
+        })
+        $(".config_link").each(function(i, link){
+            if (!$(link).hasClass("unauthorized")){
+                $(link).click();
+                return false;
+            }
+        })
     });
+    $("#maf_add_status").selectmenu();
 
-    init_add_ate_operator_button();
-    init_add_teams_button();
-    init_add_build_station_button();
-    init_add_exec_station_button();
+    init_config("ate_operators",
+        $("#add_ate_operator_config"),
+        {"name": $("#ate_operator_add_name")},
+        "views/add_operator.php",
+        add_ate_operator_to_list
+    );
+    init_config("teams",
+        $("#add_team_config"),
+        {"name": $("#team_config_add_name")},
+        "views/add_team.php",
+        add_team_to_list
+    );
+    init_config("build_stations",
+        $("#add_build_station_config"),
+        {"name": $("#build_station_config_add_name"),
+         "link": $("#build_station_config_add_link")},
+        "views/add_build_station.php",
+        add_build_station_to_list
+    );
+    init_config("exec_stations",
+        $("#add_exec_machine_config"),
+        {"name": $("#exec_machine_config_add_name"),
+        "location": $("#exec_machine_config_add_location"),
+        "framework": $("#exec_machine_config_add_framework")},
+        "views/add_exec_station.php",
+        add_exec_station_to_list
+    );
+    init_config("maf_stations",
+        $("#add_maf_config"),
+        {"name": $("#maf_add_name"),
+         "ip": $("#maf_add_ip"),
+         "status": $("#maf_add_status"),
+         "comment": $("#maf_add_comment")},
+        "views/add_maf_station.php",
+        add_maf_station_to_list
+    );
 
 }
 
 
+function init_config(config_name,
+                     button_selector,
+                     field_dict,
+                     add_url,
+                     add_function){
 
-
-// ATE_OPERATOR
-
-function init_add_ate_operator_button() {
-    $("#add_ate_operator_config").click(function() {
-        if ($("#ate_operator_add_name").val() === "") {
-            $("#validation_error_msg").empty();
-            $("#validation_error_msg").append("<p>You must fill out all fields</p>");
-            $("#validation_error_msg").dialog("open");
-        } else {
+    button_selector.click(function() {
+        var all_filled = true;
+        var field_values = {};
+        $.each(field_dict, function(field_name, field){
+            var field_value = field.val();
+            if (field_value == "" && !field.hasClass("not-required")){
+                all_filled = false;
+            }
+            if (field_name == "link"){
+                field_value = linkify(field_value);
+            }
+            field_values[field_name] = field_value;
+        });
+        if (!all_filled){
+            var validation_error_div = $("#validation_error_msg");
+            validation_error_div.empty();
+            validation_error_div.append("<p>You must fill out all fields</p>");
+            validation_error_div.dialog("open");
+        } else{
             block_screen_with_load();
             $.ajax({
                 type: "POST",
-                url: "views/add_operator.php",
-                data: {
-                    "name": $("#ate_operator_add_name").val()
-                },
+                url: add_url,
+                data: field_values,
                 success: function(data) {
                     console.log(data);
                     if (data["error"] !== undefined) {
                         show_error_dialog(data["error"]);
                     } else {
-                        config["ate_operators"].push(data);
-                        add_ate_operator_to_list(data);
+                        config[config_name].push(data);
+                        add_function(data);
                     }
                     unblock_screen_with_load();
 
@@ -67,38 +140,82 @@ function init_add_ate_operator_button() {
                 }
             });
         }
-    })
+
+
+    });
 }
 
-function add_ate_operator_to_list(operator) {
+function add_to_list(data, row_container_div, delete_url, modify_url, config_name, specials){
     var container = $("<div style='width: calc(100% - 13px);float: left;clear: both;'></div>");
+    row_container_div.append(container);
     var delete_button = $("<button class='config_delete_btn ui-button ui-corner-all ui-widget'>X</button>");
     container.append(delete_button);
-    var name = $("<input class='text ui-widget-content ui-corner-all'>");
-    name.val(operator["name"]);
-    $.each([name], function() {
-        var input_container = $("<div class='one_field'></div>");
-        input_container.append(this);
-        container.append(input_container);
+
+    var field_count = 0;
+    $.each(data, function(){
+        field_count++;
     });
+
+    var field_class = ["one_field", "two_fields", "three_fields", "four_fields"][field_count - 2];  // currently not expecting more fields than 4
+    var data_links = {};
+    var is_first = true;
+    $.each(data, function(field_name, value){
+        if (field_name != "id"){
+            var input_container = $("<div class='" + field_class + "'></div>");
+            var input_element;
+            if (specials && field_name in specials){
+                if (specials[field_name]["selectmenu"]){
+                    input_element = $("<select style='position:relative;z-index:120'></select>");
+                    $.each(specials[field_name]["selectmenu"], function(opt_value, opt_shown_value){
+                        input_element.append("<option value='" + opt_value + "'>" + opt_shown_value + "</option>");
+                    });
+                    input_container.append(input_element);
+                    container.append(input_container);
+                    input_element.val(value);
+                    if (specials[field_name]["colors"]){
+                        input_element.selectmenu({
+                            change: function(e, item){
+                                var widget = $(this).selectmenu("instance");
+                                $(widget.button).css("background-color", specials[field_name]["colors"][item.item.value])
+                            }
+                        });
+                        var widget = input_element.selectmenu("instance");
+                        $(widget.button).css("background-color", specials[field_name]["colors"][value])
+                    }
+                }
+            } else{
+                input_element =  $("<input class='text ui-widget-content ui-corner-all'>");
+                input_element.val(value);
+                if (is_first){
+                    is_first = false;
+                    input_element.prop('disabled', true);
+                }
+                input_container.append(input_element);
+                container.append(input_container);
+            }
+            data_links[field_name] = input_element;
+        }
+    });
+
     var modify_button = $("<button class='config_modify_btn ui-button ui-corner-all ui-widget'>OK</button>");
     container.append(modify_button);
-    $("#ate_operators_config_list").append(container);
+
+
     delete_button.click(function() {
         block_screen_with_load();
         $.ajax({
             type: "POST",
-            url: "views/delete_operator.php",
+            url: delete_url,
             data: {
-                "id": operator["id"]
+                "id": data["id"]
             },
             success: function(data) {
                 if (data["error"] !== undefined) {
                     show_error_dialog(data["error"]);
                 } else {
-                    for (var i = 0; i < config["ate_operators"].length; i++) {
-                        if (config["ate_operators"][i]["id"] === data["id"]) {
-                            config["ate_operators"].splice(i, 1);
+                    for (var i = 0; i < config[config_name].length; i++) {
+                        if (config[config_name][i]["id"] === data["id"]) {
+                            config[config_name].splice(i, 1);
                         }
                     }
                     container.remove();
@@ -116,20 +233,24 @@ function add_ate_operator_to_list(operator) {
     });
     modify_button.click(function() {
         block_screen_with_load();
+        var ajax_data = {id: data["id"]};
+        $.each(data_links, function(field_name, field_element){
+            ajax_data[field_name] = field_element.val();
+            if (field_name == "link"){
+                ajax_data[field_name] = linkify(ajax_data[field_name]);
+            }
+        });
         $.ajax({
             type: "POST",
-            url: "views/modify_operator.php",
-            data: {
-                "id": operator["id"],
-                "name": name.val()
-            },
+            url: modify_url,
+            data: ajax_data,
             success: function(data) {
                 if (data["error"] !== undefined) {
                     show_error_dialog(data["error"]);
                 } else {
-                    for (var i = 0; i < config["ate_operators"].length; i++) {
-                        if (config["ate_operators"][i]["id"] === data["id"]) {
-                            config["ate_operators"][i] = data;
+                    for (var i = 0; i < config[config_name].length; i++) {
+                        if (config[config_name][i]["id"] === data["id"]) {
+                            config[config_name][i] = data;
                         }
                     }
                 }
@@ -145,370 +266,63 @@ function add_ate_operator_to_list(operator) {
     });
 }
 
-// END ATE_OPERATOR
 
+function add_ate_operator_to_list(operator){
+    add_to_list(
+        operator,
+        $("#ate_operators_config_list"),
+        "views/delete_operator.php",
+        "views/modify_operator.php",
+        "ate_operators"
+    );
+}
 
-// TEAM
+function add_team_to_list(team){
+    add_to_list(
+        team,
+        $("#teams_config_list"),
+        "views/delete_team.php",
+        "views/modify_team.php",
+        "teams"
+    );
+}
 
-function init_add_teams_button() {
-    $("#add_team_config").click(function() {
-        if ($("#team_config_add_name").val() === "") {
-            $("#validation_error_msg").empty();
-            $("#validation_error_msg").append("<p>You must fill out all fields</p>");
-            $("#validation_error_msg").dialog("open");
-        } else {
-            block_screen_with_load();
-            $.ajax({
-                type: "POST",
-                url: "views/add_team.php",
-                data: {
-                    "name": $("#team_config_add_name").val()
-                },
-                success: function(data) {
-                    console.log(data);
-                    if (data["error"] !== undefined) {
-                        show_error_dialog(data["error"]);
-                    } else {
-                        config["teams"].push(data);
-                        add_team_to_list(data);
-                    }
-                    unblock_screen_with_load();
+function add_build_station_to_list(build_station){
+    add_to_list(
+        build_station,
+        $("#build_stations_config_list"),
+        "views/delete_build_station.php",
+        "views/modify_build_station.php",
+        "build_stations"
+    );
+}
 
-                },
-                error: function(request, status, error) {
-                    show_error_dialog("Server either didn't respond or didn't send a JSON response (" + error + ")");
-                    console.error(request, status, error);
-                    unblock_screen_with_load();
-                }
-            });
-        }
-    })
+function add_exec_station_to_list(exec_station){
+    add_to_list(
+        exec_station,
+        $("#exec_machines_config_list"),
+        "views/delete_exec_station.php",
+        "views/modify_exec_station.php",
+        "exec_stations"
+    );
+}
+
+function add_maf_station_to_list(maf_station){
+    add_to_list(
+        maf_station,
+        $("#maf_config_list"),
+        "views/delete_maf_station.php",
+        "views/modify_maf_station.php",
+        "maf_stations",
+        {"status":
+            {
+                "selectmenu": {"running": "RUNNING", "malfunction": "MALFUNCTION", "borrowed": "BORROWED"},
+                "colors": {"running": "#ADFF2F", "malfunction": "#FF6347", "borrowed": "#87CEEB"}
+        }}
+    );
 }
 
 
-
-function add_team_to_list(team) {
-    var container = $("<div style='width: calc(100% - 13px);float: left;clear: both;'></div>");
-    var delete_button = $("<button class='config_delete_btn ui-button ui-corner-all ui-widget'>X</button>");
-    container.append(delete_button);
-    var name = $("<input class='text ui-widget-content ui-corner-all'>");
-    name.val(team["name"]);
-    $.each([name], function() {
-        var input_container = $("<div class='one_field'></div>");
-        input_container.append(this);
-        container.append(input_container);
-    });
-    var modify_button = $("<button class='config_modify_btn ui-button ui-corner-all ui-widget'>OK</button>");
-    container.append(modify_button);
-    $("#teams_config_list").append(container);
-    delete_button.click(function() {
-        block_screen_with_load();
-        $.ajax({
-            type: "POST",
-            url: "views/delete_team.php",
-            data: {
-                "id": team["id"]
-            },
-            success: function(data) {
-                if (data["error"] !== undefined) {
-                    show_error_dialog(data["error"]);
-                } else {
-                    for (var i = 0; i < config["teams"].length; i++) {
-                        if (config["teams"][i]["id"] === data["id"]) {
-                            config["teams"].splice(i, 1);
-                        }
-                    }
-                    container.remove();
-                }
-                unblock_screen_with_load();
-
-            },
-            error: function(request, status, error) {
-                show_error_dialog("Server either didn't respond or didn't send a JSON response (" + error + ")");
-                console.error(request, status, error);
-                unblock_screen_with_load();
-            }
-        });
-    });
-
-    modify_button.click(function() {
-        block_screen_with_load();
-        $.ajax({
-            type: "POST",
-            url: "views/modify_team.php",
-            data: {
-                "id": team["id"],
-                "name": name.val()
-            },
-            success: function(data) {
-                if (data["error"] !== undefined) {
-                    show_error_dialog(data["error"]);
-                } else {
-                    for (var i = 0; i < config["teams"].length; i++) {
-                        if (config["teams"][i]["id"] === data["id"]) {
-                            config["teams"][i] = data;
-                        }
-                    }
-                }
-                unblock_screen_with_load();
-
-            },
-            error: function(request, status, error) {
-                show_error_dialog("Server either didn't respond or didn't send a JSON response (" + error + ")");
-                console.error(request, status, error);
-                unblock_screen_with_load();
-            }
-        });
-    });
-}
-
-// END TEAM
-
-// BUILD_STATION
-
-function init_add_build_station_button() {
-    $("#add_build_station_config").click(function() {
-        if ($("#build_station_config_add_name").val() === "" || $("#build_station_config_add_link").val() === "") {
-            $("#validation_error_msg").empty();
-            $("#validation_error_msg").append("<p>You must fill out all fields</p>");
-            $("#validation_error_msg").dialog("open");
-        } else {
-            block_screen_with_load();
-            $.ajax({
-                type: "POST",
-                url: "views/add_build_station.php",
-                data: {
-                    "name": $("#build_station_config_add_name").val(),
-                    "link": linkify($("#build_station_config_add_link").val())
-                },
-                success: function(data) {
-                    console.log(data);
-                    if (data["error"] !== undefined) {
-                        show_error_dialog(data["error"]);
-                    } else {
-                        config["build_stations"].push(data);
-                        add_build_station_to_list(data);
-                    }
-                    unblock_screen_with_load();
-
-                },
-                error: function(request, status, error) {
-                    show_error_dialog("Server either didn't respond or didn't send a JSON response (" + error + ")");
-                    console.error(request, status, error);
-                    unblock_screen_with_load();
-                }
-            });
-        }
-    })
-}
-
-
-
-function add_build_station_to_list(build_station) {
-    var container = $("<div style='width: calc(100% - 13px);float: left;clear: both;'></div>");
-    var delete_button = $("<button class='config_delete_btn ui-button ui-corner-all ui-widget'>X</button>");
-    container.append(delete_button);
-    var name = $("<input class='text ui-widget-content ui-corner-all'>");
-    var link = $("<input class='text ui-widget-content ui-corner-all'>");
-    name.val(build_station["name"]);
-    link.val(build_station["link"]);
-    $.each([name, link], function() {
-        var input_container = $("<div class='two_fields'></div>");
-        input_container.append(this);
-        container.append(input_container);
-    });
-    var modify_button = $("<button class='config_modify_btn ui-button ui-corner-all ui-widget'>OK</button>");
-    container.append(modify_button);
-    $("#build_stations_config_list").append(container);
-    delete_button.click(function() {
-        block_screen_with_load();
-        $.ajax({
-            type: "POST",
-            url: "views/delete_build_station.php",
-            data: {
-                "id": build_station["id"]
-            },
-            success: function(data) {
-                if (data["error"] !== undefined) {
-                    show_error_dialog(data["error"]);
-                } else {
-                    for (var i = 0; i < config["build_stations"].length; i++) {
-                        if (config["build_stations"][i]["id"] === data["id"]) {
-                            config["build_stations"].splice(i, 1);
-                        }
-                    }
-                    container.remove();
-                }
-
-                unblock_screen_with_load();
-
-            },
-            error: function(request, status, error) {
-                show_error_dialog("Server either didn't respond or didn't send a JSON response (" + error + ")");
-                console.error(request, status, error);
-                unblock_screen_with_load();
-            }
-        });
-    });
-    modify_button.click(function() {
-        block_screen_with_load();
-        $.ajax({
-            type: "POST",
-            url: "views/modify_build_station.php",
-            data: {
-                "id": build_station["id"],
-                "name": name.val(),
-                "link": linkify(link.val())
-            },
-            success: function(data) {
-                if (data["error"] !== undefined) {
-                    show_error_dialog(data["error"]);
-                } else {
-                    for (var i = 0; i < config["build_stations"].length; i++) {
-                        if (config["build_stations"][i]["id"] === data["id"]) {
-                            config["build_stations"][i] = data;
-                        }
-                    }
-                }
-                unblock_screen_with_load();
-
-            },
-            error: function(request, status, error) {
-                show_error_dialog("Server either didn't respond or didn't send a JSON response (" + error + ")");
-                console.error(request, status, error);
-                unblock_screen_with_load();
-            }
-        });
-    });
-}
-
-// END BUILD STATION
-
-
-// EXEC STATION
-function init_add_exec_station_button() {
-    $("#add_exec_machine_config").click(function() {
-        if ($("#exec_machine_config_add_name").val() === "" || $("#exec_machine_config_add_location").val() === "" ||
-            $("#exec_machine_config_add_framework").val() === "") {
-
-            $("#validation_error_msg").empty();
-            $("#validation_error_msg").append("<p>You must fill out all fields</p>");
-            $("#validation_error_msg").dialog("open");
-        } else {
-            block_screen_with_load();
-            $.ajax({
-                type: "POST",
-                url: "views/add_exec_station.php",
-                data: {
-                    "name": $("#exec_machine_config_add_name").val(),
-                    "location": $("#exec_machine_config_add_location").val(),
-                    "framework": $("#exec_machine_config_add_framework").val()
-                },
-                success: function(data) {
-                    console.log(data);
-                    if (data["error"] !== undefined) {
-                        show_error_dialog(data["error"]);
-                    } else {
-                        config["exec_stations"].push(data);
-                        add_exec_station_to_list(data);
-                    }
-                    unblock_screen_with_load();
-
-                },
-                error: function(request, status, error) {
-                    show_error_dialog("Server either didn't respond or didn't send a JSON response (" + error + ")");
-                    console.error(request, status, error);
-                    unblock_screen_with_load();
-                }
-            });
-        }
-    })
-}
-
-
-
-function add_exec_station_to_list(exec_station) {
-    var container = $("<div style='width: calc(100% - 13px);float: left;clear: both;'></div>");
-    var delete_button = $("<button class='config_delete_btn ui-button ui-corner-all ui-widget'>X</button>");
-    container.append(delete_button);
-    var name = $("<input class='text ui-widget-content ui-corner-all'>");
-    var framework = $("<input class='text ui-widget-content ui-corner-all'>");
-    var location = $("<input class='text ui-widget-content ui-corner-all'>");
-    name.val(exec_station["name"]);
-    framework.val(exec_station["framework"]);
-    location.val(exec_station["location"]);
-    $.each([name, framework, location], function() {
-        var input_container = $("<div class='three_fields'></div>");
-        input_container.append(this);
-        container.append(input_container);
-    });
-    var modify_button = $("<button class='config_modify_btn ui-button ui-corner-all ui-widget'>OK</button>");
-    container.append(modify_button);
-
-    $("#exec_machines_config_list").append(container);
-
-    delete_button.click(function() {
-        block_screen_with_load();
-        $.ajax({
-            type: "POST",
-            url: "views/delete_exec_station.php",
-            data: {
-                "id": exec_station["id"]
-            },
-            success: function(data) {
-                if (data["error"] !== undefined) {
-                    show_error_dialog(data["error"]);
-                } else {
-                    for (var i = 0; i < config["exec_stations"].length; i++) {
-                        if (config["exec_stations"][i]["id"] === data["id"]) {
-                            config["exec_stations"].splice(i, 1);
-                        }
-                    }
-                    container.remove();
-                }
-
-                unblock_screen_with_load();
-
-            },
-            error: function(request, status, error) {
-                show_error_dialog("Server either didn't respond or didn't send a JSON response (" + error + ")");
-                console.error(request, status, error);
-                unblock_screen_with_load();
-            }
-        });
-    });
-    modify_button.click(function() {
-        block_screen_with_load();
-        $.ajax({
-            type: "POST",
-            url: "views/modify_exec_station.php",
-            data: {
-                "id": exec_station["id"],
-                "name": name.val(),
-                "location": location.val(),
-                "framework": framework.val()
-            },
-            success: function(data) {
-                if (data["error"] !== undefined) {
-                    show_error_dialog(data["error"]);
-                } else {
-                    for (var i = 0; i < config["exec_stations"].length; i++) {
-                        if (config["exec_stations"][i]["id"] === data["id"]) {
-                            config["exec_stations"][i] = data;
-                        }
-                    }
-                }
-                unblock_screen_with_load();
-
-            },
-            error: function(request, status, error) {
-                show_error_dialog("Server either didn't respond or didn't send a JSON response (" + error + ")");
-                console.error(request, status, error);
-                unblock_screen_with_load();
-            }
-        });
-    });
-}
 
 // authorization
 
@@ -590,43 +404,51 @@ function apply_auth_level() {
     if (level === undefined) {
         level = 0;
     }
-    if (level == 0) {
-        $("#add_project").addClass("unauthorized");
-        $(".project_delete_button").addClass("unauthorized");
-        $(".project_save_button").addClass("unauthorized");
-    } else {
+    level = Number(level);
+
+    $("#add_project").addClass("unauthorized");
+    $(".project_delete_button").addClass("unauthorized");
+    $(".project_save_button").addClass("unauthorized");
+    $("#add_global_event").addClass("unauthorized");
+    $("#open_config").addClass("unauthorized");
+    $(".main_config").addClass("unauthorized");
+
+    // Normal user level 1
+    if (level >= 1) {
         $("#add_project").removeClass("unauthorized");
         $(".project_delete_button").removeClass("unauthorized");
         $(".project_save_button").removeClass("unauthorized");
+
     }
-    if (level < 2) {
-        $("#add_global_event").addClass("unauthorized");
-        $("#open_config").addClass("unauthorized");
-    } else {
+
+    // Admin level 2
+    if (level == 2){
         $("#add_global_event").removeClass("unauthorized");
-        $("#open_config").removeClass("unauthorized");
+        $(".main_config").removeClass("unauthorized");
         $("#open_authorization").hide();
     }
 
+    // MAF config level 3
+    if (level >= 2){
+        $("#open_config").removeClass("unauthorized");
+    }
 }
 
 //
 
 
 function config_to_visuals() {
-    $("#ate_operators_config_list").empty();
-    $("#teams_config_list").empty();
-    $("#build_stations_config_list").empty();
-    $("#exec_machines_config_list").empty();
+
     build_machines = [];
     exec_machines = [];
     ate_operators = [];
     teams = [];
+    maf_stations = [];
     exec_machine_frameworks = {};
     exec_locations = {};
     build_machine_links = {};
     $.each(config["build_stations"], function(i, bm) {
-        add_build_station_to_list(bm);
+        //add_build_station_to_list(bm);
         build_machines.push(bm["name"]);
         build_machine_links[bm["name"]] = bm["link"];
     });
@@ -634,7 +456,7 @@ function config_to_visuals() {
         build_machines.push("TBD");
     }
     $.each(config["exec_stations"], function(i, ex) {
-        add_exec_station_to_list(ex);
+        //add_exec_station_to_list(ex);
         exec_machines.push(ex["name"]);
         if (exec_locations[ex["location"]] === undefined) {
             exec_locations[ex["location"]] = [ex["name"]];
@@ -652,11 +474,15 @@ function config_to_visuals() {
         exec_machines.push("TBD");
     }
     $.each(config["teams"], function(i, team) {
-        add_team_to_list(team);
+        //add_team_to_list(team);
         teams.push(team["name"]);
     });
     $.each(config["ate_operators"], function(i, operator) {
-        add_ate_operator_to_list(operator);
+        //add_ate_operator_to_list(operator);
         ate_operators.push(operator["name"]);
     });
+    $.each(config["maf_stations"], function(i, maf){
+        //add_maf_station_to_list(maf);
+        maf_stations.push(maf["name"]);
+    })
 }

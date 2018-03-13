@@ -92,6 +92,11 @@ function load_reserve_dialog() {
                             });
                         });
 
+                        project["maf_stations"] = [];
+                        $(".maf_station").each(function(_, station){
+                            project["maf_stations"].push($(station).val());
+                        });
+
                         console.log(project);
                         block_screen_with_load();
                         $.ajax({
@@ -372,11 +377,20 @@ function load_reserve_dialog() {
         $("#reserve_create_div").show();
         $(".project_delete_button").hide();
         main_tabs.tabs("option", "active", 0);
-    })
+    });
 
+    $(".sliding_label").click(function(){
+        var element =  $("#" + $(this).attr("for"));
+        if (element.is(":visible")){
+            element.slideUp("fast");
+        } else{
+            element.slideDown("fast");
+        }
+    });
 
     load_rename_dialog();
     init_project_events();
+    init_add_maf_button();
 }
 
 
@@ -597,6 +611,7 @@ function choose_project_to_edit() {
         end_date_input.val("");
         $(".derivative").remove();
         $("#reserve_derivative_links").find("li").remove();
+        $("#maf_container").empty();
 
         project_framework.find("option[value='" + project["framework"] + "']").attr("selected", true);
         project_framework.selectmenu("refresh");
@@ -641,6 +656,12 @@ function choose_project_to_edit() {
             row.find(".event_description").val(event["description"]);
             row.find(".event_date").val(event["date"]);
         });
+
+        $.each(project["maf_stations"], function(i, station){
+           $("#new_maf_button").click();
+            var select = $(".maf_station").last();
+            select_or_add_removed(select, station);
+        });
     }
 
 }
@@ -666,6 +687,7 @@ function clear_fields() {
     end_date_input.val("");
     $(".derivative").remove();
     reserve_derivative_div.empty();
+    $("#maf_container").empty();
 
     sw_versions.val("");
     hw_versions.val("");
@@ -744,6 +766,19 @@ function on_date_change(start_date_input, end_date_input, own_project) {
                 exec_station.selectmenu("refresh");
             });
 
+            $(".maf_station").each(function(i, maf_station){
+                maf_station = $(maf_station);
+                maf_station.empty();
+                $.each(viable_machines["maf_stations"], function(i, machine){
+                    maf_station.append("<option value='" + machine + "'>" + machine + "</option>");
+                });
+                $.each(viable_machines["used_maf_stations"], function(i, machine){
+                    maf_station.append("<option value='" + machine + "'>" + machine + " (USED)</option>");
+                });
+                maf_station.val("TBD");
+                maf_station.selectmenu("refresh");
+            });
+
         } else {
             $(".operator").each(function(i, op) {
                 op = $(op);
@@ -767,7 +802,15 @@ function on_date_change(start_date_input, end_date_input, own_project) {
                 exec_station.val("TBD");
                 exec_station.selectmenu("refresh");
             });
+            $(".maf_station").each(function(i, maf_station) {
+                maf_station = $(maf_station);
+                maf_station.empty();
+                maf_station.append("<option value='TBD'>Set a correct date first</option>");
+                maf_station.val("TBD");
+                maf_station.selectmenu("refresh");
+            });
         }
+
     }
 }
 
@@ -1047,5 +1090,45 @@ function load_rename_dialog(){
         open: function() {
             $("#rename_new_name_label").text("Rename \"" + project_edit_name_select.val() + "\" to:");
         }
+    });
+}
+
+function init_add_maf_button(){
+    $("#new_maf_button").click(function(){
+        var container_div = $("<div class='maf_field_container'></div>");
+        $("#maf_container").append(container_div);
+        var maf_select = $("<select class='maf_station'></select>");
+        if (check_start_end_time(start_date_input.val(), end_date_input.val())) {
+            var active_tab = main_tabs.tabs("option", "active");
+            var viable_machines;
+            if (active_tab === 1) {
+                viable_machines = get_possible_reservation_slots(formated_to_date_array(start_date_input.val()),
+                    formated_to_date_array(end_date_input.val()), project_edit_name_select.val());
+            } else {
+                viable_machines = get_possible_reservation_slots(formated_to_date_array(start_date_input.val()),
+                    formated_to_date_array(end_date_input.val()));
+            }
+            $.each(viable_machines["maf_stations"], function(i, machine){
+                maf_select.append("<option value='" + machine + "'>" + machine + "</option>");
+            });
+            $.each(viable_machines["used_maf_stations"], function(i, machine){
+                maf_select.append("<option value='" + machine + "'>" + machine + " (USED)</option>");
+            });
+        } else{
+            maf_select.append("<option value='TBD'>Set a correct date first</option>");
+
+        }
+        maf_select.val("TBD");
+        var delete_btn = $("<button class='ui-button ui-corner-all ui-widget' style='color: red;width: 15%; height: 34.8px; padding: 0; float: left; margin-right: 5px; display: inline-block;'>X</button>");
+        var select_container = $("<div class='maf_station_select_size_reducer'></div>");
+        select_container.append(maf_select);
+        container_div.append(delete_btn);
+        container_div.append(select_container);
+        maf_select.selectmenu();
+        delete_btn.click(function(){
+            container_div.remove();
+        });
+
+
     });
 }
